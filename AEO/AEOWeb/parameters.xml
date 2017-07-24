@@ -1,0 +1,36 @@
+﻿<parameters>
+  <!--<parameter name="IIS Web Application Name" defaultValue="AEO" tags="">
+    <parameterEntry type="ProviderPath" scope="iisapp" match="application" />
+  </parameter>
+  <parameter name="Application Path" defaultValue="D:\publish\AEO" tags="iisapp" />
+  <parameter name="applicationPool" defaultValue="AEO" >
+    <parameterEntry kind="DeploymentObjectAttribute" scope="application" match="application/@applicationPool" />
+  </parameter>-->
+  <parameter name="sqlconn" defaultValue="server=.; database=AEODatabase; User Id = sa; Password =123;Connect Timeout=120;MultipleActiveResultSets=true;" >
+    <parameterEntry kind="XmlFile" scope="Web.config" match="/configuration/MyConfig/DBConnection[@name='conn']/@ConnectionString" />
+  </parameter>
+  <parameter name="fileUpload" defaultValue="/upload" >
+    <parameterEntry kind="XmlFile" scope="Web.config" match="/configuration/MyConfig/UploadPath/@Path" />
+  </parameter>
+  <parameter name="myEmail" defaultValue="372276834@qq.com;cbw@yunbaoguan.cn" >
+    <parameterEntry kind="XmlFile" scope="Web.config" match="/configuration/MyConfig/Email[@name='myEmail']/@to" />
+  </parameter>
+  <parameter name="PriviewTimeOut" defaultValue="100" >
+    <parameterEntry kind="XmlFile" scope="Web.config" match="/configuration/MyConfig/PriviewTimeOut[@name='timeout']/@website" />
+  </parameter>
+  <parameter name="OSSWebsite" defaultValue="http://oss-cn-shenzhen.aliyuncs.com" >
+    <parameterEntry kind="XmlFile" scope="Web.config" match="/configuration/MyConfig/OSSsetting[@name='oss']/@website" />
+  </parameter>
+  <parameter name="OSSDownwebsite" defaultValue="http://oss-cn-shenzhen.aliyuncs.com" >
+    <parameterEntry kind="XmlFile" scope="Web.config" match="/configuration/MyConfig/OSSsetting[@name='oss']/@downwebsite" />
+  </parameter>
+  <parameter name="OSSBucket" defaultValue="aeo-dev" >
+    <parameterEntry kind="XmlFile" scope="Web.config" match="/configuration/MyConfig/OSSsetting[@name='oss']/@bucket" />
+  </parameter>
+  <parameter name="OSSAppkey" defaultValue="LTAIBmO2YweewyH8" >
+    <parameterEntry kind="XmlFile" scope="Web.config" match="/configuration/MyConfig/OSSsetting[@name='oss']/@appkey" />
+  </parameter>
+  <parameter name="OSSAppid" defaultValue="9tu2yS00n8zUkeqwjJ9QIHRY0GWoha" >
+    <parameterEntry kind="XmlFile" scope="Web.config" match="/configuration/MyConfig/OSSsetting[@name='oss']/@appid" />
+  </parameter>
+</parameters>

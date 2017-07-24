@@ -1,0 +1,108 @@
+﻿<div class="row" style="margin: 0 auto;">
+    <form class="form-inline" role="form">
+
+        <div class="form-group">
+            <label class="sr-only" for="username">部门</label>
+            状态查询: <select class="form-control" id="searchdepar" style="min-width: 181px;"  v-on:click="searchdepar" >
+             <option value="">所有</option>
+             <option value="0">已上传</option>
+             <option value="-1">否决</option>
+            <option value="1">申请审核</option>
+            <option value="2">审核通过</option>
+            <option value="200">未上传</option>
+           </select>
+        </div>
+        <button type="button" class="btn btn-info"  v-on:click="search" >查询</button>
+    </form>
+</div>
+
+<div class="row" style=" margin: 0 auto;">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th style="width: 10%" class="text-center">预计完成日期</th>
+                <th style="width: 12%" >条</th>
+                <th style="width: 12%" >项</th>
+                <th style="width: 30%" >细项内容</th>
+                <th style="width: 10%" class="text-center">主办人</th>
+                <th style="width: 10%" class="text-center">状态</th>
+                <th style="width: 10%" >文件</th>
+                <th style="width: 6%" class="text-center">操作</th>
+            </tr>
+        </thead>
+        <tbody class="refresh_display">
+            <tr v-for="(obj, index) in  list.Obj">
+                <td style="width: 10%" class="text-center">{{obj.FinishTime}}</td>
+                <td style="width: 12%">{{obj.ClausesName}}</td>
+                <td style="width: 12%">{{obj.ItemName}}</td>
+                <td style="width: 30%">{{obj.FineItemName}}</td>
+                <td style="width: 10%" class="text-center">{{obj.PersonName}}</td>
+                <td style="width: 10%" class="text-center">{{obj.Status |setStats}}</td>
+                <td style="width: 10%" >{{obj.SuggestFileName}}</td>
+                <td style="width: 6%" class="text-center">
+                    <a class="btn btn-info btn-sm fileupbtn" v-bind:href="['@Url.Action("detail", "fileuploadrequire", new { customercompanyid = ViewBag.CompanyID })/'+obj.Id]" role="button">查看</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+@section scripts{
+    <script>
+        $(function () {
+            $("#FileUploadRequire").attr("class", "active fileup");
+            var vm = new Vue({
+                el: '#content',
+                data: {
+                    list: '',
+                    Status:''
+                },
+                methods: {
+                    searchdepar:function(){
+                        vm.Status=$("#searchdepar").val();
+                    },
+                    search:function(){
+                        $('.ensconce').remove();
+                        var _self = this;
+                        $.ajax({
+                            type: 'post',
+                            dataType: "json",
+                            url: '@Url.Content("~/fileuploadrequire/search")',
+                            data:{Status:vm.Status},
+                            success: function (data) {
+                                vm.list=[];
+                                var list =data;
+                                checkdataquery(list.Obj);
+                                _self.list = list;
+                            }, error: function (data) {
+                                hfalert('请求失败')
+                            }
+                        });
+
+                    },
+                pageLoad: function () {
+                    var _self = this;
+                    $.ajax({
+                        type: 'post',
+                        contentType: 'application/json',
+                        url: '@Url.Content("~/fileuploadrequire/search")',
+                        success: function (data) {
+                            var list = JSON.parse(data);
+                            checkdataquery(list.Obj);
+                            _self.list = list;
+                        }, error: function (data) {
+                            hfalert('请求失败')
+                        }
+                    });
+                }
+                },
+                created: function () {
+                    this.pageLoad()
+                },
+                mounted: function () {
+                    pubload();
+                }
+            });
+        })
+    </script>
+}

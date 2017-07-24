@@ -1,0 +1,469 @@
+﻿<div class="row" style="margin: 0 auto;">
+    <div class="row CurrUserId" style="margin: 0 auto;margin-bottom:20px;">
+        @if (ViewBag.ShowAdd)
+        {
+            <button type="button" class="btn btn-info addcbtn" data-toggle="modal" data-target="#addcorrecModal" v-on:click="add">新增</button>
+        }
+        <button type="button" class="btn btn-info finshcbtn "  v-on:click="finish">完成</button>
+        <button type="button" class="btn btn-info editcbtn "   v-on:click="audit">审核通过</button>
+        <button type="button" class="btn btn-info eidwcbtn " v-on:click="reject">审核不通过</button>
+        <button type="button" class="btn btn-info  delcbtn "  v-on:click="HideDelete">删除</button>
+    </div>
+    <div class="row" style="margin: 0 auto;">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th style="width: 5%" ><div class="checkbox"><label><input type="checkbox" class="allcheck" v-on:click="checkAll()"></label></div></th>
+                    <th style="width: 15%">条</th>
+                    <th style="width: 15%">整改内容</th>
+                    <th style="width: 8%"class="text-center">状态</th>
+                    <th style="width: 10%"class="text-center">预计完成日期</th>
+                    <th style="width: 8%"class="text-center">主办人</th>
+                    <th style="width: 8%"class="text-center">审核人</th>
+                    <th style="width: 8%"class="text-center">创建人</th>
+                    <th style="width: 23%"class="text-center">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item, key) in correctquery" :key="item.key" id="list">
+                    <td style="width: 5%; "><div class="checkbox"><label><input class="singlecheck" name="itemdid" type="checkbox" v-bind:value="item.value.Id" v-bind:data-state="item.value.Status" v-on:click="checkSingle()"></label></div></td>
+                    <td style="width: 15%;">{{item.value.ClausesName}}</td>
+                    <td style="width: 15%;">{{item.value.CorrectiveContent}}</td>
+                    <td style="width: 8%;"class="text-center">{{item.value.Status | Stats}}</td>
+                    <td style="width: 10%;"class="text-center">{{item.value.FinishTime}}</td>
+                    <td style="width: 8%;"class="text-center">{{item.value.ChargePerson}}</td>
+                    <td style="width: 8%;"class="text-center">{{item.value.AuditPerson}}</td>
+                    <td style="width: 8%;"class="text-center">{{item.value.CreatePerson}}</td>
+                    <td style="width: 23%; " class="text-center">
+                        <!-- text-align:left;vertical-align: top-->
+                        <a class="btn btn-info btn-sm" v-bind:href="['@Url.Action("detail", "corrective", new { customercompanyid = ViewBag.CompanyID })/'+item.value.Id]">查看</a>
+                        <a class="btn btn-info btn-sm" v-if="item.value.ShowEdit" data-toggle="modal" data-target="#addcorrecModal" v-on:click="edit(item.value.Id)">编辑</a>
+                        <a class="btn btn-info btn-sm" v-if="item.value.ShowAudit" v-on:click="row_audit(item.value.Id)">审核通过</a>
+                        <a class="btn hfgray   btn-sm" v-if="item.value.ShowReject" v-on:click="row_reject(item.value.Id)">审核不通过</a>
+                        <a class="btn btn-info btn-sm" v-if="item.value.ShowFinish" v-on:click="row_finish(item.value.Id)">完成</a>
+                        <a class="btn btn-info btn-sm" v-if="item.value.ShowUpload" v-bind:href="['@Url.Action("uploadlist", "corrective", new { customercompanyid = ViewBag.CompanyID })/'+item.value.Id]">上传</a>
+                        <a class="btn hfgray   btn-sm" v-if="item.value.ShowDelete" v-on:click=" row_HideDelete(item.value.Id)">删除</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- 模态框（Modal）addModal -->
+<div class="modal fade" id="addcorrecModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form role="form" id="addcorrecform">
+                    <div class="form-group">
+                        <label for="clause">条:</label>
+                        <select class="form-control hid_trgle" id="clause" name="ClausesId" onchange="$(this).css('appearance', 'none')"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="list">整改内容:</label>
+                        <textarea class="form-control" id="correccontent" name="content" resize="false" style=" resize:none;"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="finishTime">预计完成日期:</label>
+                        <input type="text" class="form-control" id="finishTime" name="finishTime">
+                    </div>
+                    <div class="form-group">
+                        <label for="chargePersonID">主办人:</label>
+                        <select class="form-control personlist hid_trgle" id="chargePersonID" name="chargePersonID" onchange="$(this).css('appearance', 'none')"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="reviewerPersonID">审核人:</label>
+                        <select class="form-control personlist hid_trgle" id="reviewerPersonID" name="reviewerPersonID" onchange="$(this).css('appearance', 'none')"></select>
+                    </div>
+                    <button type="submit" class="btn btn-info">提交</button>
+                    <button type="button" class="btn hfgray" data-dismiss="modal">返回</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- /.modal-content -->
+</div>
+<!-- /.modal -->
+<!-- 模态框  审核不通过 reject-->
+<div class="modal fade" id="rejectModal" tabindex="-1" role="dialog" aria-labelledby="rejectModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form role="form" id="reasonform">
+                    <div class="form-group">
+                        <label for="list">审核不通过原因:</label>
+                        <textarea class="form-control" id="correccontent_cause"></textarea>
+                    </div>
+                    <button type="button" class="btn btn-info" v-on:click="ensurereject()">提交</button>
+                    <button type="button" class="btn hfgray" data-dismiss="modal">返回</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" value="@ViewBag.CurrUserId" id="userid" />
+@section headscripts{
+<style type="text/css">
+/*.CurrUserId{
+    height: 33px;
+}*/
+</style>
+}
+@section scripts{
+    <link href="@Url.Content("~/Content/Public/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Content/Public/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js")"></script>
+    <script src="@Url.Content("~/Content/Public/bootstrap-datetimepicker/bootstrap-datetimepicker.zh-CN.js")"></script>
+    <script>
+        var vm = new Vue({
+            el: '#content',
+            data: {
+                correctquery: [],
+                adddata: { id: 0, clausesID: "", content: "", finishTime: "", chargePersonID: "", auditorID: "", url: "" },
+                checks: [],
+                rowId: null,
+                Status: [],
+                correccontent: "",
+                truekey: 0
+            },
+            methods: {
+                //刷新
+                refurbish: function () {
+                    $(".finshcbtn ").hide();
+                    $(".delcbtn").hide();
+                    $(".editcbtn").hide();
+                    $(".eidwcbtn").hide();
+                    var userid= $("#userid").val();
+                    $(".allcheck").prop('checked', false);
+                    var _self = this;
+                    var callback = function (data) {
+                        if (data.Success == 1) {
+                            _self.correctquery = [];
+                            if(data.Obj==''){
+                                $(".finshcbtn ").hide();
+                                $(".delcbtn").hide();
+                                $(".editcbtn").hide();
+                                $(".eidwcbtn").hide();
+                                $('.ensconce').remove();
+                            }
+
+                            for(var i=0;i<data.Obj.length;i++){
+
+                           if(data.Obj[i].ShowFinish==true){
+                               $(".finshcbtn ").show();
+                             }
+                           if( data.Obj[i].ShowDelete==true){
+                               $(".delcbtn").show();
+                                }
+                             if( data.Obj[i].ShowAudit==true){
+                                 $(".editcbtn").show()
+                                }
+
+                            if( data.Obj[i].ShowReject==true){
+                                $(".eidwcbtn").show();
+                                }
+                            }
+                            $.each(data.Obj, function (i, v) {
+                                _self.correctquery.push({ value: v, key: ++_self.truekey })
+                            });
+                            pubuserlist('.personlist');
+                            _self.pubclauses('#clause');
+                        };
+                        checkdataquery(_self.correctquery);
+                    };
+                    ggajax("@Url.Content("~/corrective/getSearchdata")", "", callback);
+
+                },
+
+                //新增-模态页
+                add: function () {
+                    $('.hid_trgle').css('appearance', 'menulist');
+                    $('#addcorrecform').data('bootstrapValidator').resetForm(true);//表单重置
+                    var _self = this;
+                    clearobj(vm.adddata);
+                },
+                //检查选中，获取选中
+                checkchecks: function () {
+                    var _self = this; _self.checks = [];
+                    var checklist = $("input[name='itemdid']:checked");
+                    if (checklist.length == 0) {
+                        hfalert('未选中可操作项'); return false;
+                    } else {
+                        checklist.each(function () {
+                            _self.checks.push($(this).val());
+                        });
+                        return true;
+                    }
+                },
+                row_check: function () {
+                    var _self = this;
+                    _self.check = [];
+                    var checklist = $("input[name='itemdid']:checked");
+                    if (checklist.length == 0) {
+                        hfalert('未选中可操作项'); return false;
+                    } else {
+                        checklist.each(function () {
+                            _self.check.push($(this).attr('data-state'));
+                        });
+                        return true;
+                    }
+                },
+                //状态修改-完成
+                finish: function () {
+                    var refurbish = this.refurbish;
+                    var _self = this; if (!_self.checkchecks()) {
+                        return false;
+                    };
+                    var callback = function (data) {
+                        self.checks = [];
+                        if (data.Success == 1) {
+                            refurbish()
+                        }
+                    };
+                    ggajax("@Url.Content("~/corrective/finish")", { id: _self.checks }, callback);
+
+                },
+                //状态修改-审核
+                audit: function () {
+                    var refurbish = this.refurbish;
+                    var _self = this; if (!_self.checkchecks()) { return false; };
+                    var callback = function (data) {
+                        if (data.Success == 1) {
+                            refurbish()
+                        }
+                    };
+                    ggajax("@Url.Content("~/corrective/audit")", { id: _self.checks }, callback);
+
+                },
+                //状态修改-审核不通过
+                reject: function () {
+                    var _self = this;
+                    var correccontent_cause = $("#correccontent_cause").val('');
+                    if (!_self.checkchecks()) { return false; };
+                    if (!_self.row_check()) { return false; };
+                    for (var i = 0; i < _self.check.length; i++) {
+                        if (_self.check[i] != 1) {
+                            hfalert('状态不符');
+                            return false
+                        }
+                    }
+                    $('#rejectModal').modal('show');
+                },
+                ensurereject: function () {
+                    var _self = this;
+                    if (vm.rowId == null) {
+                    } else {
+                        _self.checks = [];
+                        _self.checks.push(vm.rowId);
+
+                    }
+                    var refurbish = this.refurbish;
+                    var correccontent_cause = $("#correccontent_cause").val();
+                    var callback = function (data) {
+                        if (data.Success == 1) {
+                            vm.rowId = null;
+                            _self.checks = [];
+                            refurbish();
+                            $("#correccontent_cause").val('');
+                            $('#rejectModal').modal('hide');
+                        };
+
+                    };
+                    ggajax("@Url.Content("~/corrective/reject")", { id: _self.checks, reason: correccontent_cause }, callback);
+                },
+                //状态删除
+                HideDelete: function () {
+                    var refurbish = this.refurbish;
+                    var _self = this; if (!_self.checkchecks()) { return false; };
+                    var callback = function (data) {
+                        if (data.Success == 1) {
+                            refurbish()
+                        }
+                    };
+                    ggajax("@Url.Content("~/corrective/delete")", { id: _self.checks }, callback);
+                },
+                //单条完成
+                row_finish: function (rowId) {
+                    var _self = this;
+                    var refurbish = this.refurbish;
+                    var callback = function (data) {
+                        if (data.Success == 1) {
+                            refurbish()
+                        }
+                    };
+                    ggajax("@Url.Content("~/corrective/finish")", { id: rowId }, callback);
+
+                },
+                //单条审核
+                row_audit: function (rowId) {
+                    var refurbish = this.refurbish;
+                    var callback = function (data) {
+                        if (data.Success == 1) {
+                            refurbish()
+                        }
+                    };
+                    ggajax("@Url.Content("~/corrective/audit")", { id: rowId }, callback);
+                },
+                //单条审核不通过
+                row_reject: function (rowId) {
+                    vm.rowId = rowId;
+                    $('#rejectModal').modal('show');
+                },
+                //单条删除
+                row_HideDelete: function (rowId) {
+                    var refurbish = this.refurbish;
+                    var callback = function (data) {
+                        if (data.Success == 1) {
+                            refurbish()
+                        }
+                    };
+                    ggajax("@Url.Content("~/corrective/delete")", { "id": rowId }, callback);
+                },
+
+                //全选
+                checkAll: function () {
+                    if ($('.allcheck').prop('checked')) {
+                        $(".singlecheck").prop('checked', true);
+                    } else {
+                        $(".singlecheck").prop('checked', false);
+                    }
+                },
+                //单选
+                checkSingle: function (Status) {
+                    vm.Status.push(Status);
+                    var flag = true;
+                    $(".singlecheck").each(function () {
+                        if (!$(this).prop('checked')) {
+                            flag = false;
+                        }
+                    });
+                    if (flag) {
+                        $('.allcheck').prop('checked', true);
+                    } else {
+                        $('.allcheck').prop('checked', false);
+                    };
+                },
+                //编辑
+                edit: function (rowId) {
+                    $('.hid_trgle').css('appearance', 'menulist');
+                    $('#addcorrecform').data('bootstrapValidator').resetForm(true);//表单重置
+                    var _self = this;
+                    clearobj(_self.adddata);
+                    _self.adddata.id = rowId;
+                    _self.rowId = rowId;
+                    _self.adddata.url = "@Url.Content("~/corrective/update")";
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Content("~/corrective/getcorrectivetaskdata?id=")' + rowId,
+                        contentType: 'application/json',
+                        dataType: "json",
+                        success: function (data) {
+                            $('#clause').val(data.Obj.ClausesID);
+                            $('#correccontent').val(data.Obj.Content);
+                            $('#finishTime').val(data.Obj.FinishTime);
+                            $('#chargePersonID').val(data.Obj.ChargePerson);
+                            $('#reviewerPersonID').val(data.Obj.Auditor);
+                        }, error: function (data) {
+                            hfalert('请求失败');
+                        }
+                    });
+                },
+                pubclauses: function (dom) {
+                    var callback = function (data) {
+                        $(dom).html("").append('<option >请选择条</option>');
+                        for (var i = 0; i < data.Obj.length; i++) {
+                            $(dom).append('<option value="' + data.Obj[i].Id + '" >' + data.Obj[i].ClausesName + '</option>');
+                        }
+                    };
+                    ggajax('@Url.Content("~/clauses/clauseslist")', "", callback);
+                }
+            },
+            created: function () {
+                $("#Corrective").attr("class", "active corrective");
+                this.refurbish();
+            },
+            mounted: function () {
+                pubload();
+                $('#finishTime').datetimepicker({
+                    language: 'zh-CN',
+                    format: 'yyyy-mm-dd',
+                    weekStart: 1,
+                    autoclose: true,
+                    minView: 2,
+                    todayBtn: false,
+                    keyboardNavigation: false,
+                    todayButton: false
+                }).on('hide', function (e) {
+                    $("#addcorrecform").data('bootstrapValidator').updateStatus('finishTime', 'NOT_VALIDATED').validateField('finishTime');
+                });
+                $('#addcorrecform').bootstrapValidator({
+                    message: 'This value is not valid',
+                    feedbackIcons: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
+                    },
+                    excluded: [':disabled'],
+                    fields: {
+                        ClausesId: { validators: { notEmpty: { message: '不能为空' }, numeric: { message: '请选择必填' } } },
+                        content: { validators: { notEmpty: { message: '不能为空' } } },
+                        finishTime: { validators: { notEmpty: { message: '不能为空' } } },
+                        chargePersonID: { validators: { notEmpty: { message: '不能为空' } } },
+                        reviewerPersonID: { validators: { notEmpty: { message: '不能为空' } } }
+                    }
+                }).on('success.form.bv', function (e) {
+                    e.preventDefault();
+                    if (vm.rowId == null) {
+                        var _self = this;
+                        vm.adddata.url = "@Url.Content("~/corrective/add")";
+                        vm.adddata.id = 0;
+                        var refurbish = vm.refurbish;
+                        var clause = $("#clause").val();
+                        var content = $("#correccontent").val();
+                        var finishTime = $("#finishTime").val();
+                        var chargePersonID = $("#chargePersonID").val();
+                        var reviewerPersonID = $("#reviewerPersonID").val();
+                        vm.adddata.clausesID = clause;
+                        vm.adddata.content = content;
+                        vm.adddata.finishTime = finishTime;
+                        vm.adddata.chargePersonID = chargePersonID;
+                        vm.adddata.auditorID = reviewerPersonID;
+                        var callback = function (data) {
+                            refurbish();
+                            vm.rowId = null;
+                            $('#addcorrecModal').modal('hide');
+                        };
+                        if ($('#addcorrecform').data('bootstrapValidator').isValid()) {
+                            ggajax(vm.adddata.url, vm.adddata, callback);
+                        } else {
+                            $('#addcorrecform').data('bootstrapValidator').validate()
+                        };
+                    } else {
+                        var refurbish = vm.refurbish;
+                        vm.adddata.url = "@Url.Content("~/corrective/update")";
+                        vm.adddata.id = vm.rowId;
+                        var clause = $("#clause").val();
+                        var content = $("#correccontent").val();
+                        var finishTime = $("#finishTime").val();
+                        var chargePersonID = $("#chargePersonID").val();
+                        var reviewerPersonID = $("#reviewerPersonID").val();
+                        vm.adddata.clausesID = clause;
+                        vm.adddata.content = content;
+                        vm.adddata.finishTime = finishTime;
+                        vm.adddata.chargePersonID = chargePersonID;
+                        vm.adddata.auditorID = reviewerPersonID;
+                        var callback = function (data) {
+                            vm.rowId = null;
+                            refurbish();
+                            $('#addcorrecModal').modal('hide');
+                        };
+                        if ($('#addcorrecform').data('bootstrapValidator').isValid()) {
+                            ggajax(vm.adddata.url, vm.adddata, callback);
+                        } else {
+                            $('#addcorrecform').data('bootstrapValidator').validate()
+                        };
+                    }
+                });
+            },
+        });
+    </script>
+}

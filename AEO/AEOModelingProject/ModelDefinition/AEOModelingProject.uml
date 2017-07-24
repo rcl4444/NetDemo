@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="6bda250a-7f35-4543-8a54-7cb99f38b7ad"
+  name="AEOModelingProject" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <appliedStereotypesInternal>
+    <stereotypeInstance
+      Id="9ac7e4ea-e794-4e50-8149-13ae7eeff851"
+      name="namespace"
+      profile="CSharpProfile">
+      <propertyInstances>
+        <stereotypeInstanceHasPropertyInstances
+          Id="4569ccda-7674-4285-8b13-e1d1249ecab9">
+          <propertyInstance
+            Id="8fbc24d9-26de-4adc-bc3e-4aec13505dde"
+            name="BaseName" />
+        </stereotypeInstanceHasPropertyInstances>
+        <stereotypeInstanceHasPropertyInstances
+          Id="79cdb24c-97c1-4ed4-b1f9-d094364663e0">
+          <propertyInstance
+            Id="fc961562-6383-4dfa-84c1-7732ffb9fb7f"
+            name="ClrAttributes" />
+        </stereotypeInstanceHasPropertyInstances>
+        <stereotypeInstanceHasPropertyInstances
+          Id="d053aa26-8154-44af-b216-777f70f359a2">
+          <propertyInstance
+            Id="13619aa9-849a-40b4-bac0-cdc8b3db07f4"
+            name="Usings" />
+        </stereotypeInstanceHasPropertyInstances>
+      </propertyInstances>
+    </stereotypeInstance>
+    <stereotypeInstance
+      Id="99038ced-91ad-4183-a476-329531504d61"
+      name="TextTemplateBindings"
+      profile="TextTemplateBindings">
+      <propertyInstances>
+        <stereotypeInstanceHasPropertyInstances
+          Id="46e72d79-8c5a-43fa-8ea1-c9eb8ca0cadc">
+          <propertyInstance
+            Id="a5fc735a-84dd-488e-ac40-94e36cb535cd"
+            name="Alias"
+            value="ClassTemplate|EnumTemplate|InterfaceTemplate|StructTemplate" />
+        </stereotypeInstanceHasPropertyInstances>
+        <stereotypeInstanceHasPropertyInstances
+          Id="3f77d3ab-a1b5-4383-8e1f-847709d3d304">
+          <propertyInstance
+            Id="2a04d7dc-8dc3-4199-805e-4a51a158c884"
+            name="TemplateFilePath"
+            value="ClassTemplate=.\T4\ClassTemplate.t4|EnumTemplate=.\T4\EnumTemplate.t4|InterfaceTemplate=.\T4\InterfaceTemplate.t4|StructTemplate=.\T4\StructTemplate.t4" />
+        </stereotypeInstanceHasPropertyInstances>
+        <stereotypeInstanceHasPropertyInstances
+          Id="b3ac94d7-96d8-4dbd-a3d7-67086fa6033f">
+          <propertyInstance
+            Id="a82c487f-71aa-4f72-9a51-30e976ddd6f6"
+            name="ProjectPath"
+            value="ClassTemplate=..\AEOPoco\AEOPoco.csproj|EnumTemplate=..\AEOPoco\AEOPoco.csproj|InterfaceTemplate=..\AEOModelingProjectLib\AEOModelingProjectLib.csproj|StructTemplate=..\AEOModelingProjectLib\AEOModelingProjectLib.csproj" />
+        </stereotypeInstanceHasPropertyInstances>
+        <stereotypeInstanceHasPropertyInstances
+          Id="4f4f8272-d795-4cbd-b003-1e9d70469f5f">
+          <propertyInstance
+            Id="cb350f4e-2c7c-428e-93c7-87b5831157b0"
+            name="TargetDirectory"
+            value="ClassTemplate=Domain\|EnumTemplate=Domain\|InterfaceTemplate=GeneratedCode\{PackageStructure}|StructTemplate=GeneratedCode\{PackageStructure}" />
+        </stereotypeInstanceHasPropertyInstances>
+        <stereotypeInstanceHasPropertyInstances
+          Id="dbf4d551-f8c6-447a-bcf9-38001ee88934">
+          <propertyInstance
+            Id="bae22183-29b6-4767-a646-240953d0510a"
+            name="TargetName"
+            value="ClassTemplate={Name}|EnumTemplate={Name}|InterfaceTemplate={Name}|StructTemplate={Name}" />
+        </stereotypeInstanceHasPropertyInstances>
+        <stereotypeInstanceHasPropertyInstances
+          Id="4da499d6-21db-4382-a036-e0e90ce2e011">
+          <propertyInstance
+            Id="a46d2299-970e-45a5-9373-d6ddeb9b56c9"
+            name="Overwrite"
+            value="ClassTemplate=True|EnumTemplate=True|InterfaceTemplate=True|StructTemplate=True" />
+        </stereotypeInstanceHasPropertyInstances>
+        <stereotypeInstanceHasPropertyInstances
+          Id="4cd0eab3-0240-4c41-a398-30af097c9b81">
+          <propertyInstance
+            Id="a8bb8d29-90be-4a7d-ae14-3282cc75f06c"
+            name="Parameters" />
+        </stereotypeInstanceHasPropertyInstances>
+      </propertyInstances>
+    </stereotypeInstance>
+  </appliedStereotypesInternal>
+  <profileInstances>
+    <packageHasProfileInstances
+      Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b">
+      <profileInstance
+        Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791"
+        name="StandardProfileL2" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances
+      Id="29349502-908c-4fda-9054-c48619c59ed0">
+      <profileInstance
+        Id="532ea607-fb19-44b8-8502-3351b05452be"
+        name="StandardProfileL3" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances
+      Id="4a13ecce-89a4-46d7-8159-87f119338477">
+      <profileInstance
+        Id="8f21d07b-2427-47de-a688-f47e79cb8478"
+        name="CSharpProfile" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances
+      Id="8a11010e-0085-4c38-9633-f4cc3d15895f">
+      <profileInstance
+        Id="a407c8c5-e555-4bf8-b405-01172d6339ce"
+        name="TextTemplateBindings" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="7f61cf8c-0ac6-4c3e-8881-dfd6f50c2dbb"
+        LastKnownName="AEOPoco.Domain"
+        LastKnownLocation="Package_0932.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="6d7b1155-c721-4867-936b-8b98032c4d14"
+        LastKnownName="AOEPoco"
+        LastKnownLocation="Package_0933.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="0b7975e1-a87e-43bd-ba8f-91c0c3cf582f"
+        LastKnownName="Core"
+        LastKnownLocation="Package_0934.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="a7bbb6fd-6309-48fc-a2f1-52ad6c7ca4e8"
+        LastKnownName="AEOPoco"
+        LastKnownLocation="Package_1547.uml" />
+    </packageHasNamedElement>
+  </packagedElements>
+  <primitiveType
+    Id="220a3521-e091-4221-bae9-3ef9018e845c"
+    name="Integer"
+    isAbstract="false"
+    isLeaf="false" />
+  <primitiveType
+    Id="8943dc84-709e-4f62-b15a-a3273aa6f165"
+    name="Boolean"
+    isAbstract="false"
+    isLeaf="false" />
+  <primitiveType
+    Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+    name="String"
+    isAbstract="false"
+    isLeaf="false" />
+  <primitiveType
+    Id="3ab42e7d-4969-445a-b209-471f5cb8209c"
+    name="UnlimitedNatural"
+    isAbstract="false"
+    isLeaf="false" />
+</modelStoreModel>

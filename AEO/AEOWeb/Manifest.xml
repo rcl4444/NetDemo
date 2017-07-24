@@ -1,0 +1,8 @@
+﻿<MSDeploy.iisApp>
+  <iisApp path="AEO" />
+  <setAcl
+    path="upload/"
+    setAclResourceType="Directory"
+    setAclAccess="Read,Write,Modify"
+    setAclUser="anonymousAuthenticationUser" />
+</MSDeploy.iisApp>

@@ -1,0 +1,107 @@
+﻿<div class="row" style="margin: 0 auto;">
+    <div class="row" style="margin: 0 auto;margin-bottom:20px; ">
+        @if (ViewBag.IsManager)
+        {
+            <button type="button" class="btn btn-info addcbtn" v-on:click="ExportScoreResult">导出</button>
+        }
+        @if (ViewBag.IsManager&&ViewBag.ExportSetting)
+        {
+            <button type="button" class="btn btn-info addcbtn" v-on:click="ExportPack">打包</button>
+        }
+    </div>
+</div>
+<div class="row" style=" margin: 0 auto;">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th style="width: 20%" >条款</th>
+                <th style="width: 20%">项</th>
+                <th style="width: 20%" class="text-center">达标情况</th>
+                <th style="width: 15%" class="text-center">预计完成日期</th>
+                <th style="width: 15%" class="text-center">实际完成日期</th>
+                <th style="width: 10%" class="text-center">操作</th>
+            </tr>
+        </thead>
+        <tbody class="refresh_display">
+            <tr v-for="obj in  list">
+                <td style="width: 20%" v-if="obj.clauserows !=0" v-bind:rowspan="obj.clauserows">{{ obj.ClausesName}}</td>
+                <td style="width: 20%">{{obj.ItemName}}</td>
+                <td style="width: 20%" class="text-center">{{obj.Score}}</td>
+                <td style="width: 15%"class="text-center">{{obj.FinishTime }}</td>
+                <td style="width: 15%"class="text-center">{{obj.UploadTime}}</td>
+                <td style="width: 10%"class="text-center">
+                    <a class="btn btn-info btn-sm scorebtn" v-bind:href="['@Url.Action("detail", "itemscore", new { customercompanyid = ViewBag.CompanyID })/'+obj.Id]" role="button">查看</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+@section scripts{
+    <script>
+        $(function () {
+            $("#ItemScore").attr("class", "active itemscore");
+            function merge_cells(data) {
+                var resault = [];
+                var rowi = 0;
+                for (var i = 0; i < data.length; i++) {
+                    var record = {};
+                    record.Id = data[i].Id;
+                    record.Score = data[i].Score;
+                    record.ClausesName = data[i].ClausesName;
+                    record.ClausesID = data[i].ClausesID;
+                    record.ItemName = data[i].ItemName;
+                    record.FinishTime = data[i].FinishTime;
+                    record.UploadTime = data[i].UploadTime;
+
+                    record.clauserows = 0;
+                    resault.push(record);
+                    if (i != 0 && data[i].ClausesID != data[i - 1].ClausesID) {
+                        resault[rowi].clauserows = i - rowi; rowi = i;
+                        if (i == data.length - 1) { resault[i].clauserows = data.length - rowi; }
+                    } else {
+                        resault[rowi].clauserows = data.length - rowi;
+                    }
+                }
+                return resault;
+            }
+            var vm = new Vue({
+                el: '#content',
+                data: {
+                    list: '',
+                },
+                methods: {
+                    pageLoad: function () {
+                        var _self = this;
+                        $.ajax({
+                            type: 'post',
+                            contentType: 'application/json',
+                            url: '@Url.Content("~/itemscore/search")',
+                            success: function (data) {
+                                var list = JSON.parse(data);
+                                checkdataquery(list.Obj);
+                                _self.list = merge_cells(list.Obj);
+                            }, error: function (data) {
+                                hfalert('请求失败')
+                            }
+                        });
+                    },
+                    ExportScoreResult: function () {
+                        var url = '@Url.Content("~/itemscore/ExportScoreResult")'
+                        iframe('', url, '');
+                    },
+                    ExportPack: function () {
+                        var url = '@Url.Content("~/fileuploadrequire/accreditationpack")'
+                        iframe('', url, '');
+                    },
+                },
+                created: function () {
+                    this.pageLoad()
+                },
+                mounted: function () {
+                    pubload();
+                }
+            });
+        });
+    </script>
+}

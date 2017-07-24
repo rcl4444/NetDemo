@@ -1,0 +1,119 @@
+﻿@{
+    Layout = null;
+}
+<html>
+<head>
+    <link href="@Url.Content("~/Content/Public/bootstrap.min.css")" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <script src="@Url.Content("~/Content/Public/jquery.js")"></script>
+    <script src="@Url.Content("~/Content/Public/bootstrap.min.js")"></script>
+    <script src="@Url.Content("~/Content/Public/bootstrapValidator.min.js")"></script>
+    <style>
+        .content {
+            width: 475px;
+            margin: 0 auto;
+            text-align: center
+        }
+
+        .icon_button {
+            box-sizing: border-box;
+            padding-left: 40px;
+        }
+
+        .buttonlogin {
+            font-size: 25px;
+            height: 45px;
+        }
+
+        input:-webkit-autofill {
+            -webkit-box-shadow: 0 0 0px 1000px transparent inset;
+        }
+
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active {
+            transition: background-color 5000s ease-in-out 0s;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <img src="@Url.Content("~/Content/image/login.png")" style="background-size:contain;width: 100%" alt="">
+    </div>
+    <div style="width: 100%;height: 50px;line-height: 50px;"></div>
+    <div class="content">
+        <form class="form-horizontal" id="loginfm" method="post">
+            <div>@ViewBag.Message</div>
+            <div class="form-group">
+                <div class="col-sm-12" style="position:relative">
+                    <img src="@Url.Content("~/Content/image/userName.jpg")" style="position:absolute;left:20px;top:2px;z-index:1010;height: 30px;" />
+                    <input type="text" id="userName" class="form-control  icon_button" name="userName" value="@ViewBag.UserName" placeholder="用户">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12" style="position:relative">
+                    <img src="@Url.Content("~/Content/image/password.jpg")" style="position:absolute;left:20px;top:2px;z-index:1010;height: 30px;" />
+                    <input type="password" id="passWord" class="form-control icon_button" name="passWord" placeholder="密码">
+                    <input type="hidden" value="@ViewBag.CompanyID" name="companyID" />
+                </div>
+            </div>
+            <div class="form-group"></div>
+            <div class="form-group">
+                <div class="col-sm-6">
+                    <button type="submit" class="form-control  buttonlogin" style=" background:rgb(78,122,211);color:#FFFFFF; ">登录</button>
+                </div>
+                <div class="col-sm-6">
+                    <button type="button" id="reset" class="form-control buttonlogin" style=" background:#989898;color:#FFFFFF; ">重置</button>
+                </div>
+            </div>
+            <!-- <div class="form-group" ;>
+                 <div class="col-sm-6">
+                   <div >忘记密码？</div>
+                 </div>
+                 <div class="col-sm-6">
+                       <div>还没注册帐号？<a href="">注册</a></div>
+                 </div>
+             </div>-->
+        </form>
+        <br /><br /><br />
+        <div><small style="font-size: 8pt; color: #e0e0e0">Build: @BuildInfo.getBuildNumber()</small></div>
+    </div>
+</body>
+</html>
+<script>
+    $(function () {
+        $("#reset").click(function (e) {
+            e.preventDefault();
+            $('#loginfm').data('bootstrapValidator').resetForm(true);
+        })
+        $('#loginfm').bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                userName: {
+                    message: '用户名验证失败',
+                    validators: {
+                        notEmpty: {
+                            message: '用户名不能为空'
+                        }
+                    }
+                },
+                passWord: {
+                    validators: {
+                        notEmpty: {
+                            message: '密码不能为空'
+                        }
+                    }
+                }
+            }
+        })
+    });
+</script>

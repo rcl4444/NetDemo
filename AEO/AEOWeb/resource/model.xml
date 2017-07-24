@@ -1,0 +1,1296 @@
+﻿<CustomsAuthentication xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TitleName>海关验证文档标题</TitleName>
+  <CustomsVersion>海关版本号</CustomsVersion>
+  <CustomsID>1</CustomsID>
+  <OutlineClasses>
+    <OutlineClass>
+      <OutlineClassName>一、 内部控制标准</OutlineClassName>
+      <CustomsID>1</CustomsID>
+      <Clauseses>
+        <Clauses>
+          <ClausesName>(一) 组织机构控制</ClausesName>
+          <CustomsID>1</CustomsID>
+          <Items>
+            <Item>
+              <ItemName>1. 内部组织架构</ItemName>
+              <CustomsID>1</CustomsID>
+              <ScoreLevels>
+                <ScoreLevel>ReachStandard</ScoreLevel>
+                <ScoreLevel>PartiallyCompliant</ScoreLevel>
+                <ScoreLevel>Substandard</ScoreLevel>
+                <ScoreLevel>NotApplicable</ScoreLevel>
+              </ScoreLevels>
+              <FineItems>
+                <FineItem>
+                  <FineItemName>指定高级管理人员负责关务，对企业认证建立书面或者电子档案。</FineItemName>
+                  <CustomsID>2</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 公司简介</Description>
+                      <SuggestFileName> 公司简介</SuggestFileName>
+                      <CustomsID>1</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 公司组织架构图</Description>
+                      <SuggestFileName> 组织架构图</SuggestFileName>
+                      <CustomsID>2</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 各部门职责分工</Description>
+                      <SuggestFileName> 公司内部职责分工管理办法</SuggestFileName>
+                      <CustomsID>3</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 授权委托书</Description>
+                      <SuggestFileName> 法人授权委托书</SuggestFileName>
+                      <CustomsID>4</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 成立项目组</Description>
+                      <SuggestFileName> 关于成立AEO认证项目组的通知</SuggestFileName>
+                      <CustomsID>5</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 认证书面/电子档案</Description>
+                      <SuggestFileName> AEO认证项目跟进表及档案</SuggestFileName>
+                      <CustomsID>6</CustomsID>
+                    </FileRequire>                    
+                  </FileRequires>
+                </FineItem>
+              </FineItems>
+            </Item>
+            <Item>
+              <ItemName>2. 海关业务培训</ItemName>
+              <CustomsID>2</CustomsID>
+              <ScoreLevels>
+                <ScoreLevel>ReachStandard</ScoreLevel>
+                <ScoreLevel>PartiallyCompliant</ScoreLevel>
+                <ScoreLevel>Substandard</ScoreLevel>
+                <ScoreLevel>NotApplicable</ScoreLevel>
+              </ScoreLevels>
+              <FineItems>
+                <FineItem>
+                  <FineItemName>(1) 企业应当建立海关法律法规等相关管理规定的内部培训制度。 </FineItemName>
+                  <CustomsID>3</CustomsID>
+                  <FileRequires>                    
+                    <FileRequire>
+                      <Description> 公司内部培训制度</Description>
+                      <SuggestFileName> 培训制度</SuggestFileName>
+                      <CustomsID>7</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+                <FineItem>
+                  <FineItemName>(2) 法定代表人或者其授权人员、负责关务的高级管理人员应当每年至少参加1次海关法律法规等相关管理规定的内部培训，及时了解、掌握相关管理规定。</FineItemName>
+                  <CustomsID>4</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 公司内部培训记录</Description>
+                      <SuggestFileName>培训计划表及记录表</SuggestFileName>
+                      <CustomsID>8</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 培训讲义节选（含海关法律法规）</Description>
+                      <SuggestFileName>培训讲义节选（含海关法律法规）</SuggestFileName>
+                      <CustomsID>9</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+              </FineItems>
+            </Item>
+          </Items>
+        </Clauses>
+        <Clauses>
+          <ClausesName>(二) 进出口业务控制</ClausesName>
+          <CustomsID>2</CustomsID>
+          <Items>
+            <Item>
+              <ItemName>3. 单证控制</ItemName>
+              <CustomsID>3</CustomsID>
+              <ScoreLevels>
+                <ScoreLevel>ReachStandard</ScoreLevel>
+                <ScoreLevel>PartiallyCompliant</ScoreLevel>
+                <ScoreLevel>Substandard</ScoreLevel>
+                <ScoreLevel>NotApplicable</ScoreLevel>
+              </ScoreLevels>
+              <FineItems>
+                <FineItem>
+                  <FineItemName>
+                    具备进出口单证复核或者纠错制度或者程序。 进出口货物收发货人：在申报前或者委托申报前有专门部门或者岗位人员对进出口单证涉及的价格、归类、原产地、数量、品名、规格等内容的真实性、准确性和规范性进行内部复核。 
+                    报关企业：代理申报前，有专门部门或者岗位人员对委托人提供的监管证件、商业单据、进出口单证等资料的真实性、完整性和有效性进行合理审查。 物流企业：有专门部门或者岗位人员对运输工具进出境申报信息、舱单及相关电子数据、转关单（载货清单）等物流信息的准确性、一致性进行复核。
+                  </FineItemName>
+                  <CustomsID>5</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 进出口单证复核或纠错制度或程序</Description>
+                      <SuggestFileName> 单证复核和纠错制度</SuggestFileName>
+                      <CustomsID>10</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 抽查10份以上进出口单证（不足10份，全查）</Description>
+                      <SuggestFileName> 进出口单证复核记录表</SuggestFileName>
+                      <CustomsID>11</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+              </FineItems>
+            </Item>
+            <Item>
+              <ItemName>4. 单证保管</ItemName>
+              <CustomsID>4</CustomsID>
+              <ScoreLevels>
+                <ScoreLevel>ReachStandard</ScoreLevel>
+                <ScoreLevel>PartiallyCompliant</ScoreLevel>
+                <ScoreLevel>Substandard</ScoreLevel>
+                <ScoreLevel>NotApplicable</ScoreLevel>
+              </ScoreLevels>
+              <FineItems>
+                <FineItem>
+                  <FineItemName>(1) 按海关要求建立进出口单证管理制度，确保企业保存的进出口纸质和电子报关单证、物流信息档案的及时性、完整性、准确性与安全性。</FineItemName>
+                  <CustomsID>6</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 进出口单证管理制度</Description>
+                      <SuggestFileName> 进出口单证管理制度</SuggestFileName>
+                      <CustomsID>12</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 抽查10份以上进出口单证（不足10份，全查）</Description>
+                      <SuggestFileName> 进出口单证保管记录表</SuggestFileName>
+                      <CustomsID>13</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+                <FineItem>
+                  <FineItemName>(2) 妥善保管报关专用印章，以及海关核发的证书、法律文书。</FineItemName>
+                  <CustomsID>7</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 印章及海关核发证书、法律文书</Description>
+                      <SuggestFileName> 印章及海关核发证书、法律文书图</SuggestFileName>
+                      <CustomsID>14</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 印章和证书的管理办法</Description>
+                      <SuggestFileName> 印章及证书管理制度</SuggestFileName>
+                      <CustomsID>15</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 印章使用审批表及登记表</Description>
+                      <SuggestFileName> 用章审批表及登记表</SuggestFileName>
+                      <CustomsID>16</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 证书借领审批表及登记表</Description>
+                      <SuggestFileName> 证书借领审批表及登记表</SuggestFileName>
+                      <CustomsID>17</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+              </FineItems>
+            </Item>
+          </Items>
+        </Clauses>
+        <Clauses>
+          <ClausesName>(三) 内部审计控制</ClausesName>
+          <CustomsID>3</CustomsID>
+          <Items>
+            <Item>
+              <ItemName>5. 内审制度</ItemName>
+              <CustomsID>5</CustomsID>
+              <ScoreLevels>
+                <ScoreLevel>ReachStandard</ScoreLevel>
+                <ScoreLevel>PartiallyCompliant</ScoreLevel>
+                <ScoreLevel>Substandard</ScoreLevel>
+                <ScoreLevel>NotApplicable</ScoreLevel>
+              </ScoreLevels>
+              <FineItems>
+                <FineItem>
+                  <FineItemName>(1) 设立专门的内部审计机构或者岗位，或者聘请外部专职人员独立对进出口业务等实施内部审计。</FineItemName>
+                  <CustomsID>51</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 公司内部审计制度</Description>
+                      <SuggestFileName> 内部审计制度</SuggestFileName>
+                      <CustomsID>18</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 进出口业务审计</Description>
+                      <SuggestFileName> 进出口业务专项审计报告</SuggestFileName>
+                      <CustomsID>19</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+                <FineItem>
+                  <FineItemName>(2) 每年至少内审1次，建立内审书面或者电子档案。</FineItemName>
+                  <CustomsID>9</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 公司内部审计档案</Description>
+                      <SuggestFileName>内部审计档案</SuggestFileName>
+                      <CustomsID>20</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+              </FineItems>
+            </Item>
+            <Item>
+              <ItemName>6. 责任追究</ItemName>
+              <CustomsID>7</CustomsID>
+              <ScoreLevels>
+                <ScoreLevel>ReachStandard</ScoreLevel>
+                <ScoreLevel>PartiallyCompliant</ScoreLevel>
+                <ScoreLevel>Substandard</ScoreLevel>
+                <ScoreLevel>NotApplicable</ScoreLevel>
+              </ScoreLevels>
+              <FineItems>
+                <FineItem>
+                  <FineItemName>(1) 建立对进出口业务发现问题或者违法行为的责任追究制度或者措施。</FineItemName>
+                  <CustomsID>10</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 公司进出口责任追究制度或者措施</Description>
+                      <SuggestFileName> 进出口责任追究管理制度</SuggestFileName>
+                      <CustomsID>21</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 进出口业务责任追究书面记录</Description>
+                      <SuggestFileName> 进出口责任追究记录表</SuggestFileName>
+                      <CustomsID>22</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+                <FineItem>
+                  <FineItemName>(2) 建立对企业人员和报关人员私揽货物报关、假借海关名义牟利、向海关人员行贿等行为的责任追究制度或者措施。</FineItemName>
+                  <CustomsID>11</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 公司人员违法行为责任追究制度或者措施</Description>
+                      <SuggestFileName> 人员违法行为责任追究管理制度</SuggestFileName>
+                      <CustomsID>23</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 人员违法行为责任追究书面记录</Description>
+                      <SuggestFileName> 人员违法行为责任追究记录表</SuggestFileName>
+                      <CustomsID>24</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+              </FineItems>
+            </Item>
+            <Item>
+              <ItemName>7. 改进机制</ItemName>
+              <CustomsID>8</CustomsID>
+              <ScoreLevels>
+                <ScoreLevel>ReachStandard</ScoreLevel>
+                <ScoreLevel>PartiallyCompliant</ScoreLevel>
+                <ScoreLevel>Substandard</ScoreLevel>
+                <ScoreLevel>NotApplicable</ScoreLevel>
+              </ScoreLevels>
+              <FineItems>
+                <FineItem>
+                  <FineItemName>(1) 建立改进制度或者措施</FineItemName>
+                  <CustomsID>12</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description>公司改进制度或者措施</Description>
+                      <SuggestFileName> 改进制度</SuggestFileName>
+                      <CustomsID>25</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+                <FineItem>
+                  <FineItemName>(2) 对海关要求的规范改进事项，应由负责关务的高级管理人员直接负责具体规范改进实施。</FineItemName>
+                  <CustomsID>13</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 规范改进书面记录</Description>
+                      <SuggestFileName>规范改进报告及记录表</SuggestFileName>
+                      <CustomsID>26</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+              </FineItems>
+            </Item>
+          </Items>
+        </Clauses>
+        <Clauses>
+          <ClausesName>(四) 信息系统控制</ClausesName>
+          <CustomsID>4</CustomsID>
+          <Items>
+            <Item>
+              <ItemName>8. 信息安全</ItemName>
+              <CustomsID>11</CustomsID>
+              <ScoreLevels>
+                <ScoreLevel>ReachStandard</ScoreLevel>
+                <ScoreLevel>PartiallyCompliant</ScoreLevel>
+                <ScoreLevel>Substandard</ScoreLevel>
+                <ScoreLevel>NotApplicable</ScoreLevel>
+              </ScoreLevels>
+              <FineItems>
+                <FineItem>
+                  <FineItemName>(1) 建立信息安全管理制度，保护信息系统安全，并对员工进行相关培训。</FineItemName>
+                  <CustomsID>17</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 信息安全管理制度</Description>
+                      <SuggestFileName> 信息安全管理制度</SuggestFileName>
+                      <CustomsID>27</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 信息安全的培训记录</Description>
+                      <SuggestFileName> 信息安全培训计划及记录表</SuggestFileName>
+                      <CustomsID>28</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+                <FineItem>
+                  <FineItemName>
+                    (2) 有专门程序或者制度，识别信息系统的非正常使用，包括非法入侵信息系统，篡改或者更改业务数据，并对上述行为有严格的责任追究。信息系统要
+                    使用专人账户和密码，并且定期更改用户密码。
+                  </FineItemName>
+                  <CustomsID>18</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 系统使用手册（含入侵信息系统或更改数据违法行为责任追究）</Description>
+                      <SuggestFileName> 系统使用手册</SuggestFileName>
+                      <CustomsID>29</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 信息系统账户、密码及定期密码更改</Description>
+                      <SuggestFileName>信息系统账户、密码及定期密码更改截图</SuggestFileName>
+                      <CustomsID>30</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+                <FineItem>
+                  <FineItemName>(3) 有专门程序或者制度，保护系统和数据，有数据恢复、备份等手段防止信息丢失，应用反病毒软件和防火墙技术。</FineItemName>
+                  <CustomsID>19</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 数据恢复及备份</Description>
+                      <SuggestFileName> 数据备份界面及记录表</SuggestFileName>
+                      <CustomsID>31</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 反病毒软件</Description>
+                      <SuggestFileName> 反病毒软件截图</SuggestFileName>
+                      <CustomsID>32</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 防火墙软件</Description>
+                      <SuggestFileName> 防火墙软件截图</SuggestFileName>
+                      <CustomsID>33</CustomsID>
+		    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+              </FineItems>
+            </Item>
+          </Items>
+        </Clauses>
+      </Clauseses>
+    </OutlineClass>
+    <OutlineClass>
+      <OutlineClassName>二、 财务状况标准</OutlineClassName>
+      <CustomsID>2</CustomsID>
+      <Clauseses>
+        <Clauses>
+          <ClausesName>(五) 财务状况</ClausesName>
+          <CustomsID>5</CustomsID>
+          <Items>
+            <Item>
+              <ItemName>9. 会计信息</ItemName>
+              <CustomsID>12</CustomsID>
+              <ScoreLevels>
+                <ScoreLevel>ReachStandard</ScoreLevel>
+                <ScoreLevel>Substandard</ScoreLevel>
+                <ScoreLevel>NotApplicable</ScoreLevel>
+              </ScoreLevels>
+              <FineItems>
+                <FineItem>
+                  <FineItemName>会计账簿和财务会计报告等会计资料真实、准确、完整记录和反映进出口活动的有关情况，财务处理及时、规范。</FineItemName>
+                  <CustomsID>20</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 审计报告</Description>
+                      <SuggestFileName> 财务审计报告</SuggestFileName>
+                      <CustomsID>34</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+              </FineItems>
+            </Item>
+            <Item>
+              <ItemName>10. 偿付能力</ItemName>
+              <CustomsID>13</CustomsID>
+              <ScoreLevels>
+                <ScoreLevel>ReachStandard</ScoreLevel>
+                <ScoreLevel>Substandard</ScoreLevel>
+                <ScoreLevel>NotApplicable</ScoreLevel>
+              </ScoreLevels>
+              <FineItems>
+                <FineItem>
+                  <FineItemName>(1) 企业财务的速动比率在安全或者正常范围内。</FineItemName>
+                  <CustomsID>22</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 财务指标计算表（速动比率）</Description>
+                      <SuggestFileName> 财务指标速动比率计算表</SuggestFileName>
+                      <CustomsID>35</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 保函（财务指标不达标）</Description>
+                      <SuggestFileName> 保函</SuggestFileName>
+                      <CustomsID>36</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+                <FineItem>
+                  <FineItemName>(2) 企业财务的资产负债率在安全或者正常范围内。</FineItemName>
+                  <CustomsID>23</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 财务指标计算表（资产负债率）</Description>
+                      <SuggestFileName> 财务指标资产负债率计算表</SuggestFileName>
+                      <CustomsID>37</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 保函（财务指标不达标）</Description>
+                      <SuggestFileName> 保函</SuggestFileName>
+                      <CustomsID>38</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+              </FineItems>
+            </Item>
+            <Item>
+              <ItemName>11. 盈利能力</ItemName>
+              <CustomsID>14</CustomsID>
+              <ScoreLevels>
+                <ScoreLevel>ReachStandard</ScoreLevel>
+                <ScoreLevel>Substandard</ScoreLevel>
+                <ScoreLevel>NotApplicable</ScoreLevel>
+              </ScoreLevels>
+              <FineItems>
+                <FineItem>
+                  <FineItemName> 企业主营业务利润率在安全或者正常范围内。</FineItemName>
+                  <CustomsID>24</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 财务指标计算表（主营业务利润率）</Description>
+                      <SuggestFileName>财务指标主营业务利润率计算表</SuggestFileName>
+                      <CustomsID>39</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description>保函（财务指标不达标）</Description>
+                      <SuggestFileName>保函</SuggestFileName>
+                      <CustomsID>40</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+              </FineItems>
+            </Item>
+            <Item>
+              <ItemName>12. 缴税能力</ItemName>
+              <CustomsID>15</CustomsID>
+              <ScoreLevels>
+                <ScoreLevel>ReachStandard</ScoreLevel>
+                <ScoreLevel>Substandard</ScoreLevel>
+                <ScoreLevel>NotApplicable</ScoreLevel>
+              </ScoreLevels>
+              <FineItems>
+                <FineItem>
+                  <FineItemName>
+                    生产型进出口货物收发货人：上月末固定资产净值不低于其3年内向海关单笔纳税最高额； 
+                    非生产型进出口货物收发货人：上年度经营性现金净流量不为负。
+                  </FineItemName>
+                  <CustomsID>25</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 上月末固定资产净值（生产型）/上年度经营性现金流量净值（非生产型）</Description>
+                      <SuggestFileName> 上月末固定资产净值表（生产型）/上年度经营性现金流量净值表（非生产型）</SuggestFileName>
+                      <CustomsID>41</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 保函（3年无纳税记录）</Description>
+                      <SuggestFileName> 保函</SuggestFileName>
+                      <CustomsID>42</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+              </FineItems>
+            </Item>
+          </Items>
+        </Clauses>
+      </Clauseses>
+    </OutlineClass>
+    <OutlineClass>
+      <OutlineClassName>三、 守法规范标准</OutlineClassName>
+      <CustomsID>3</CustomsID>
+      <Clauseses>
+        <Clauses>
+          <ClausesName>(六) 遵守法律法规</ClausesName>
+          <CustomsID>6</CustomsID>
+          <Items>
+            <Item>
+              <ItemName>13. 人员违法记录</ItemName>
+              <CustomsID>16</CustomsID>
+              <ScoreLevels>
+                <ScoreLevel>ReachStandard</ScoreLevel>
+                <ScoreLevel>Substandard</ScoreLevel>
+                <ScoreLevel>NotApplicable</ScoreLevel>
+              </ScoreLevels>
+              <FineItems>
+                <FineItem>
+                  <FineItemName> 企业法定代表人（负责人）、负责关务的高级管理人员和财务负责人连续2年无故意犯罪记录</FineItemName>
+                  <CustomsID>26</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 企业法定代表人（负责人）无犯罪证明</Description>
+                      <SuggestFileName> 企业法定代表人（负责人）无犯罪证明</SuggestFileName>
+                      <CustomsID>43</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 关务高级管理人无犯罪证明</Description>
+                      <SuggestFileName> 关务高级管理人无犯罪证明</SuggestFileName>
+                      <CustomsID>44</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 财务负责人无犯罪证明</Description>
+                      <SuggestFileName> 财务负责人无犯罪证明</SuggestFileName>
+                      <CustomsID>45</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+              </FineItems>
+            </Item>
+            <Item>
+              <ItemName>14. 企业违法记录</ItemName>
+              <CustomsID>17</CustomsID>
+              <ScoreLevels>
+                <ScoreLevel>ReachStandard</ScoreLevel>
+                <ScoreLevel>Substandard</ScoreLevel>
+                <ScoreLevel>NotApplicable</ScoreLevel>
+              </ScoreLevels>
+              <FineItems>
+                <FineItem>
+                  <FineItemName>(1) 连续2年无走私犯罪、走私行为。</FineItemName>
+                  <CustomsID>27</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 查询海关企业进出口信用管理系统核实</Description>
+                      <SuggestFileName> 海关企业进出口信用管理系统走私犯罪及行为查询结果截图</SuggestFileName>
+                      <CustomsID>46</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+                <FineItem>
+                  <FineItemName>(2) 非报关企业：1年内因违反海关监管规定被处罚金额超过3万元且10万元以下的行为不超过1次。报关企业：1年内因违反海关监管规定被处罚金额超过1万元且3万元以下的行为不超过1次。
+                  </FineItemName>
+                  <CustomsID>28</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 查询海关企业进出口信用管理系统核实</Description>
+                      <SuggestFileName> 海关企业进出口信用管理系统无违反海关监管规定行为结果截图</SuggestFileName>
+                      <CustomsID>47</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+                <FineItem>
+                  <FineItemName>(3) 非报关企业：1年内违反海关监管规定行为的处罚金额累计10万元以下，且违法次数在5次以下或者虽然超过5次，但违规次数与上年度企业进出口相关单证[报关单及进出境备案清单、运输工具进出境申报信息、舱单及相关电子数据、转关单（载货清单）]总票数比例不超过千分之一。（企业自查发现并主动向海关报明，被海关处以警告以及3万元以下罚款的除外）报关企业：1年内违反海关监管规定行为的次数不超过企业上年度代理申报报关单及进出境备案清单总票数比例不超过万分之三，且处罚金额累计5万元以下。（企业自查发现并主动向海关报明，被海关处以警告以及1万元以下罚款的除外）
+                  </FineItemName>
+                  <CustomsID>29</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 查询海关企业进出口信用管理系统核实</Description>
+                      <SuggestFileName> 海关企业进出口信用管理系统违反海关监管规定行为结果截图</SuggestFileName>
+                      <CustomsID>48</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+              </FineItems>
+            </Item>
+          </Items>
+        </Clauses>
+        <Clauses>
+          <ClausesName>(七) 进出口业务规范</ClausesName>
+          <CustomsID>7</CustomsID>
+          <Items>
+            <Item>
+              <ItemName>15. 注册信息</ItemName>
+              <CustomsID>18</CustomsID>
+              <ScoreLevels>
+                <ScoreLevel>ReachStandard</ScoreLevel>
+                <ScoreLevel>Substandard</ScoreLevel>
+                <ScoreLevel>NotApplicable</ScoreLevel>
+              </ScoreLevels>
+              <FineItems>
+                <FineItem>
+                  <FineItemName> 报关单位：按规定报送《报关单位注册信息年度报告》，企业及报关人员在海关的注册登记内容与实际相符。 其他企业：在海关的注册登记内容与实际相符。</FineItemName>
+                  <CustomsID>30</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 《报关单位注册信息年度报告》</Description>
+                      <SuggestFileName> 《报关单位注册信息年度报告》</SuggestFileName>
+                      <CustomsID>49</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 企业营业执照</Description>
+                      <SuggestFileName> 企业营业执照</SuggestFileName>
+                      <CustomsID>50</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 税务登记证书</Description>
+                      <SuggestFileName> 税务登记证书</SuggestFileName>
+                      <CustomsID>51</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 海关注册登记证书</Description>
+                      <SuggestFileName> 海关注册登记证书</SuggestFileName>
+                      <CustomsID>52</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 企业资质证书</Description>
+                      <SuggestFileName> 企业资质证书</SuggestFileName>
+                      <CustomsID>53</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+              </FineItems>
+            </Item>
+            <Item>
+              <ItemName>16. 进出口记录</ItemName>
+              <CustomsID>19</CustomsID>
+              <ScoreLevels>
+                <ScoreLevel>ReachStandard</ScoreLevel>
+                <ScoreLevel>Substandard</ScoreLevel>
+                <ScoreLevel>NotApplicable</ScoreLevel>
+              </ScoreLevels>
+              <FineItems>
+                <FineItem>
+                  <FineItemName> 上年度或者本年度有进出口活动或者为进出口活动提供相关服务。</FineItemName>
+                  <CustomsID>31</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 进出口记录</Description>
+                      <SuggestFileName> 进出口记录</SuggestFileName>
+                      <CustomsID>54</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> AEO高级认证企业证书（复认企业）</Description>
+                      <SuggestFileName> AEO高级认证企业证书（复认企业）</SuggestFileName>
+                      <CustomsID>55</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+              </FineItems>
+            </Item>
+            <Item>
+              <ItemName>17. 申报（传输）规范</ItemName>
+              <CustomsID>20</CustomsID>
+              <ScoreLevels>
+                <ScoreLevel>ReachStandard</ScoreLevel>
+                <ScoreLevel>Substandard</ScoreLevel>
+                <ScoreLevel>NotApplicable</ScoreLevel>
+              </ScoreLevels>
+              <FineItems>
+                <FineItem>
+                  <FineItemName>(1) 报关企业：连续4个季度单季报关差错率不超过同期全国平均报关差错率。进出口货物收发货人：连续4个季度单季报关差错率或者所委托报关企业报关差错率不超过同期全国平均报关差错率。物流企业：连续4个季度单季舱单及相关电子数据传输差错率不超过同期全国平均传输差错率，连续4个季度单季运输工具进出境申报信息、转关单（载货清单）等物流信息的申报差错率不超过同期全国平均申报差错率。</FineItemName>
+                  <CustomsID>32</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 查询海关企业进出口信息管理系统申报（传输）差错率</Description>
+                      <SuggestFileName> 报关差错改单记录表</SuggestFileName>
+                      <CustomsID>56</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+                <FineItem>
+                  <FineItemName>(2) 连续2个季度单季规范申报率超过85%。</FineItemName>
+                  <CustomsID>33</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 查询海关企业进出口信息管理系统规范申报率</Description>
+                      <SuggestFileName> 规范申报改单记录表</SuggestFileName>
+                      <CustomsID>57</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+                <FineItem>
+                  <FineItemName>(3) 上年度及本年1至上月手（账）册超期未报核情事不超过1次。</FineItemName>
+                  <CustomsID>34</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 查询海关企业进出口信息管理系统手（账）册超期未报核情况</Description>
+                      <SuggestFileName> 手（账）册未报核记录表</SuggestFileName>
+                      <CustomsID>58</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+              </FineItems>
+            </Item>
+            <Item>
+              <ItemName>18. 税款缴纳</ItemName>
+              <CustomsID>21</CustomsID>
+              <ScoreLevels>
+                <ScoreLevel>ReachStandard</ScoreLevel>
+                <ScoreLevel>Substandard</ScoreLevel>
+                <ScoreLevel>NotApplicable</ScoreLevel>
+              </ScoreLevels> 
+              <FineItems>
+                <FineItem>
+                  <FineItemName>(1) 上年度以及本年度1至上月滞纳税款报关单率不超过5%。</FineItemName>
+                  <CustomsID>35</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 查询海关企业进出口信息管理系统滞纳税款报关单率</Description>
+                      <SuggestFileName> 纳税证明</SuggestFileName>
+                      <CustomsID>59</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+                <FineItem>
+                  <FineItemName>(2) 截至认证期间，没有超过法定缴款期限尚未缴纳税款及罚没款项情事。</FineItemName>
+                  <CustomsID>36</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 查询海关企业进出口信息管理系统无超期未缴纳税款情形</Description>
+                      <SuggestFileName> 纳税证明</SuggestFileName>
+                      <CustomsID>60</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+              </FineItems>
+            </Item>
+          </Items>
+        </Clauses>
+        <Clauses>
+          <ClausesName>(八) 符合海关管理要求</ClausesName>
+          <CustomsID>8</CustomsID>
+          <Items>
+            <Item>
+              <ItemName>19. 管理要求</ItemName>
+              <CustomsID>22</CustomsID>
+              <ScoreLevels>
+                <ScoreLevel>ReachStandard</ScoreLevel>
+                <ScoreLevel>Substandard</ScoreLevel>
+                <ScoreLevel>NotApplicable</ScoreLevel>
+              </ScoreLevels>
+              <FineItems>
+                <FineItem>
+                  <FineItemName>(1) 连续2年未发现有向海关提供虚假情况或者隐瞒重要事实、拒绝或者拖延提供账簿单证资料、故意转移、隐匿、篡改、毁弃账簿单证资料等逃避海关稽查、逃避税款征缴的情形，或者无正当理由拒不配合海关执法或者管理的情形。</FineItemName>
+                  <CustomsID>37</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 以业务联系单征求相关部门意见</Description>
+                      <SuggestFileName> 业务联系单征求意见表</SuggestFileName>
+                      <CustomsID>61</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+                <FineItem>
+                  <FineItemName>(2) 连续2年未发现企业报送信息有隐瞒真实情况、弄虚作假的情形。</FineItemName>
+                  <CustomsID>38</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 以业务联系单征求相关部门意见</Description>
+                      <SuggestFileName> 业务联系单征求意见表</SuggestFileName>
+                      <CustomsID>62</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+                <FineItem>
+                  <FineItemName>(3) 连续2年未发现有假借海关或者其他企业名义获取不当利益的情形。</FineItemName>
+                  <CustomsID>39</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 以业务联系单征求相关部门意见</Description>
+                      <SuggestFileName> 业务联系单征求意见表</SuggestFileName>
+                      <CustomsID>63</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+                <FineItem>
+                  <FineItemName>(4) 连续2年未发现有向海关人员行贿的行为。</FineItemName>
+                  <CustomsID>40</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 查询海关企业进出口信息管理系统企业行贿行为</Description>
+                      <SuggestFileName> 查询海关企业进出口信息管理系统企业行贿行为结果截图</SuggestFileName>
+                      <CustomsID>64</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+              </FineItems>
+            </Item>
+          </Items>
+        </Clauses>
+        <Clauses>
+          <ClausesName>(九) 未有不良外部信用</ClausesName>
+          <CustomsID>9</CustomsID>
+          <Items>
+            <Item>
+              <ItemName>20. 外部信用</ItemName>
+              <CustomsID>23</CustomsID>
+              <ScoreLevels>
+                <ScoreLevel>ReachStandard</ScoreLevel>
+                <ScoreLevel>Substandard</ScoreLevel>
+                <ScoreLevel>NotApplicable</ScoreLevel>
+              </ScoreLevels>
+              <FineItems>
+                <FineItem>
+                  <FineItemName> 企业或者其法定代表人（负责人）、负责关务的高级管理人员、财务负责人连续1年在工商、商务、税务、银行、外汇、检验检疫、公安、检察院、法院等部门未被列入经营异常名录、失信企业或者人员名单、黑名单企业、人员。</FineItemName>
+                  <CustomsID>41</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 法定代表人（负责人）信用记录</Description>
+                      <SuggestFileName>法定代表人（负责人）信用记录表</SuggestFileName>
+                      <CustomsID>65</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 关务高级人员理人信用记录</Description>
+                      <SuggestFileName> 关务高级人员理人信用记录表</SuggestFileName>
+                      <CustomsID>66</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 财务负责人信用记录</Description>
+                      <SuggestFileName> 财务负责人信用记录表</SuggestFileName>
+                      <CustomsID>67</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 企业信用报告（银行）</Description>
+                      <SuggestFileName> 企业信用报告</SuggestFileName>
+                      <CustomsID>68</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 企业工商信用</Description>
+                      <SuggestFileName> 企业工商网信用截图</SuggestFileName>
+                      <CustomsID>69</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+              </FineItems>
+            </Item>
+          </Items>
+        </Clauses>
+      </Clauseses>
+    </OutlineClass>
+    <OutlineClass>
+      <OutlineClassName>四、 贸易安全标准</OutlineClassName>
+      <CustomsID>4</CustomsID>
+      <Clauseses>
+        <Clauses>
+          <ClausesName>(十) 场所安全控制措施</ClausesName>
+          <CustomsID>10</CustomsID>
+          <Items>
+            <Item>
+              <ItemName>21. 场所安全</ItemName>
+              <CustomsID>24</CustomsID>
+              <ScoreLevels>
+                <ScoreLevel>ReachStandard</ScoreLevel>
+                <ScoreLevel>PartiallyCompliant</ScoreLevel>
+                <ScoreLevel>Substandard</ScoreLevel>
+                <ScoreLevel>NotApplicable</ScoreLevel>
+              </ScoreLevels>
+              <FineItems>
+                <FineItem>
+                  <FineItemName>
+                    企业有检查、阻止未经许可的人员进入企业生产经营场所的书面制度和程序。
+                    (1) 大门和传达室：车辆、人员进出的大门配备人员驻守。 
+                    (2) 建筑结构：建筑物的建造方式能够防止非法闯入。定期对建筑物进行检查和修缮，确保其完好无损。 
+                    (3) 锁闭装置及钥匙保管：所有内外窗户，大门和围栏都设有足够数量的锁闭装置。管理层或者保安人员要保管所有锁和钥匙。
+                  </FineItemName>
+                  <CustomsID>42</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 场所管理制度</Description>
+                      <SuggestFileName> 场所管理制度</SuggestFileName>
+                      <CustomsID>70</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 门卫管理规定</Description>
+                      <SuggestFileName> 门卫管理规定</SuggestFileName>
+                      <CustomsID>71</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 场所图片及检修记录</Description>
+                      <SuggestFileName> 场所图片及检修记录表</SuggestFileName>
+                      <CustomsID>72</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 锁和钥匙的检修和使用记录</Description>
+                      <SuggestFileName> 锁和钥匙的检修和使用记录表</SuggestFileName>
+                      <CustomsID>73</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+              </FineItems>
+            </Item>
+          </Items>
+        </Clauses>
+        <Clauses>
+          <ClausesName>(十一) 进入安全控制措施</ClausesName>
+          <CustomsID>11</CustomsID>
+          <Items>
+            <Item>
+              <ItemName>22. 进入安全</ItemName>
+              <CustomsID>25</CustomsID>
+              <ScoreLevels>
+                <ScoreLevel>ReachStandard</ScoreLevel>
+                <ScoreLevel>PartiallyCompliant</ScoreLevel>
+                <ScoreLevel>Substandard</ScoreLevel>
+                <ScoreLevel>NotApplicable</ScoreLevel>
+              </ScoreLevels>
+              <FineItems>
+                <FineItem>
+                  <FineItemName>
+                    企业实施员工和访客进出管理，有保护公司资产的书面制度和程序。 (1) 员工：具有员工身份识别系统，对员工进行身份识别和进入控制。对员工、访客的身份标识（比如钥匙、钥匙卡等）的发放和回收进行统一管理和登记。 
+                    (2) 访客：对进入企业的访客要检查带有照片的身份证件并进行登记，访客要佩戴临时身份标识并且有内部人员陪同。 
+                  </FineItemName>
+                  <CustomsID>43</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 员工出入管理规定</Description>
+                      <SuggestFileName> 员工出入管理办法</SuggestFileName>
+                      <CustomsID>74</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 访客管理制度</Description>
+                      <SuggestFileName> 访客管理制度</SuggestFileName>
+                      <CustomsID>75</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 访客登记记录</Description>
+                      <SuggestFileName> 访客登记记录表</SuggestFileName>
+                      <CustomsID>76</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+              </FineItems>
+            </Item>
+          </Items>
+        </Clauses>
+        <Clauses>
+          <ClausesName>(十二) 人员安全控制措施</ClausesName>
+          <CustomsID>12</CustomsID>
+          <Items>
+            <Item>
+              <ItemName>23. 人员安全</ItemName>
+              <CustomsID>26</CustomsID>
+              <ScoreLevels>
+                <ScoreLevel>ReachStandard</ScoreLevel>
+                <ScoreLevel>PartiallyCompliant</ScoreLevel>
+                <ScoreLevel>Substandard</ScoreLevel>
+                <ScoreLevel>NotApplicable</ScoreLevel>
+              </ScoreLevels>
+              <FineItems>
+                <FineItem>
+                  <FineItemName>
+                    企业有审查拟聘员工和定期审查现有员工的书面制度和程序，提供动态的员工清单，包含姓名、出生日期、身份证号码、担任职位。 
+                    (1) 聘用前审核：聘用员工前，要对其应聘申请信息（例如就业经历、推荐信等）进行核实。 
+                    (2) 背景调查：聘用员工前，要对其进行有无违法犯罪记录等安全背景的检查或者调查。一经录用，要根据员工表现，以及对处于重要敏感工作岗位的员工进行定期审查和重新调查。 
+                    (3) 员工离职程序：有书面制度和程序，对离职或者停职员工及时收回工作证件、设备，并禁止其进入企业生产经营场所及使用企业信息系统。 
+                  </FineItemName>
+                  <CustomsID>44</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 员工手册及名录</Description>
+                      <SuggestFileName> 员工手册及名录</SuggestFileName>
+                      <CustomsID>77</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 聘用前员工信息核实记录</Description>
+                      <SuggestFileName> 聘用前员工信息核实记录表</SuggestFileName>
+                      <CustomsID>78</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 员工背景调查</Description>
+                      <SuggestFileName> 员工背景调查表</SuggestFileName>
+                      <CustomsID>79</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 员工招聘、入职、离职程序</Description>
+                      <SuggestFileName> 员工招聘、入职、离职程序</SuggestFileName>
+                      <CustomsID>80</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 员工无犯罪记录证明</Description>
+                      <SuggestFileName> 员工无犯罪记录证明</SuggestFileName>
+                      <CustomsID>81</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+              </FineItems>
+            </Item>
+          </Items>
+        </Clauses>
+        <Clauses>
+          <ClausesName>(十三) 商业伙伴安全控制措施</ClausesName>
+          <CustomsID>13</CustomsID>
+          <Items>
+            <Item>
+              <ItemName>24. 商业伙伴安全</ItemName>
+              <CustomsID>27</CustomsID>
+              <ScoreLevels>
+                <ScoreLevel>ReachStandard</ScoreLevel>
+                <ScoreLevel>PartiallyCompliant</ScoreLevel>
+                <ScoreLevel>Substandard</ScoreLevel>
+                <ScoreLevel>NotApplicable</ScoreLevel>
+              </ScoreLevels>
+              <FineItems>
+                <FineItem>
+                  <FineItemName>
+                    企业有评估、要求、检查商业伙伴供应链安全的书面制度和程序。 
+                    书面文件：在合同、协议或者其他书面资料中要求商业伙伴按照本认证标准优化和完善贸易安全管理。
+                  </FineItemName>
+                  <CustomsID>45</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 商业伙伴供应链安全制度和程序</Description>
+                      <SuggestFileName> 商业伙伴供应链安全管理程序</SuggestFileName>
+                      <CustomsID>82</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 与商业伙伴合同、协议（含贸易安全管理）</Description>
+                      <SuggestFileName> 商业伙伴合同、协议（含贸易安全管理）</SuggestFileName>
+                      <CustomsID>83</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 商业伙伴AEO证书</Description>
+                      <SuggestFileName>商业伙伴AEO证书</SuggestFileName>
+                      <CustomsID>84</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+              </FineItems>
+            </Item>
+          </Items>
+        </Clauses>
+        <Clauses>
+          <ClausesName>(十四) 货物安全控制措施</ClausesName>
+          <CustomsID>14</CustomsID>
+          <Items>
+            <Item>
+              <ItemName>25. 货物安全</ItemName>
+              <CustomsID>28</CustomsID>
+              <ScoreLevels>
+                <ScoreLevel>ReachStandard</ScoreLevel>
+                <ScoreLevel>PartiallyCompliant</ScoreLevel>
+                <ScoreLevel>Substandard</ScoreLevel>
+                <ScoreLevel>NotApplicable</ScoreLevel>
+              </ScoreLevels>
+              <FineItems>
+                <FineItem>
+                  <FineItemName>
+                    企业有确保供应链中货物在运输、搬运和存放过程中的完整性和安全性的措施和程序。 
+                    (1) 装运和接收货物：运抵的货物要与货物单证的信息相符，核实货物的重量、标签、件数或者箱数。离岸的货物要与购货订单或者装运订单上的内容进行核实。在货物关键交接环节有签名、盖章等保护制度。 
+                    (2) 货物差异：在出现货物溢、短装或者其他异常现象时要及时报告或者采取其他应对措施，并有书面制度和程序。
+                  </FineItemName>
+                  <CustomsID>46</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 货物安全管理办法</Description>
+                      <SuggestFileName> 货物安全管理办法</SuggestFileName>
+                      <CustomsID>85</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 货物交接清点登记核对记录</Description>
+                      <SuggestFileName> 货物交接清点登记核对记录表</SuggestFileName>
+                      <CustomsID>86</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 货物异常处理办法及记录</Description>
+                      <SuggestFileName> 货物异常处理办法及记录表</SuggestFileName>
+                      <CustomsID>87</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+              </FineItems>
+            </Item>
+          </Items>
+        </Clauses>
+        <Clauses>
+          <ClausesName>(十五) 集装箱安全控制措施</ClausesName>
+          <CustomsID>15</CustomsID>
+          <Items>
+            <Item>
+              <ItemName>26. 集装箱安全</ItemName>
+              <CustomsID>29</CustomsID>
+              <ScoreLevels>
+                <ScoreLevel>ReachStandard</ScoreLevel>
+                <ScoreLevel>PartiallyCompliant</ScoreLevel>
+                <ScoreLevel>Substandard</ScoreLevel>
+                <ScoreLevel>NotApplicable</ScoreLevel>
+              </ScoreLevels>
+              <FineItems>
+                <FineItem>
+                  <FineItemName>
+                    企业有确保集装箱的完整性，以防止未经许可的货物或者人员混入的措施和程序。 
+                    集装箱检查：在装货前检查集装箱结构的物理完整性和可靠性，包括门的锁闭系统的可靠性，并做好相关登记。
+                  </FineItemName>
+                  <CustomsID>47</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 集装箱安全措施和程序</Description>
+                      <SuggestFileName> 集装箱安全管理办法</SuggestFileName>
+                      <CustomsID>88</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 集装箱检查表</Description>
+                      <SuggestFileName> 集装箱检查记录表</SuggestFileName>
+                      <CustomsID>89</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+              </FineItems>
+            </Item>
+          </Items>
+        </Clauses>
+        <Clauses>
+          <ClausesName>(十六) 运输工具安全控制措施</ClausesName>
+          <CustomsID>16</CustomsID>
+          <Items>
+            <Item>
+              <ItemName>27. 运输工具安全</ItemName>
+              <CustomsID>30</CustomsID>
+              <ScoreLevels>
+                <ScoreLevel>ReachStandard</ScoreLevel>
+                <ScoreLevel>PartiallyCompliant</ScoreLevel>
+                <ScoreLevel>Substandard</ScoreLevel>
+                <ScoreLevel>NotApplicable</ScoreLevel>
+              </ScoreLevels>
+              <FineItems>
+                <FineItem>
+                  <FineItemName>
+                    企业有确保运输工具（拖车和挂车）的完整性，防止未经许可的人员或者物品混入的书面制度和程序。 
+                    (1) 运输工具存储：运输工具要停放在安全的区域，以防止未经许可的进入或者其他损害，有报告和解决未经许可擅自进入或者损害的程序。 
+                    (2) 司机身份核实：在货物被接收或者发放前，应对装运或者接收货物的驾驶员进行身份认定。 
+                  </FineItemName>
+                  <CustomsID>48</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 车辆运输安全制度和程序</Description>
+                      <SuggestFileName> 车辆运输安全管理办法</SuggestFileName>
+                      <CustomsID>90</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 司机身份核实记录</Description>
+                      <SuggestFileName> 司机身份核实记录表</SuggestFileName>
+                      <CustomsID>91</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+              </FineItems>
+            </Item>
+          </Items>
+        </Clauses>
+        <Clauses>
+          <ClausesName>(十七) 危机管理控制措施</ClausesName>
+          <CustomsID>17</CustomsID>
+          <Items>
+            <Item>
+              <ItemName>28. 危机管理</ItemName>
+              <CustomsID>31</CustomsID>
+              <ScoreLevels>
+                <ScoreLevel>ReachStandard</ScoreLevel>
+                <ScoreLevel>PartiallyCompliant</ScoreLevel>
+                <ScoreLevel>Substandard</ScoreLevel>
+                <ScoreLevel>NotApplicable</ScoreLevel>
+              </ScoreLevels>
+              <FineItems>
+                <FineItem>
+                  <FineItemName>
+                    企业有应对灾害或者紧急安全事故等异常情况的书面制度和程序。 
+                    应急机制：具备对灾害或者紧急安全事故等异常情况的报告、处置等应急程序或者机制。 
+                  </FineItemName>
+                  <CustomsID>49</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 危机制度和程序</Description>
+                      <SuggestFileName> 危机管理制度</SuggestFileName>
+                      <CustomsID>92</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 消防安全制度和程序</Description>
+                      <SuggestFileName> 消防安全管理制度</SuggestFileName>
+                      <CustomsID>93</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 消防设备管理、操作、保养</Description>
+                      <SuggestFileName> 消防设备管理、操作、保养规定</SuggestFileName>
+                      <CustomsID>94</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 自然灾害突发事件应急预案</Description>
+                      <SuggestFileName> 自然灾害突发事件应急预案</SuggestFileName>
+                      <CustomsID>95</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+              </FineItems>
+            </Item>
+          </Items>
+        </Clauses>
+      </Clauseses>
+    </OutlineClass>
+    <OutlineClass>
+      <OutlineClassName>五、 附加标准</OutlineClassName>
+      <CustomsID>5</CustomsID>
+      <Clauseses>
+        <Clauses>
+          <ClausesName>(十八) 加分标准</ClausesName>
+          <CustomsID>18</CustomsID>
+          <Items>
+            <Item>
+              <ItemName>29. 加分项目</ItemName>
+              <CustomsID>32</CustomsID>
+              <ScoreLevels>
+                <ScoreLevel>Conform</ScoreLevel>
+                <ScoreLevel>NotApplicableV2</ScoreLevel>
+              </ScoreLevels>
+              <FineItems>
+                <FineItem>
+                  <FineItemName>
+                    有下列情形之一的，经海关确认后可以加分： 
+                    (1) 属于海关特殊监管区域内企业。 
+                    (2) 属于国家鼓励和扶持的信息技术、节能环保、新能源、高端装备制造、新材料等产业之一的企业。 
+                    (3) 被中国报关协会等全国性行业组织评为优秀报关企业等荣誉称号的。  (4) 属于中国外贸出口先导指数样本企业，且1年内填报问卷及时率在90%以上、问卷答案与出口增速的吻合度在0.3以上的；或者属于进口货物使用去向调查样本企业、其他统计专项调查样本企业，且1年内填报问卷及时率和复核准确率在90%以上的。 
+                    (5) 属于积极配合海关开展报关单证企业存单，且连续4个季度单季存单及时率、准确率高于全国平均水平的企业。
+                  </FineItemName>
+                  <CustomsID>50</CustomsID>
+                  <FileRequires>
+                    <FileRequire>
+                      <Description> 企业注册登记证书（海关特殊监管区域企业）</Description>
+                      <SuggestFileName> 企业注册登记证书（海关特殊监管区域企业）</SuggestFileName>
+                      <CustomsID>96</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 属于国家鼓励和扶持的信息技术、节能环保、新能源、高端装备制造、新材料等产业的资质证书</Description>
+                      <SuggestFileName> 属于国家鼓励和扶持的信息技术、节能环保、新能源、高端装备制造、新材料等产业的资质证书</SuggestFileName>
+                      <CustomsID>97</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 优秀报关企业资质证书（全国性）</Description>
+                      <SuggestFileName> 优秀报关企业资质证书（全国性）</SuggestFileName>
+                      <CustomsID>98</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 中国外贸出口先导指数样本企业</Description>
+                      <SuggestFileName> 中国外贸出口先导指数样本企业</SuggestFileName>
+                      <CustomsID>99</CustomsID>
+                    </FileRequire>
+                    <FileRequire>
+                      <Description> 报关单证企业存单及时率、准确率高于全国平均水平企业</Description>
+                      <SuggestFileName> 报关单证企业存单及时率、准确率高于全国平均水平企业</SuggestFileName>
+                      <CustomsID>100</CustomsID>
+                    </FileRequire>
+                  </FileRequires>
+                </FineItem>
+              </FineItems>
+            </Item>
+          </Items>
+        </Clauses>
+      </Clauseses>
+    </OutlineClass>
+  </OutlineClasses>
+</CustomsAuthentication>

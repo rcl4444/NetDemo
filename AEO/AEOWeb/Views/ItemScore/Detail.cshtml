@@ -1,0 +1,474 @@
+﻿<div class="row" style=" margin: 0 auto;">
+    <div class="  line-height ">
+        <div class="col-xs-6 col-md-6">
+            <span>条：</span>  <span> {{list.ClausesName}}</span>
+        </div>
+        <div class="col-xs-6 col-md-6">
+            <span>条负责人：</span>  <span>{{list.ClausesChargePersonName}}</span>
+        </div>
+    </div>
+    <div class="   line-height">
+        <div class="col-xs-6 col-md-6">
+            <span>项：</span> <span> {{list.ItemName}}</span>
+        </div>
+        <div class="col-xs-6 col-md-6">
+            <span>评分人：</span> <span>{{list.PersonName}}</span>
+        </div>
+    </div>
+    <div class="  line-height">
+        <div class="col-xs-6 col-md-6">
+            <span> 文件数量：</span>{{list.FileRequireCount}}<span> </span>
+        </div>
+        <div class="col-xs-6 col-md-6">
+            <span> 预计完成日期：</span> <span> {{list.FinshTime}}</span>
+        </div>
+    </div>
+    <div class=" row" style="margin:0 auto;">
+        <h3 style="display: inline-block;   float: left;">操作记录</h3>
+        <button type="button" class="btn btn-info btn-sm  button_lfet" id="grade" v-on:click="grade(ID)">评分</button>
+        <div class="window_content radiohede">
+            <div id="input_radio">
+            </div>
+        </div>
+    </div>
+    <div class=" row" style="margin:0 auto;">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th style="width:20%">文件要求</th>
+                    <th style="width:15%">预计完成日期</th>
+                    <th style="width:15%">实际完成日期</th>
+                    <th style="width:15%">审批人</th>
+                    <th style="width:15%">审批时间</th>
+                    <th style="width:10%">状态</th>
+                    <th style="width:10%">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="obj in  list.FileResults" class="rowStatus">
+                    <td style="width:20%">{{obj.Description}}</td>
+                    <td style="width:15%">{{obj.FinishTime}}</td>
+                    <td style="width:15%">{{obj.UploadTime}}</td>
+                    <td style="width:15%">{{obj.AuditPerson}}</td>
+                    <td style="width:15%">{{obj.AuditTime}}</td>
+                    <td style="width:10%" class="setStats">{{obj.Status | setStats}}</td>
+                    <td style="width:10%">
+                        <!--v-if="(obj.FileResultId!='')"-->
+                        <a class="btn btn-info btn-sm" v-on:click="download(obj.FileResultId ,'@Url.Content("~/fileuploadrequire/downloadfile")','fileResultId')">下载 </a>
+                        <a class="btn btn-info btn-sm" v-on:click="prelook(obj.FileResultId )">预览 </a>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class=" row" style="margin:0 auto;">
+        <h3 style="display: inline-block">评分历史</h3>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th style="width:33.33%">时间</th>
+                    <th style="width:33.33%">评分</th>
+                    <th style="width:33.33%">备注</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="obj in  list.OperationNotes">
+                    <td style="width:33.33%">{{obj.CreateTime}}</td>
+                    <td style="width:33.33%">{{obj.Score}}</td>
+                    <td style="width:33.33%"> {{obj.Description}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class=" row" style="margin:0 auto;">
+        <a class="btn hfgray" href="@Url.Action("index","itemscore",new { customercompanyid = ViewBag.CompanyID })" role="button">返回</a>
+    </div>
+</div>
+
+<!-- 模态框评分人-->
+<div class="modal fade bs-example-modal-sm " id="agrade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+       <div class="modal-content">
+                <div class="button_submit">
+                    <div  class="content" style="padding: 10px 0px 20px 0px;"></div>
+                    <button type="submit" class="btn btn-info" data-dismiss="alert" aria-label="Close" v-on:click="agrade_confirm(ID)">
+                        确定
+                    </button>
+                    <button type="button" class="btn  hfgray" data-dismiss="modal"   v-on:click="cancel_submit">取消</button>
+            </div>
+        </div>
+    </div>
+    <!-- /.modal-content -->
+</div>
+
+
+<!-- 模态框不达标的数据-->
+<div class="modal fade" id="agrade_data" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width: 80%; margin: 0 auto;margin-top:10%;">
+        <div class="modal-content">
+            <div class="modal-body">
+                <label for="name">选择不达标的数据:</label>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th style="width:10%"><input type="checkbox" type="checkbox" class="allcheck" v-on:click="checkAll()"></th>
+                            <th style="width:30%">细项</th>
+                            <th style="width:20%">文件要求</th>
+                            <th style="width:20%">建议文件名</th>
+                            <th style="width:20%">不达标原因</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(obj, key) in  FileResults" :key="obj.key" class="data_tr">
+                            <td style="width:10%"><input type="checkbox" class="singlecheck" name="itemdid" type="checkbox" v-bind:value="obj.value.FileResultId" v-bind:data-state="obj.value.FileResultId " v-on:click="checkSingle()"></td>
+                            <td style="width:30%">{{obj.value.ItemName}}</td>
+                            <td style="width:20%">{{obj.value.Description}}</td>
+                            <td style="width:20%">{{obj.value.SuggestFileName}}</td>
+                            <td style="width:20%;height: 100%;" >
+                                <textarea value="" class="text_input" name="text_input" ></textarea>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="text-align:center;padding:20px  0;">
+                    <button type="submit" class="btn btn-info btn-sm" aria-hidden="true" v-on:click="Score_data_modification()">确定</button>
+                    <button type="button" class="btn hfgray" data-dismiss="modal" v-on:click="cancel">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section headscripts{
+    <style type="text/css">
+        .button_lfet {
+            float: left;
+            margin-left: 40px;
+            top: 0px;
+            margin-top: 15px;
+        }
+
+        #agrade .modal-dialog {
+            width: 300px;
+        }
+
+        #agrade .modal-footer {
+            text-align: center;
+        }
+
+        #agrade .button_submit {
+            padding: 20px  0px 30px 0px;
+            text-align: center;
+        }
+
+        #agrade .radio {
+            display: inline-block;
+        }
+
+        #input_radio {
+            width: 400px;
+            margin-top: 15px;
+            float: right;
+        }
+
+        #input_radio .button_margin {
+            margin-left: 5px;
+        }
+
+        #input_radio input {
+            float: left;
+            margin-top: 2px;
+        }
+
+        .radiohede {
+            width: 422px;
+            overflow: hidden;
+            display: none;
+        }
+
+        #agrade .Scoring_window .window_content input {
+            line-height: 28px;
+        }
+
+        #agrade_data .text_input {
+            width: 100%;
+            /*   outline:none;*/
+            border: none;
+            resize: none;
+        }
+    </style>
+}
+
+@section scripts{
+    <script>
+        var vm;
+        $(function(){
+            $("#ItemScore").attr("class", "active itemscore");
+            vm = new Vue({
+                el: '#content',
+                data: {
+                    list: '',
+                    ID:'',
+                    radio_state:[],
+                    values:[],
+                    checks: [],
+                    Scoring_parameters:{},
+                    truekey: 0 ,
+                    FileResults:[],
+                   IsScorePerson:""
+                },
+                methods: {
+                    download: function (ID,url,fileResultId) {
+                        if (ID == "") {
+                            hfalert('还未进行文件上传');
+                           }
+                        else {
+                            iframe(ID,url,fileResultId);
+                        }
+                    },
+                   /* 评分创建传值*/
+                    grade:function(id){
+                        var setStats=[];
+                        $(".rowStatus").each(function(i,o){
+                            setStats.push($(o).find(".setStats").html());
+                        });
+                        for(var i=0;i<setStats.length;i++){
+                            if(setStats[i] !='审核通过'){
+                                hfalert('只有当所有文件审核通过才能评分');
+                                return false
+                            }
+                        }
+                        $(".radiohede").animate({
+                            width:'toggle'
+                        });
+                        if(vm.IsScorePerson==false){
+                         hfalert('只有当前评分人才能评分');
+                          return  false
+                        }
+
+                       /* $("#agrade").modal('show');*/
+                        var  radio = this.radio;
+                        $(".allcheck").prop('checked', false);
+                        var _self = this;
+                        $('#input_radio').empty();
+                        $.ajax({
+                            type: 'post',
+                            contentType: 'application/json',
+                            url: '@Url.Content("~/itemscore/GetScoreLevel/")'+vm.ID,
+                            success: function (data) {
+                               var jsonData = JSON.parse(data);
+                               for (var i = 0; i <jsonData.Obj.length; i++) {
+                                var button=$('<div class="button_margin  btn btn-info btn-sm" ><span style="float: right"> '+jsonData.Obj[i].text+'</span></div>')
+                                 var input=$('<input class="radio " type="radio" name="adminFlag"   value="'+jsonData.Obj[i].value+'" />');
+                                   $(button).append(input);
+                                   $('#input_radio').append(button);
+                                   $(".radio").click(function(){
+                                       var _self = this;
+                                       vm.radio_state=null;
+                                       vm.radio_state= $(this).val();
+                                       vm.Scoring_parameters.ScoreTaskID=vm.ID;
+                                       vm.Scoring_parameters.Score= vm.radio_state;
+                                       $(".content").empty();
+                                       var content =$(".content");
+                                       if(vm.radio_state==-3 ){
+                                        var substandard= $('<div >确定评为不适用？</div>');
+                                           content.prepend(substandard)
+                                       }
+                                       if(vm.radio_state==0){
+                                           var substandard= $('<div>确定评为达标？</div>');
+                                           content.prepend(substandard)
+                                       }
+                                       if(vm.radio_state==2){
+                                           var substandard= $('<div>确定评为符合？</div>');
+                                           content.prepend(substandard)
+                                       }
+                                       if(vm.radio_state==1){
+                                           var substandard= $('<div>确定评为不适用？</div>');
+                                           content.prepend(substandard)
+                                       }
+
+                                       if(vm.radio_state==0 ||vm.radio_state==-3 ||vm.radio_state==2|| vm.radio_state==1){
+                                           $("#agrade").modal('show');
+                                       }else {
+                                           $("#agrade").modal('hide');
+                                       }
+
+                                       radio();
+                                   });
+                                }
+                            },error:function (data) {
+                                hfalert('请求失败')
+                            }
+                        });
+                    },
+                    radio:function(){
+                        if(vm.radio_state==-2 ||vm.radio_state==-1){
+                            $('#agrade_data').modal('show');
+                        }
+                    },
+                    /* 评分确定数据提交*/
+                    agrade_confirm:function(id){
+                      var checked = $('input[name="adminFlag"]:checked').val();
+                      if( checked ==undefined){
+                            hfalert( '请选择');
+                             return false;
+                        }
+                        var pageload = this.pageLoad;
+                        var grade=this.grade;
+                        $.ajax({
+                            type: "POST",
+                            url: '@Url.Content("~/itemscore/score")',
+                            data:{score:vm.Scoring_parameters},
+                            success: function (data) {
+                                $(".allcheck").prop('checked', false);
+                                $(".singlecheck").prop('checked', false);
+                             $('.text_input').val('');
+                                data = JSON.parse(data);
+                                if(data.Success==0){
+                                    hfalert(data.Message);
+                                }
+                              /*   hfalert(data.Message);*/
+                                $("#agrade").modal('hide');
+                                pageload();
+                                grade()
+                            }
+                        });
+                    },
+                   /* 评分数据修改*/
+                    Score_data_modification:function() {
+                        var _self = this;
+                        var values = [];
+                       if (!_self.checkchecks()) { return false;};
+                        if(vm.radio_state==-2){
+                            var result = [];
+                            $(".data_tr").each(function(i,o){
+                                if($(o).find("input[name='itemdid']").prop("checked")){
+                                      var  checked=$(o).find("input[name='itemdid']").val();
+                                     var  val=$(o).find("textarea[name='text_input']").val();
+                                     result.push({ FileResultID:checked,Cause:val });
+                                }
+                            });
+                            vm.Scoring_parameters.ScoreTaskID=vm.ID;
+                            vm.Scoring_parameters.Score= vm.radio_state;
+                            vm.Scoring_parameters.Argument=result;
+
+                        }else {
+                            $('#agrade_data').modal('hide');
+                        }
+                        if(vm.radio_state==-1){
+                            var result = [];
+                            $(".data_tr").each(function(i,o){
+                                if($(o).find("input[name='itemdid']").prop("checked")){
+                                    var checked=$(o).find("input[name='itemdid']").val();
+                                    var val=$(o).find("textarea[name='text_input']").val();
+                                    result.push({ FileResultID:checked,Cause:val });
+                                }
+                            });
+                            vm.Scoring_parameters.ScoreTaskID=vm.ID;
+                            vm.Scoring_parameters.Score= vm.radio_state;
+                            vm.Scoring_parameters.Argument=result;
+                         }else {
+                            $('#agrade_data').modal('hide');
+                        }
+                     var  agrade_confirm=this.agrade_confirm;
+                        agrade_confirm()
+                    },
+                  /*  弹窗取消数据清空*/
+                    cancel:function (){
+                        $('.text_input').val('');
+                        vm.Scoring_parameters={};
+                        $(".allcheck").prop('checked', false);
+                        $(".singlecheck").prop('checked', false);
+                    },
+                    /*  弹窗达标，跟不适用取消数据清空*/
+                    cancel_submit:function(){
+                        $(".content").empty()
+                    },
+                    //检查选中，获取选中
+                    checkchecks: function () {
+                        var _self = this; _self.checks= [];
+                        var checklist = $("input[name='itemdid']:checked");
+                        if (checklist.length == 0) {
+                            hfalert('未选中可操作项'); return false;
+                        } else {
+                            checklist.each(function () {
+                                _self.checks.push($(this).val());
+                            });
+                            return true;
+                        }
+                    },
+                    //全选
+                    checkAll: function () {
+                        if ($('.allcheck').prop('checked')) {
+                            $(".singlecheck").prop('checked', true);
+                        }else {
+                            $(".singlecheck").prop('checked', false);
+                        }
+                    },
+                    //单选
+                    checkSingle: function () {
+                        var flag = true;
+                        $(".singlecheck").each(function () {
+                            if (!$(this).prop('checked')) {
+                                flag = false;
+                            }
+                        });
+                        if (flag) {
+                            $('.allcheck').prop('checked', true);
+                        } else {
+                            $('.allcheck').prop('checked', false);
+                        };
+                    },
+                    pageLoad: function () {
+                        var _self = this;
+                        $.ajax({
+                            type: 'post',
+                            contentType: 'application/json',
+                            url: '@Url.Content("~/itemscore/getdetaildata/"+ViewBag.ScoreTaskID)',
+                            success: function (data) {
+                                var jsonData = JSON.parse(data);
+                                 _self.FileResults=[];
+                               _self.list = jsonData.Obj;
+                             $.each( jsonData.Obj.FileResults, function (i, v) {
+                                    _self.FileResults.push({ value: v, key: ++_self.truekey })
+                                });
+                                vm.ID=jsonData.Obj.ID;
+                                vm.IsScorePerson=jsonData.Obj.IsScorePerson;
+                            },error:function (data) {
+                                hfalert('请求失败')
+                            }
+                        });
+                    },
+                    //预览函数
+                    prelook: function (fileid) {
+                        if (fileid == "") {
+                            hfalert('还未进行文件上传');
+                            return false
+                        }
+                         var callback = function (data) {
+                            if (data.Success) {
+                                var newway = "";
+                                if (data.Obj.Type == 'true') {
+                                    newway = '@Url.Content("~/Preview/File/")' + data.Obj.token;
+                                } else {
+                                    newway = 'https://view.officeapps.live.com/op/view.aspx?src=http://aeo.yunbaoguan.cn/Preview/File/' + data.Obj.token;
+                                }
+                                window.open(newway);
+                            }else{
+                                hfalert(data.Message)
+                            }
+                        };
+                        ggajax('@Url.Content("~/fileuploadrequire/GetToken")', { id: fileid }, callback);
+                    }
+                },
+                created: function () {
+                    this.pageLoad()
+                },
+                mounted: function () {
+                    pubload();
+                },
+            });
+        })
+    </script>
+}

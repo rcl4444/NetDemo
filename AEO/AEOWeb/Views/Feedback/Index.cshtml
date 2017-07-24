@@ -1,0 +1,61 @@
+﻿<div class="row" style="margin: 0 auto;padding-bottom:20px;">
+    <div class="col-lg-12 col-md-12">
+        <form role="form" id="sugges">
+            <div class="form-group">
+                <label for="name" style="font-family:'微软雅黑';font-size:16px;font-weight:100;margin-top:20px;">请输入您的意见</label>
+                <textarea class="form-control" name="sugipt" id="sugipt" rows="10" style="resize:none;font-size:18px;"></textarea>
+            </div>
+            <button type="button" class="btn btn-info" v-on:click="addsugges" style="width:100%;">提交</button>
+        </form>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        var vm = new Vue({
+            el: '#content',
+            data: {
+                usereditquery: "",
+            },
+            methods: {
+                refurbish: function () {
+                    var _self = this;
+                },
+                addsugges: function () {
+                    $('#sugges').data('bootstrapValidator').validate();
+                    if ($('#sugges').data('bootstrapValidator').isValid()) {
+                        ggajax('@Url.Content("~/Feedback/SaveFeedback")', { description: $('#sugipt').val() }, function (data) {
+                            if (data.Success) {
+                                $('#sugipt').val('');
+                                $('#sugges').data('bootstrapValidator').resetForm(true);//表单重置
+                            };
+                            hfalert(data.Message);
+                        });
+                    } else {
+                        $('#sugges').data('bootstrapValidator').validate();
+                    }
+                }
+            },
+            created: function () { },
+            mounted: function () {
+                $("#Center").addClass("active");
+                pubload();
+                $('#sugges').bootstrapValidator({
+                    message: 'This value is not valid',
+                    feedbackIcons: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
+                    },
+                    fields: {
+                        sugipt: {
+                            validators: { notEmpty: { message: '不能为空' } }
+                        }
+                    }
+                }).on('success.form.bv', function (e) {
+                    e.preventDefault();
+                });
+            }
+        });
+    </script>
+}

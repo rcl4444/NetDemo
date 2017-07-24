@@ -1,0 +1,257 @@
+﻿<style>
+    #initialize{
+        margin: 0 auto;
+    }
+       #initialize .welcome_center {
+            width: 100%;
+            height: 100%;
+            margin: 0 auto;
+        }
+     #initialize  .initializeimg{
+      float: right;
+      }
+    #initialize   .On_the_right{
+        float: left;
+        height: 75px;
+        padding: 0px 0px;
+        margin-top: 40px;
+        margin-right: 20px;
+        font-size: 16px;
+     }
+    #initialize .welcome {
+        padding: 71px 0px;
+        text-align: center;
+        color:#007CD5;
+        font-weight: 900;
+    }
+ 
+    .broken_bar{
+        display:inline-block;
+        width: 30px;
+        height:25px;
+        border-left:10px solid  #3081cc;
+        position: relative;
+        top: 4px
+    }
+    .bottom_line{
+        border-bottom: 1px solid #ddd;
+        width: 85%;
+        float: left;
+        position: relative;
+        left: -35%;
+        top: 7px;
+    }
+        #GanttEmbedded table tr td,
+        #GanttEmbedded table tr td div {
+            font-size: 14px;
+        }
+
+        /*底色：  #d5dce3               蓝色：#3081cc       绿色：#449d44*/
+        /*前后小三角*/
+        .ggroupblackendpointleft,
+        .ggroupblackendpointright {
+            display: none;
+        }
+
+        /*黑条*/
+        #GanttEmbedded .ggroupblack {
+            height: 13px;
+            background-color: #d5dce3;
+        }
+        /*黑条进度*/
+        #GanttEmbedded .ggroupblackcomplete {
+            height: 100%;
+            margin-top: 0px;
+            background: #3081cc;
+        }
+
+        /*文件   文件进度条*/
+        #GanttEmbedded .gtaskblue {
+            background: #d5dce3;
+            opacity: 1;
+        }
+
+            #GanttEmbedded .gtaskblue .gtaskbluecomplete {
+                background-color: #449d44;
+                opacity: 1;
+                height: 100%;
+                margin-top: 0px;
+            }
+
+        /*图标左侧字体调整大小，左右侧高度不等问题*/
+        #GanttEmbeddedglistbody table tr,
+        #GanttEmbeddedgchartbody table tr {
+            height: 20px;
+        }
+
+#GanttEmbeddedglisthead table.gtasktableh,
+#GanttEmbeddedglistbody table.gtasktable {
+width:100%;
+    }
+
+</style>
+<div class="row" id="box" style=" min-width: 1070px; margin: 0 auto;">
+    <input type="hidden" id="userRole" value="@((int)ViewBag.RoleType)" />
+    <div id="GanttEmbedded"></div>
+    <!--初始化-->
+</div>
+<div id="initialize" style="width: 90%; margin: 0 auto; "></div>
+
+@section scripts{
+    <link href="@Url.Content("~/Content/plugins/jsgantt.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/jsgantt.js")"></script>
+    <script>
+        $(function () {
+
+            $.ajax({
+                url: '@Url.Content("~/home/taskprogress")', success: function (data) {
+                    var userRole = $("#userRole").val();
+                    $("#initialize").html('');
+                    var project = '<project />';
+                    var re = new RegExp(project);
+                    if (userRole == 0) {
+                        if (re.test(data)) {
+                            $('#initialize').append(" <div class='welcome_center'>" +
+                                    "<div class='col-lg-12 col-md-12 '>" +
+                                    "  <h2 class='welcome'> <span  class='broken_bar'></span>欢迎使用</h2２></div>" +
+                                    "<div class='col-lg-6 col-md-6 '><img   class='initializeimg'  src='@Url.Content("~/Content/image/initializeimg.png")'></div>" +
+                            "<div  class='col-lg-6 col-md-6 '  style='margin-top: 30px;'> " +
+                            "<div  class='col-lg-6 col-md-6  On_the_right' style='border-bottom: 1px solid #ddd;'> 1.初步建立负责的部门和员工账号</div>" +
+                            "<div class=' col-lg-6 col-md-6 On_the_right'>2.把相关条款分配到负责人</div> " +
+                            "<div  class='bottom_line'></div>" +
+                            "</div></div>")
+                        }
+                    }
+                    else if (userRole == 1) {
+                        if (re.test(data)) {
+
+                            $('#initialize').append(" <div class='welcome_center'>" +
+                                    "<div class='col-lg-12 col-md-12 '>" +
+                                    "  <h2 class='welcome'> <span  class='broken_bar'></span>欢迎使用</h2></div>" +
+                                    "<div class='col-lg-6 col-md-6 '><img   class='initializeimg'  src='@Url.Content("~/Content/image/initializeimg.png")'></div>" +
+                            "<div  class='col-lg-6 col-md-6 ' style='margin-top: 30px;'> " +
+                            "<div  class='col-lg-6 col-md-6  On_the_right' style='border-bottom: 1px solid #ddd;'>1. 设立主办人和审核人用户信息</div>" +
+                            "<div class=' col-lg-6 col-md-6 On_the_right'>2.将项任务分配给主办人和审核人并设置预计完成日期</div> " +
+                            "<div  class='bottom_line'></div>" +
+                            "</div></div>")
+                        }
+                    }
+                    else {
+                        if (re.test(data)) {
+                            $('#initialize').append(" <div class='welcome_center'>" +
+                                    "<div class='col-lg-12 col-md-12 '>" +
+                            "  <h2 class='welcome'> <span  class='broken_bar'></span>欢迎使用</h2></div>" +
+                                    "<div class='col-lg-6 col-md-6' ><img   class='initializeimg'  src='@Url.Content("~/Content/image/initializeimg.png")'></div>" +
+                                    "<div  class='col-lg-6 col-md-6 ' style='margin-top: 30px;'> " +
+                                   "<div  class='col-lg-6 col-md-6  On_the_right' style='border-bottom: 1px solid #ddd;'>1. 负责人没有给您安排任何任务</div>" +
+                            "</div></div>");
+                        }
+                    }
+                    var g = new JSGantt.GanttChart(document.getElementById('GanttEmbedded'), 'day');
+                    if (g.getDivId() != null) {
+                        //其他
+                        g.setFormatArr('Day', 'Week', 'Month', 'Quarter');//设置甘特图的时间类型
+                        g.setUseSort(0);//是否用自动排序
+                        g.setCaptionType('none');//条 显示内容// Set to Show Caption (None,Caption,Resource,Duration,Complete)
+                        g.setShowComp(1);//是否显示百分比列
+                        g.setShowDur(0);
+                        g.setShowRes(1); // Show/Hide Responsible (0/1)
+                        g.setShowStartDate(1); // 显示开始时间 0-1
+                        g.setShowEndDate(1); // Show/Hide End Date(0/1)
+                        g.setDateTaskTableDisplayFormat("yyyy/m/d");//设置开始和结束时间格式
+                        //tip弹出框设置
+                        g.setShowTaskInfoLink(0);//显示链接字段
+                        g.setShowTaskInfoComp(1);//显示百分比字段
+                        g.setShowTaskInfoRes(0);//显示负责人字段
+                        g.setDateTaskDisplayFormat("yyyy/mm/dd");//tip弹出框的任务开始和结束日期的日期格式
+                        //甘特图列头设置
+                        g.setDayMajorDateDisplayFormat("mm-dd");//设置日格式的大标题格式
+                        g.setDayMinorDateDisplayFormat("d");//设置日格式的小标题格式
+                        g.setWeekMajorDateDisplayFormat("yy");//设置周格式的大标题格式
+                        g.setWeekMinorDateDisplayFormat('ww');//设置周格式的小标题格式
+                        JSGantt.parseXMLString(data, g);
+                        g.addLang('cn', {
+                            "january": "一月",
+                            "february": "二月",
+                            "march": "三月",
+                            "april": "四月",
+                            "maylong": "五月",
+                            "june": "六月",
+                            "july": "七月",
+                            "august": "八月",
+                            "september": "九月",
+                            "october": "十月",
+                            "november": "十一月",
+                            "december": "十二月",
+                            "jan": "1月",
+                            "feb": "2月",
+                            "mar": "3月",
+                            "apr": "4月",
+                            "may": "5月",
+                            "jun": "6月",
+                            "jul": "7月",
+                            "aug": "8月",
+                            "sep": "9月",
+                            "oct": "10月",
+                            "nov": "11月",
+                            "dec": "12月",
+                            "sunday": "星期日",
+                            "monday": "星期一",
+                            "tuesday": "星期二",
+                            "wednesday": "星期三",
+                            "thursday": "星期四",
+                            "friday": "星期五",
+                            "saturday": "星期六",
+                            "sun": "周日",
+                            "mon": "周一",
+                            "tue": "周二",
+                            "wed": "周三",
+                            "thu": "周四",
+                            "fri": "周五",
+                            "sat": "周六",
+                            "resource": "主办人",
+                            "duration": "持续时间",
+                            "comp": "完成进度",
+                            "completion": "完成",
+                            "startdate": "开始日期",
+                            "enddate": "预计完成日期",
+                            "moreinfo": "更多信息",
+                            "notes": "描述",
+                            "format": "格式",
+                            "hour": "时",
+                            "day": "日",
+                            "week": "周",
+                            "month": "月",
+                            "quarter": "季",
+                            "hours": "时",
+                            "days": "日",
+                            "weeks": "周",
+                            "months": "月",
+                            "quarters": "季",
+                            "hr": "时",
+                            "dy": "日",
+                            "wk": "周",
+                            "mth": "月",
+                            "qtr": "季",
+                            "hrs": "时",
+                            "dys": "日",
+                            "wks": "周",
+                            "mths": "月",
+                            "qtrs": "季"
+                        });
+                        g.setLang("cn");
+                        g.Draw();
+
+                    } else {
+                        alert("Error, unable to create Gantt Chart");
+                    }
+                }
+            });
+
+
+            $("#home_page").attr("class", "active");
+            pubload();
+
+        });
+    </script>
+}

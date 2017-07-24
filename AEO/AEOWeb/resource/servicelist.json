@@ -1,0 +1,11 @@
+﻿[{
+	"title":"高级认证",
+	"description":"海关认证企业标准",
+	"imageurl":"",
+	"serviceurl":"/resource/senior_model.xml"
+},{
+	"title":"一般认证",
+	"description":"海关认证企业标准",
+	"imageurl":"",
+	"serviceurl":"/resource/model.xml"
+}]

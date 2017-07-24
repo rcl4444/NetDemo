@@ -1,0 +1,372 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        body {
+            font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+            text-align:center;
+        }
+        table {
+            white-space: normal;
+            line-height: normal;
+            font-weight: normal;
+            font-size: medium;
+            font-style: normal;
+            text-align: start;
+            font-variant: normal normal;
+            border: 1px solid #ddd;
+            width: 80%;
+            max-width: 80%;
+            margin-bottom: 20px;
+            background-color: transparent;
+            margin: 0px auto;
+        }
+        tr > td {
+            border: 1px solid #ddd;
+        }
+        tr > th {
+            padding: 2px;
+            vertical-align: inherit;
+            word-break: break-all;
+            word-break: break-word;
+            word-wrap: break-word;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>打包压缩索引</h1>
+    <p>解压后才可进行下载</p>
+    <table id="context">
+    </table>
+</body>
+</html>
+<script>
+    var formatData = (function () {
+        var class2type = {
+            "[object Boolean]": "boolean",
+            "[object Number]": "number",
+            "[object String]": "string",
+            "[object Function]": "function",
+            "[object Array]": "array",
+            "[object Date]": "date",
+            "[object RegExp]": "regexp",
+            "[object Object]": "object",
+            "[object Error]": "error"
+        };
+        var core_toString = class2type.toString;
+        var rowspanSituation = [];
+        function getType(obj) {
+            if (obj === "") {
+                return String(obj);
+            }
+            return typeof obj === "object" || typeof obj === "function" ? class2type[core_toString.call(obj)] || "object" : typeof obj;
+        }
+        function isArray(obj) {
+            if (getType(obj) == "array") {
+                return true;
+            }
+            return false;
+        }
+        function isObject(obj) {
+            if (getType(obj) == "object") {
+                return true;
+            }
+            return false;
+        }
+        function shadowCopy(src) {
+            var dst;
+            if (isArray(src)) {
+                dst = [];
+                for (var i = 0; i < src.length; i++) {
+                    dst.push(shadowCopy(src[i]));
+                }
+            }
+            else {
+                dst = {};
+                for (var prop in src) {
+                    if (src.hasOwnProperty(prop)) {
+                        dst[prop] = src[prop];
+                    }
+                }
+            }
+            return dst;
+        }
+        function copyArrayProp(array, temp) {
+            var result = [];
+            var index = 0;
+            do {
+                var record = shadowCopy((array.length == 0 ? temp : copyprop(array[index], temp)));
+                if (isArray(record)) {
+                    for (var i = 0; i < record.length; i++) {
+                        result.push(record[i]);
+                    }
+                }
+                else {
+                    result.push(record);
+                }
+                index++;
+            } while (index < array.length);
+            return result;
+        }
+        function copyprop(source, purpose) {
+            for (var attr in source) {
+                if (isObject(source[attr])) {
+                    purpose = copyprop(source[attr], purpose);
+                }
+                else if (isArray(source[attr])) {
+                    var rowspanName = rowspanSituation.length > 0 ? attr + "rowspan" : "rowspan";
+                    rowspanSituation.push(rowspanName);
+                    purpose = copyArrayProp(source[attr], shadowCopy(purpose));
+                    for (var i = 0; i < purpose.length; i++) {
+                        purpose[i][rowspanName] = i == 0 ? purpose.length : 0;
+                    }
+                }
+                else {
+                    purpose[attr] = source[attr];
+                }
+            }
+            return purpose;
+        }
+        function formatData(data) {
+            if (!isArray(data)) {
+                throw new Error("data must be array type");
+            }
+            var result = [];
+            for (var i = 0; i < data.length; i++) {
+                var record = {};
+                var returnResult = copyprop(data[i], record);
+                if (isArray(returnResult)) {
+                    for (var ii = 0; ii < returnResult.length; ii++) {
+                        result.push(returnResult[ii]);
+                    }
+                }
+                else {
+                    returnResult.rowspan = 1;
+                    result.push(returnResult);
+                }
+                record = {};
+                rowspanSituation = [];
+            }
+            return result;
+        }
+        return formatData;
+    })();
+</script>
+<script>
+    var data = [
+        {
+            "OutlineClassName": "一、 内部控制标准",
+            "Item": [
+                {
+                    "Id": 1,
+                    "ClausesName": "(一) 组织机构控制",
+                    "PersonID": 2,
+                    "PersonName": "人一",
+                    "FineItem": [
+                        {
+                            "Id" : 1,
+                            "Name":"1"
+                        },
+                        {
+                            "Id": 2,
+                            "Name": "2"
+                        }
+                    ]
+                },
+                {
+                    "Id": 2,
+                    "ClausesName": "(二) 进出口业务控制",
+                    "PersonID": "",
+                    "PersonName": "",
+                    "FineItem": [
+                        {
+                            "Id": 3,
+                            "Name": "3"
+                        },
+                        {
+                            "Id": 4,
+                            "Name": "4"
+                        }
+                    ]
+                },
+                {
+                    "Id": 3,
+                    "ClausesName": "(三) 内部审计控制",
+                    "PersonID": "",
+                    "PersonName": "",
+                    "FineItem": []
+                },
+                {
+                    "Id": 4,
+                    "ClausesName": "(四) 信息系统控制",
+                    "PersonID": "",
+                    "PersonName": "",
+                    "FineItem": [
+                        {
+                            "Id": 5,
+                            "Name": "5"
+                        },
+                        {
+                            "Id": 6,
+                            "Name": "6"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "OutlineClassName": "二、 财务状况标准",
+            "Item": [
+                {
+                    "Id": 5,
+                    "ClausesName": "(五) 财务状况",
+                    "PersonID": "",
+                    "PersonName": "",
+                    "FineItem": [
+                        {
+                            "Id": 7,
+                            "Name": "7"
+                        },
+                        {
+                            "Id": 8,
+                            "Name": "8"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "OutlineClassName": "三、 守法规范标准",
+            "Item": [
+                {
+                    "Id": 6,
+                    "ClausesName": "(六) 遵守法律法规",
+                    "PersonID": "",
+                    "PersonName": "",
+                    "FineItem":
+                    [
+                        {
+                            "Id": 9,
+                            "Name": "9"
+                        }
+                    ]
+                },
+                {
+                    "Id": 7,
+                    "ClausesName": "(七) 进出口业务规范",
+                    "PersonID": "",
+                    "PersonName": "",
+                    "FineItem": []
+                },
+                {
+                    "Id": 8,
+                    "ClausesName": "(八) 符合海关管理要求",
+                    "PersonID": "",
+                    "PersonName": "",
+                    "FineItem": []
+                },
+                {
+                    "Id": 9,
+                    "ClausesName": "(九) 未有不良外部信用",
+                    "PersonID": "",
+                    "PersonName": "",
+                    "FineItem": []
+                }
+            ]
+        },
+        {
+            "OutlineClassName": "四、 贸易安全标准",
+            "Item": [
+                {
+                    "Id": 10,
+                    "ClausesName": "(十) 场所安全控制措施",
+                    "PersonID": "",
+                    "PersonName": "",
+                    "FineItem": []
+                },
+                {
+                    "Id": 11,
+                    "ClausesName": "(十一) 进入安全控制措施",
+                    "PersonID": "",
+                    "PersonName": "",
+                    "FineItem": []
+                },
+                {
+                    "Id": 12,
+                    "ClausesName": "(十二) 人员安全控制措施",
+                    "PersonID": "",
+                    "PersonName": "",
+                    "FineItem": []
+                },
+                {
+                    "Id": 13,
+                    "ClausesName": "(十三) 商业伙伴安全控制措施",
+                    "PersonID": "",
+                    "PersonName": "",
+                    "FineItem": []
+                },
+                {
+                    "Id": 14,
+                    "ClausesName": "(十四) 货物安全控制措施",
+                    "PersonID": "",
+                    "PersonName": "",
+                    "FineItem": []
+                },
+                {
+                    "Id": 15,
+                    "ClausesName": "(十五) 集装箱安全控制措施",
+                    "PersonID": "",
+                    "PersonName": "",
+                    "FineItem": []
+                },
+                {
+                    "Id": 16,
+                    "ClausesName": "(十六) 运输工具安全控制措施",
+                    "PersonID": "",
+                    "PersonName": "",
+                    "FineItem": []
+                },
+                {
+                    "Id": 17,
+                    "ClausesName": "(十七) 危机管理控制措施",
+                    "PersonID": "",
+                    "PersonName": "",
+                    "FineItem": []
+                }
+            ]
+        },
+        {
+            "OutlineClassName": "五、 附加标准",
+            "Item": [
+                {
+                    "Id": 18,
+                    "ClausesName": "(十八) 加分标准",
+                    "PersonID": "",
+                    "PersonName": "",
+                    "FineItem": []
+                }
+            ]
+        }
+    ];
+    var tablecontext = "<tr><th>类</th><th>条</th><th>负责人</th><th>细项</th></tr>";
+    var formatData = formatData(data);
+    for (var i = 0; i < formatData.length; i++) {
+        var rowdata = formatData[i];
+        var rowcontext = "<tr>";
+        if (rowdata.rowspan) {
+            rowcontext += "<td rowspan='" + rowdata.rowspan + "'>" + rowdata.OutlineClassName+"</td>";
+        }
+        if (rowdata.FineItemrowspan) {
+            rowcontext += "<td rowspan='" + rowdata.FineItemrowspan + "'>" + rowdata.ClausesName + "</td>";
+        }
+        rowcontext += "<td>" + rowdata.PersonName + "</td>";
+        rowcontext += "<td>" + rowdata.Name + "</td>";
+        rowcontext += "</tr>";
+        tablecontext += rowcontext;
+        console.log(JSON.stringify(rowdata));
+    }
+    document.getElementById("context").innerHTML = tablecontext;
+</script>

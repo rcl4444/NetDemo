@@ -1,0 +1,63 @@
+stages:
+  - build
+  - deploy
+
+before_script:
+  - 'echo off'
+  - 'chcp 65001'
+  - 'call "%VS110COMNTOOLS%\vsvars32.bat"'
+  - 'echo .'
+
+build:
+  stage: build
+  script:
+    - 'echo %CI_PIPELINE_ID% - %CI_JOB_ID% > AEO\AEOWeb\resource\build.txt'
+    - 'msbuild Publish\Publish.proj'
+  artifacts:
+    paths:
+      - 'AEO\Publish\Out\_PublishedWebsites\AEOWeb_Package'
+
+deploy_test:
+  stage: deploy
+  script:
+    - echo "Pulling Configuration"
+    - "git clone http://gitlab-ci-token:%CI_JOB_TOKEN%@git.yunbaoguan.cn/devops/environment.git || (cd environment; git pull)"
+    - 'call environment\aeo\test\env.bat'
+    - echo "Deploy to test server"
+    - 'msdeploy
+        -verb:sync
+        -source:package=AEO\Publish\Out\_PublishedWebsites\AEOWeb_Package\AEOWeb.zip
+        -dest:auto,computerName="%DEPLOY_HOST%",userName="%DEPLOY_USERNAME%",password="%DEPLOY_PASSWORD%",authtype="Basic",includeAcls="False"
+        -disableLink:AppPoolExtension
+        -disableLink:ContentExtension
+        -disableLink:CertificateExtension
+        -setParamFile:"environment\aeo\test\AEOWeb.SetParameters.xml"
+        -allowUntrusted'
+  environment:
+    name: test
+    url: http://192.168.53.77:8095/login/1
+  only:
+    - master
+
+deploy_prod:
+  stage: deploy
+  script:
+    - echo "Pulling Configuration"
+    - "git clone http://gitlab-ci-token:%CI_JOB_TOKEN%@git.yunbaoguan.cn/devops/environment.git || (cd environment; git pull)"
+    - 'call environment\aeo\prod\env.bat'
+    - echo "Deploy to production server"
+    - 'msdeploy
+        -verb:sync
+        -source:package=AEO\Publish\Out\_PublishedWebsites\AEOWeb_Package\AEOWeb.zip
+        -dest:auto,computerName="%DEPLOY_HOST%",userName="%DEPLOY_USERNAME%",password="%DEPLOY_PASSWORD%",authtype="Basic",includeAcls="False"
+        -disableLink:AppPoolExtension
+        -disableLink:ContentExtension
+        -disableLink:CertificateExtension
+        -setParamFile:"environment\aeo\prod\AEOWeb.SetParameters.xml"
+        -allowUntrusted'
+  environment:
+    name: production
+    url: http://aeo.yunbaoguan.cn
+  when: manual
+  only:
+    - master

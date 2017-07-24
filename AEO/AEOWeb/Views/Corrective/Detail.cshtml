@@ -1,0 +1,120 @@
+﻿@{
+    ViewBag.Title = "Detail";
+}
+<div class="row" style="margin: 0 auto; ">
+    <div class="  line-height">
+        <div class="col-xs-6 col-md-6">
+            <span>条：</span> <span>{{list.ClausesName }} </span>
+        </div>
+        <div class="col-xs-6 col-md-6">
+            <span>主办人：</span> <span>{{list.ChargePerson}}</span>
+        </div>
+    </div>
+    <div class="  line-height">
+        <div class="col-xs-6 col-md-6">
+            <span class="Item">整改内容：</span><span class="declaration_enterprise">{{list.Content}}</span>
+        </div>
+        <div class="col-xs-6 col-md-6">
+            <span>审批人：</span> <span>{{list.Auditor}}</span>
+        </div>
+    </div>
+    <div class="  line-height">
+        <div class="col-xs-6 col-md-6">
+            <span> 预计完成日期：</span> <span>{{list.FinishTime}} </span>
+        </div>
+        <div class="col-xs-6 col-md-6">
+            <span> 状　态：</span> <span>{{list.Status | Stats}} </span>
+        </div>
+    </div>
+    <div class="line-height">
+    </div>
+    <div class="row" style="margin: 0 auto; ">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="col-xs-3 ">上传人</th>
+                    <th class="col-xs-3 ">上传日期</th>
+                    <th class="col-xs-3 ">文件名称</th>
+                    <th class="col-xs-3 ">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="obj in  list.Uploads">
+                    <td class="col-xs-3">{{obj.UploadPerson}}</td>
+                    <td class="col-xs-3">{{obj.UploadTime}}</td>
+                    <td class="col-xs-3">{{obj.FileName}}</td>
+                    <td class="col-xs-3"> <button id="download" type="button" class="btn btn-info btn-sm" v-on:click="download(obj.Id ,'/Corrective/FileDownLoad','Id')">下载</button>  </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row" style="margin: 0 auto; ">
+        <h3>操作记录</h3>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="col-xs-4 ">时间</th>
+                    <th class="col-xs-4 ">操作内容</th>
+                    <th class="col-xs-4 ">操作者</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="obj in  list.OperationNotes">
+                    <td class="col-xs-4 ">{{obj.CreateTime}} </td>
+                    <td class="col-xs-4 ">{{obj.Description}}</td>
+                    <td class="col-xs-4 ">{{obj.Operationer}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row" style="margin: 0 auto; ">
+        <a class="btn hfgray" href="@Url.Action("index", "corrective", new { customercompanyid = ViewBag.CompanyID })">返回</a>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+    $(function() {
+        $("#Corrective").attr("class", "active corrective");
+        var vm = new Vue({
+            el: '#content',
+            data: {
+                list: '',
+            },
+            methods: {
+                download: function (ID,url,Id) {
+                    if (ID == "") {
+                        hfalert('还未进行文件上传');
+                    }
+                    else {
+                        iframe(ID,url,Id);
+                    }
+                },
+                //页面初始化加载数据
+                pageLoad: function () {
+                    var _self = this;
+                    $.ajax({
+                        type: 'post',
+                        contentType: 'application/json',
+                        url: '@Url.Content("~/Corrective/GetDetailData/"+ViewBag.CorrectiveTaskID)',
+                        success: function (data) {
+                            var jsonData = JSON.parse(data);
+                            _self.list = jsonData.Obj;
+                        },error:function (data) {
+                            hfalert('请求失败')
+                        }
+                    });
+                }
+            },
+            //页面初始化加载数据调用方法
+            created: function () {
+                this.pageLoad()
+            },
+            mounted: function () {
+                pubload();
+            },
+        });
+    })
+    </script>
+}
+

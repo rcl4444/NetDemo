@@ -1,0 +1,121 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>初始化认证</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/Content/Public/bootstrap.min.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <script src="~/Content/Public/vue.min.js"></script>
+    <script src="~/Content/Public/jquery.js"></script>
+    <script src="~/Content/Public/bootstrap.min.js"></script>
+<style>
+.container {    width:100%;padding:0; font-family:'黑体';}
+.row {margin:0; padding:0;}
+.topnavbar {
+background: url('/Content/image/initialbg.png') no-repeat 50% 50%;
+width:100%;
+margin-bottom:20px;
+}
+.graybg {margin:0 auto;width:80%;height:418px;background:#f5f5f5;  }   
+.elrow {width:50%;margin:0 auto;   }
+.elrow > p {text-align:center;padding:60px 0 75px;font-size:18px;color:#000;width:100%;}
+.elrow > p:before,.elrow > p:after {content:'';width:30%;display:block;border-bottom:1px solid #CDCDCD;height:15px;}
+.elrow > p:before {float:left; }
+.elrow > p:after {float:right }
+.checkare{box-sizing:border-box;width:49%;float:left;background:#fff; cursor:pointer;border:1px solid #CDCDCD;  }
+.checkare h3, .checkare h4 {text-align:center;}
+.checkare h3 {font-size:28px;}
+.checkare h4 {font-size:20px;}
+.selected { 
+border-color:#6b9ef1; 
+background:url('/Content/image/bugle.png') no-repeat right top ; 
+background-color:#fff;
+}
+.ensure {    width:100%;height:68px;background:#6b9ef1;border-radius:0; margin-top:20px;font-size:20px; color:#fff;     border: none; }
+
+ /*公用模态框*/
+#ggmodel .modal-dialog {
+    width: 300px;
+}
+
+#ggmodel .modal-footer {
+    text-align: center;
+}
+
+</style>
+</head>
+<body>
+    <div class="container" id="servicelist">
+        <div class="row topnavbar">                   
+                <h1 class="text-center" style="padding:150px 0px 0px;color:#fff;font-size:34px;">尊敬的客户您好:</h1>
+                <p class="text-center" style="padding-bottom:160px;color:#fff;font-size:20px;">由于您第一次登陆该系统,请选择合适您的AEO业务类型</p>                    
+        </div>
+        <div class="row">
+                <div class="graybg">                       
+                    <div class="elrow"><p>请选择认证类型</p></div>
+                    <div class="elrow" v-for="record in services">                            
+                        <div class="checkare"  v-on:click="changecheck($event,record.serviceurl)" >
+                            <h3>{{record.title}}</h3><h4>{{record.description}}</h4>
+                        </div>                            
+                    </div>
+                    <div class="elrow" >
+                            <button type="button" class="ensure" v-on:click="ensure">确认</button>                              
+                    </div>                           
+                </div>
+        </div>
+    </div>
+<div class="modal fade" id="ggmodel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body text-center"></div>
+            <div class="modal-footer text-center"><button type="button" class="btn btn-info" data-dismiss="modal">确认</button></div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<script>
+    $(function () {
+        function hfalert(msg) {
+            var content = $('#ggmodel');
+            content.find('.modal-body').html(msg);
+            content.modal('show');
+        }
+       
+        var vm = new Vue({
+            el: '#servicelist',
+            data: {  services: [],    urls: ""},
+            methods: {
+                changecheck: function (e, urls) {
+                    $(".checkare").removeClass('selected');
+                    var dom = e.target.closest(".checkare");
+                    $(dom).addClass('selected');
+                    var _self = this;_self.urls = urls;                    
+                },
+                ensure: function () { var _self = this;  window.location.href = 'ChooseService?servicePath=' + _self.urls; }
+            },
+            created: function () {
+                var _self = this;
+                $.ajax({ type: 'GET', url: '/resource/servicelist.json',
+                    success: function (data) {
+                        _self.services = data;
+                        _self.urls = data[0].serviceurl;//默认选中值url                       
+                    }
+                });
+                if ("@ViewBag.Message" != "") { hfalert("@ViewBag.Message"); }
+            },
+            updated: function () {
+                $($('.checkare')[0]).addClass('selected').css('margin-right', '2%');
+            }
+        });
+    });
+</script>
+</body>
+</html>

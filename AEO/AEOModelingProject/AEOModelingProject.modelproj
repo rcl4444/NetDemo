@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{d5ce6b97-0e76-48d5-8674-fb3b653af7f9}</ProjectGuid>
+    <ArchitectureToolsVersion>2.0.0.0</ArchitectureToolsVersion>
+    <Name>AEOModelingProject</Name>
+    <RootNamespace>AEOModelingProject</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(VSToolsPath)\ArchitectureTools\Microsoft.VisualStudio.TeamArchitect.ModelingProject.targets" Condition="'$(VSToolsPath)' != ''" />
+  <ItemGroup>
+    <Content Include="ModelDefinition\Package1_0933.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package1_1547.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package_0932.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package_0933.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package_0934.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package_1547.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="T4\ClassTemplate.t4">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="T4\CSharpCommentHelpers.t4">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="T4\CSharpHelpers.t4">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="T4\CSharpStereotypeHelpers.t4">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="T4\EnumTemplate.t4">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="T4\InterfaceTemplate.t4">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="T4\StructTemplate.t4">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="T4\TemplateHeader.t4">
+      <SubType>Content</SubType>
+    </Content>
+    <Folder Include="ModelDefinition\" />
+    <Content Include="AEOUMLClassDiagram.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="AEOUMLClassDiagram.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>AEOUMLClassDiagram.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="ModelDefinition\AEOModelingProject.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Folder Include="T4\" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,61 @@
+﻿<div class="row" style=" margin: 0 auto;">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th style="width: 10%" class="text-center">预计完成日期</th>
+                <th style="width: 13%" >条</th>
+                <th style="width: 15%" >项</th>
+                <th style="width: 30%" >细项内容</th>
+                <th style="width: 12%" >文件</th>
+                <th style="width: 10%" class="text-center">主办人</th>
+                <th style="width:10%"class="text-center">操作</th>
+            </tr>
+        </thead>
+        <tbody class="refresh_display">
+            <tr v-for="obj in  list.Obj">
+                <td style="width: 10%" class="text-center">{{obj.FinishTime}}</td>
+                <td style="width: 13%">{{obj.ClausesName}}</td>
+                <td style="width: 15%">{{obj.ItemName}}</td>
+                <td style="width: 30%">{{obj.FineItemName}}</td>
+                <td style="width: 12%" >{{obj.Description}}</td>
+                <td style="width: 10%" class="text-center">{{obj.PersonName}}</td>
+                <td style="width: 10%" class="text-center">
+                    <a class="btn btn-info btn-sm editbtn" v-bind:href="['@Url.Action("detail", "fileaudit", new { customercompanyid = ViewBag.CompanyID })/'+obj.Id]" role="button">查看</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+@section scripts{
+    <script>
+        $(function () {
+            $("#FileAudit").attr("class", "active fileaudit")
+            var vm = new Vue({
+                el: '#content',
+                data: {
+                    list: '',
+                },
+                methods: {
+                },
+                created: function () {
+                    var _self = this;
+                    $.ajax({
+                        type: 'post',
+                        contentType: 'application/json',
+                        url: '@Url.Content("~/fileaudit/search")',
+                        success: function (data) {
+                            var list = JSON.parse(data);
+                            checkdataquery(list.Obj);
+                            _self.list = list;
+                        }, error: function (data) {
+                            hfalert('请求失败')
+                        }
+                    });
+                },
+                mounted: function () {
+                    pubload();
+                },
+            })
+        });
+    </script>}

@@ -1,0 +1,332 @@
+﻿<div class="row" style=" margin: 0 auto;">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th class="col-lg-3 col-md-3">细项</th>
+                <th class="col-lg-2 col-md-2">
+                    <div class="checkbox"><label style="font-weight: bold;"><input type="checkbox" class="allcheck" v-on:click="checkAll()" >文件要求</label></div>
+                </th>
+                <th class="col-lg-2 col-md-2">建议文件名</th>
+                <th class="col-lg-1 col-md-1 text-center">主办人</th>
+                <th class="col-lg-1 col-md-1 text-center">审核人</th>
+                <th class="col-lg-3 col-md-3 text-center" colspan="2">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="fineitem in fineitems">
+                <td v-if="fineitem.rowspan>0" v-bind:rowspan="fineitem.rowspan">{{fineitem.FineItemName}}</td>
+                <td>
+                    <div v-if="fineitem.FileRequireID" class="checkbox"><label><input class="singlecheck" name="filerequireid" type="checkbox" v-on:click="checkSingle" v-bind:value="fineitem.FileRequireID">{{fineitem.Description}}</label></div>
+                </td>
+                <td>{{fineitem.SuggestFileName}}</td>
+                <td class="text-center">{{fineitem.ChargePersonName}}</td>
+                <td class="text-center">{{fineitem.ReviewerPersonName}}</td>
+                <td class="text-center" v-if="fineitem.FileRequireID">
+                    <button type="button" class="btn btn-info  btn-sm itemedit" v-if="fineitem.FileRequireID" data-toggle="modal" data-target="#addfileModal" v-on:click="editfine(fineitem)">编辑</button>
+                    <button type="button" class="btn btn-info  btn-sm itemset" data-toggle="modal" data-target="#setfiletask" v-on:click="taskSet(fineitem)">布置任务</button>
+                    <button type="button" class="btn hfgray btn-sm itemdel" v-if="fineitem.FileRequireID" v-on:click="delfine(fineitem.FileRequireID)">删除</button>
+                </td>
+                <td class="text-center" v-if="fineitem.rowspan>0" v-bind:rowspan="fineitem.rowspan">
+                    <button type="button" class="btn btn-info btn-sm itemadd" data-toggle="modal" data-target="#addfileModal" v-on:click="addfine(fineitem)">增加文件要求</button>
+                </td>
+            <tr>
+        </tbody>
+    </table>
+    <div class="page-end">
+        <button type="button" class="btn btn-info itemall" data-toggle="modal" v-on:click="batchtaskSet">批量布置任务</button>
+        <a class="btn hfgray" href="@Url.Action("","item",new { customercompanyid = ViewBag.CompanyID})" role="button">返回</a>
+    </div>
+</div>
+
+<!-- 模态框（Modal）布置任务 -->
+<div class="modal fade" id="setfiletask" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form role="form" id="finesetform">
+                    <div class="form-group">
+                        <label for="finishTime">预计完成日期:</label>
+                        <input type="text" class="form-control" id="finishTime" name="finishTime">
+                    </div>
+                    <div class="form-group">
+                        <label for="chargePersonID">主办人:</label>
+                        <select class="form-control personlist hid_trgle" id="chargePersonID" name="chargePersonID" onchange="$(this).css('appearance', 'none')"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="reviewerPersonID">审核人:</label>
+                        <select class="form-control personlist" id="reviewerPersonID" name="reviewerPersonID"></select>
+                    </div>
+                    <button type="button" class="btn btn-info" v-on:click="submitSet">确认</button>
+                    <button type="button" class="btn hfgray" data-dismiss="modal">取消</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 模态框（Modal 增加文件要求 -->
+<div class="modal fade" id="addfileModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form role="form" id="postform">
+                    <div class="form-group">
+                        <label for="name">文件要求:</label>
+                        <input type="text" class="form-control" id="relname" name="Description" v-model="define.Description" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="consotname">建议文件名:</label>
+                        <input type="text" class="form-control" id="consotname" name="SuggestFileName" v-model="define.SuggestFileName" placeholder="">
+                    </div>
+                    <button type="button" class="btn btn-info" v-on:click="ensureadd">提交</button>
+                    <button type="button" class="btn hfgray" data-dismiss="modal">关闭</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div><!-- /.modal-content -->
+
+@section scripts{
+    <link href="@Url.Content("~/Content/Public/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Content/Public/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js")"></script>
+    <script src="@Url.Content("~/Content/Public/bootstrap-datetimepicker/bootstrap-datetimepicker.zh-CN.js")"></script>
+    <script>
+        function formatData(data) {
+            var result = [];
+            for (var i = 0; i < data.length; i++) {
+                var fineitem = data[i];
+                var ii = 0;
+                do {
+                    var file = fineitem.FileRequires.length == 0 ? {} : fineitem.FileRequires[ii];
+                    var record = {};
+                    record.rowspan = ii == 0 ? fineitem.FileRequires.length == 0 ? 1 : fineitem.FileRequires.length : 0;
+                    record.FineItemID = fineitem.FineItemID;
+                    record.FineItemName = fineitem.FineItemName;
+                    record.FileRequireID = file.fileRequireID ;
+                    record.Description = file.Description;
+                    record.SuggestFileName = file.SuggestFileName;
+                    record.FinishTime = file.FinishTime;
+                    record.ReviewerPersonID = file.ReviewerPersonID;
+                    record.ReviewerPersonName = file.ReviewerPersonName;
+                    record.ChargePersonID = file.ChargePersonID;
+                    record.ChargePersonName = file.ChargePersonName;
+                    result.push(record);
+                    ii++;
+                } while (ii < fineitem.FileRequires.length);
+            }
+            return result;
+        };
+        $(function () {
+            var vm = new Vue({
+                el: '#content',
+                data: {
+                    fineitems: [],
+                    filerequireID: null,
+                    define: { id: "", Description: "", SuggestFileName: "" },
+                },
+                methods: {
+                    pageLoad: function () {
+                            var _self = this;
+                            ggajax('@Url.Content("~/item/getfineitemlist?itemid="+ViewBag.ItemID)', "", function (data) {
+                                if (data.Success) {
+                                _self.fineitems = formatData(data.Obj);
+                            }
+                            else {
+                                hfalert(data.Message);
+                            }
+                        });
+                        pubuserlist('.personlist');
+                    },
+                    checkAll: function (e) {
+                        var flag = $('.allcheck').prop('checked');
+                        $(".singlecheck").each(function () {
+                            if (!flag) {
+                                $(this).prop('checked', false);
+                            } else {
+                                $(this).prop('checked', true);
+                            }
+                        });
+                    },
+                    checkSingle: function () {
+                        var flag = true;
+                        $(".singlecheck").each(function () {
+                            if (!$(this).prop('checked')) {  flag = false; };
+                        });
+                        if (flag) {
+                            $('.allcheck').prop('checked', true);
+                        } else {
+                            $('.allcheck').prop('checked', false);
+                        };
+                    },
+                    batchtaskSet: function () {
+                        $('.hid_trgle').css('appearance', 'menulist');
+                        $('#finesetform').data('bootstrapValidator').resetForm(true);
+
+                        if ($("input[name='filerequireid']:checked").length == 0) {
+                            hfalert("请选择要设置的项");
+                        }
+                        else {
+                            $("#setfiletask").modal('show');
+                            $("#finishTime").val("");
+                            $("#chargePersonID").find("option[value='']").attr("selected", true);
+                           $("#reviewerPersonID").find("option[value='']").attr("selected", true);
+                            filerequireID = null;
+                        }
+                    },
+                    taskSet: function (row) {
+                        $('.hid_trgle').css('appearance', 'menulist');
+                        $('#finesetform').data('bootstrapValidator').resetForm(true);
+
+                        $("#finishTime").val(row.FinishTime);
+                        filerequireID = row.FileRequireID;
+                        $("#chargePersonID").val(row.ChargePersonID);
+                        $("#reviewerPersonID").val(row.ReviewerPersonID);
+                     },
+                    submitSet: function () {
+                        var result = "";
+                        if (filerequireID === null) {
+                            $("input[name='filerequireid']:checked").each(function (n, value) {
+                                if (result == "") {
+                                    result = $(value).val();
+                                }
+                                else {
+                                    result = result + "," + $(value).val();
+                                }
+                            });
+                        }
+                        else {  result = filerequireID;  }
+                        var pageload = this.pageLoad;
+                        $("#finesetform").data('bootstrapValidator').validate();
+                        if ($('#finesetform').data('bootstrapValidator').isValid()) {
+                            ggajax('@Url.Content("~/item/setchargeandreviewer")', {
+                                id: result,
+                                reviewerPersonID: $("#reviewerPersonID").val(),
+                                chargePersonID: $("#chargePersonID").val(),
+                                finishTime: $("#finishTime").val()
+                            }, function (data) {
+                                if (data.Success) {
+                                   // hfalert(data.Message);
+                                    pageload();
+                                    $(".allcheck").prop('checked', false);
+                                    $(".singlecheck").prop('checked', false);
+                                    $("#setfiletask").modal('hide');
+                                } else { hfalert(data.Message); }
+                            });
+                        };
+                    },
+                    delfine: function (id) {
+                        var _self = this;
+                        var callback = function (data) {
+                            if (data.Success == 1) {
+                               // hfalert(data.Message);
+                                _self.pageLoad();
+                            } else { hfalert(data.Message); };
+                        };
+                        ggajax('@Url.Content("~/clauses/delfilerequire")', { id: id }, callback);
+                    },
+                    addfine: function (fine) {
+                        $('#postform').data('bootstrapValidator').resetForm(true);//表单重置
+                        var _self = this;
+                        clearobj(_self.define);
+                        _self.define.url = '@Url.Content("~/clauses/addfilerequire")';
+                        _self.define.id = fine.FineItemID;
+                    },
+                    editfine: function (row) {
+                        $('#postform').data('bootstrapValidator').resetForm(true);//表单重置
+                        var _self = this;
+                        clearobj(_self.define);
+                        _self.define.id = row.FileRequireID;
+                        _self.define.Description = row.Description;
+                        _self.define.SuggestFileName = row.SuggestFileName;
+                        _self.define.url = '@Url.Content("~/clauses/UpdateFileRequire")';
+                    },
+                    ensureadd: function () {
+                        if ($('#postform').data('bootstrapValidator').isValid()) {
+                            var _self = this;
+                            var callback = function (data) {
+                               // hfalert(data.Message);
+                                if (data.Success == 1) {
+                                    $('#addfileModal').modal('hide');
+                                    _self.pageLoad();
+                                } else { hfalert(data.Message); };
+                            };
+                            ggajax(_self.define.url, _self.define, callback);
+                        } else {
+                            $('#postform').data('bootstrapValidator').validate()
+                        }
+                    }
+                },
+                created: function () {
+                        $("#Macro_allocation").attr("class", "active item");
+                    this.pageLoad();
+                },
+                mounted: function () {
+                    pubload();
+                    //时间插件
+                    $('#finishTime').datetimepicker({
+                        language: 'zh-CN',
+                        format: 'yyyy-mm-dd',
+                        weekStart: 1,
+                        autoclose:true,
+                        minView: 2,
+                        todayBtn: false,
+                        keyboardNavigation: false,
+                        todayButton: false,
+                        startDate: "@ViewBag.CreateTime"
+                    }).on('hide', function (e) {
+                        $("#finesetform").data('bootstrapValidator').updateStatus('finishTime', 'NOT_VALIDATED').validateField('finishTime');
+                    });
+                    //布置任务 表单验证
+                    $('#finesetform').bootstrapValidator({
+                        message: 'This value is not valid',
+                        feedbackIcons: {
+                            valid: 'glyphicon glyphicon-ok',
+                            invalid: 'glyphicon glyphicon-remove',
+                            validating: 'glyphicon glyphicon-refresh'
+                        },
+                        excluded: [':disabled'],
+                        fields: {
+                            finishTime: {
+                                message: 'is not valid', validators: {
+                                    date: {
+                                        format: 'YYYY-MM-DD',
+                                        message: '日期格式不正确'
+                                    },
+                                    notEmpty: { message: '不能为空' },
+                                    callback: {
+                                        message: '完成日期应大于当前日期',
+                                        callback: function (value) {
+                                            var startDate = Date.parse("@ViewBag.CreateTime");
+                                            value = Date.parse(new Date(value));
+                                            return value >= startDate;
+                                        }
+                                    }
+                                }
+                            },
+                            chargePersonID: { message: ' is not valid', validators: { notEmpty: { message: '不能为空' } } }
+                        }
+                    });
+                    //文件要求 文件建议名 表单验证
+                    $('#postform').bootstrapValidator({
+                        message: 'This value is not valid',
+                        feedbackIcons: {
+                            valid: 'glyphicon glyphicon-ok',
+                            invalid: 'glyphicon glyphicon-remove',
+                            validating: 'glyphicon glyphicon-refresh'
+                        },
+                        excluded: [':disabled'],
+                        fields: {
+                            Description: {
+                                validators: { notEmpty: { message: '不能为空' } }
+                            },
+                            SuggestFileName: {
+                                validators: { notEmpty: { message: '不能为空' } }
+                            }
+                        }
+                    });
+                }
+            });
+        })
+    </script>
+}

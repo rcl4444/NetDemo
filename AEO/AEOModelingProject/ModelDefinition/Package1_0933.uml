@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="582ad58d-1be8-4d0f-bf8b-664a13a28182"
+  name="Domain"
+  visibility="Private" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <referencesInternal>
+    <reference
+      Id="1d37eebf-4ace-47dd-bbf5-26e285c5cffa"
+      handle="viewcode://./CodeSchema_Namespace?Namespace%3DAOEPoco.Domain"
+      tag="ViewCode" />
+  </referencesInternal>
+  <packagedElements>
+    <packageHasNamedElement>
+      <enumeration
+        Id="e6edd005-43d4-4c8f-bf95-255e0882db92"
+        name="ScoreLevel"
+        isAbstract="false"
+        isLeaf="false">
+        <referencesInternal>
+          <reference
+            Id="eb25418e-408b-41cb-a0f5-12d1dece0fc6"
+            handle="viewcode://./CodeSchema_Enum?Assembly%3Dfile:%2F%2F%2FD:%2FProject%2FSource%2FProject%2FAEO%2FAEOPoco%2Fbin%2FDebug%2FAOEPoco.dll Namespace%3DAOEPoco.Domain Type%3DScoreLevel"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="d8428081-5647-4f89-a65e-62d0132af14b"
+            name="enum"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="6f05f7fb-3e09-4cc3-ba86-bbdcfc1e86af">
+                <propertyInstance
+                  Id="aa15a1c5-0a9e-4ed6-a205-0545572f03c6"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="670e76f5-b391-4d7c-adfd-710615069c9a">
+                <propertyInstance
+                  Id="78fce36c-482d-47fe-8735-758bfbd9af6c"
+                  name="BaseType"
+                  value="int" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="04775526-cec6-4f30-9f76-92140441d558">
+                <propertyInstance
+                  Id="b160ea6b-9672-4737-bef4-3904de4145c8"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <ownedLiterals>
+          <enumerationLiteral
+            Id="f16f6dc9-7b45-4e7c-ae5f-3eaeb42de8f8"
+            name="NotApplicable">
+            <referencesInternal>
+              <reference
+                Id="5297caf6-1cda-4c22-9288-6bdf51a5ce37"
+                handle="viewcode://./CodeSchema_Field?Assembly%3Dfile:%2F%2F%2FD:%2FProject%2FSource%2FProject%2FAEO%2FAEOPoco%2Fbin%2FDebug%2FAOEPoco.dll Namespace%3DAOEPoco.Domain Type%3DScoreLevel Member%3DNotApplicable"
+                tag="ViewCode" />
+            </referencesInternal>
+          </enumerationLiteral>
+          <enumerationLiteral
+            Id="5c191be3-ff96-448c-a4b9-52b8fa83efb3"
+            name="Substandard">
+            <referencesInternal>
+              <reference
+                Id="f2bf4b70-8b16-4899-8361-21a670245f53"
+                handle="viewcode://./CodeSchema_Field?Assembly%3Dfile:%2F%2F%2FD:%2FProject%2FSource%2FProject%2FAEO%2FAEOPoco%2Fbin%2FDebug%2FAOEPoco.dll Namespace%3DAOEPoco.Domain Type%3DScoreLevel Member%3DSubstandard"
+                tag="ViewCode" />
+            </referencesInternal>
+          </enumerationLiteral>
+          <enumerationLiteral
+            Id="e23f53fd-e8c0-4dc3-894e-2ed2e0b08068"
+            name="PartiallyCompliant">
+            <referencesInternal>
+              <reference
+                Id="83c7287c-a9fe-430a-9bae-f0c131e14b7f"
+                handle="viewcode://./CodeSchema_Field?Assembly%3Dfile:%2F%2F%2FD:%2FProject%2FSource%2FProject%2FAEO%2FAEOPoco%2Fbin%2FDebug%2FAOEPoco.dll Namespace%3DAOEPoco.Domain Type%3DScoreLevel Member%3DPartiallyCompliant"
+                tag="ViewCode" />
+            </referencesInternal>
+          </enumerationLiteral>
+          <enumerationLiteral
+            Id="752666fb-8a5b-4e4a-bd7d-8a743d4970f1"
+            name="ReachStandard">
+            <referencesInternal>
+              <reference
+                Id="e9969bdd-ffc0-430d-b609-8aee7596b286"
+                handle="viewcode://./CodeSchema_Field?Assembly%3Dfile:%2F%2F%2FD:%2FProject%2FSource%2FProject%2FAEO%2FAEOPoco%2Fbin%2FDebug%2FAOEPoco.dll Namespace%3DAOEPoco.Domain Type%3DScoreLevel Member%3DReachStandard"
+                tag="ViewCode" />
+            </referencesInternal>
+          </enumerationLiteral>
+        </ownedLiterals>
+      </enumeration>
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

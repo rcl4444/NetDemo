@@ -1,0 +1,69 @@
+﻿<div class="row" style="margin:0 auto;">
+    <table class="table table-bordered table-striped ">
+        <thead>
+            <tr>
+                <th style="width:25%;text-align:left;" >类</th>
+                <th style="width:45%;text-align:left;">条款</th>
+                <th style="width:10%;text-align:center;">条负责人</th>
+                <th style="width:10%;text-align:center;">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="item in clausesquery">
+                <td v-if="item.rowspan>0" v-bind:rowspan="item.rowspan" style="text-align:left; vertical-align: top;">{{item.OutlineClassName}}</td>
+                <td>{{item.ClausesName}}</td>
+                <td  class="text-center">{{item.PersonName}}</td>
+                <td class="text-center">
+                    <a class="btn btn-info btn-sm claubtn" v-bind:href="['@Url.Action("detail", "clauses", new { customercompanyid = ViewBag.CompanyID })/'+item.Id]">设置</a>
+                </td>
+            <tr>
+        </tbody>
+    </table>
+</div>
+
+@section scripts{
+    <script>
+        function formatData(data) {
+            var result = [];
+            for (var i = 0; i < data.length; i++) {
+                var item = data[i];
+                for (var ii = 0; ii < item.item.length; ii++) {
+                    var record = {};
+                    record.rowspan = ii == 0 ? item.item.length : 0;
+                    record.OutlineClassName = item.OutlineClassName;
+                    record.Id = item.item[ii].Id;
+                    record.ClausesName = item.item[ii].ClausesName;
+                    record.PersonID = item.item[ii].PersonID;
+                    record.PersonName = item.item[ii].PersonName;
+                    result.push(record);
+                };
+            };
+            return result;
+        };
+        var vm = new Vue({
+            el: '#content',
+            data: {
+                clausesquery: []
+            },
+            methods: {
+                refurbish: function () {
+                    var _self = this;
+                    var url = "@Url.Content("~/clauses/searchclauses")";
+                    var callback = function (data) {
+                        if (data.Success == 1) {
+                            _self.clausesquery = [];
+                            _self.clausesquery = formatData(data.Obj);
+                            checkdataquery(_self.clausesquery);
+                        }
+                    };
+                    ggajax(url, "", callback);
+                }
+            },
+            created: function () {
+                this.refurbish();
+                $("#distribution").addClass("active");
+            },
+            mounted: function () { pubload(); }
+        });
+    </script>
+}

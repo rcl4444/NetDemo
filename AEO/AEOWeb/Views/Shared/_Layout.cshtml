@@ -1,0 +1,857 @@
+﻿@{
+    Layout = null;
+    List<string> module = ViewBag.Module;
+}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="@Url.Content("~/Content/Public/bootstrap.min.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/Public/bootstrapValidator.min.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Content/Public/jquery.js")"></script>
+    <script src="@Url.Content("~/Content/Public/bootstrap.min.js")"></script>
+    <script src="@Url.Content("~/Content/Public/bootstrapValidator.min.js")"></script>
+    <script src="@Url.Content("~/Content/Public/vue.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/ajaxfileupload.js")"></script>
+    <!--[if lt IE 9]>
+         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+         <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+      <![endif]-->
+    <style type="text/css">
+            #content {
+                padding-top: 30px;
+            }
+            /*凡是拥有rowspan属性的td就设背景颜色（合并单元格处颜色不统一问题）*/
+            table tr td[rowspan] {
+                background-color: #f9f9f9
+            }
+
+            .line_tab {
+                background: -webkit-linear-gradient(#008DEC, #0093F5); /* Safari 5.1 - 6.0 */
+                background: -o-linear-gradient(#008DEC, #0093F5); /* Opera 11.1 - 12.0 */
+                background: -moz-linear-gradient(#008DEC, #0093F5); /* Firefox 3.6 - 15 */
+                background: linear-gradient(#008DEC, #0093F5); /* 标准的语法 */
+            }
+
+            .line_top {
+                background: -webkit-linear-gradient(#007CD5, #008DEC); /* Safari 5.1 - 6.0 */
+                background: -o-linear-gradient(#007CD5, #008DEC); /* Opera 11.1 - 12.0 */
+                background: -moz-linear-gradient(#007CD5, #008DEC); /* Firefox 3.6 - 15 */
+                background: linear-gradient(#007CD5, #008DEC); /* 标准的语法 */
+            }
+
+            .line_top, .line_tab {
+                color: #fff;
+                border: none;
+            }
+
+            .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover {
+                border: none;
+            }
+
+            .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+                border: none;
+            }
+
+            .nav-tabs {
+                border: none;
+            }
+
+            .nav-tabs > li {
+                margin-left: 4px;
+                margin-bottom: 0px;
+            }
+            .nav-tabs > li:first-child { margin-left:0;}
+
+            .nav-tabs > li > a {
+                border: none;
+                color: #fff;
+                background-color: #5ABBFF;
+                border-radius: 0;
+                font-size: 16px;
+                padding: 6px 34px;
+            }
+
+            .nav-tabs > li > a:hover {
+                background-color: #DAE4EB;
+                color: #000;
+            }
+            /*.hfactive{background-color:#fff;color:#000;}*/
+            /*表格行高问题*/
+            .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+                padding: 2px;
+                vertical-align: inherit;
+                word-break: break-all;
+                word-break:break-word;
+                word-wrap: break-word;
+
+            }
+
+            .page-header {
+                margin: 0;
+            }
+            /*表格头部背景色*/
+            .table > thead > tr {
+                background-color: #ccc;
+            }
+
+            /*自定义按钮*/
+            .hfbtn {
+                background: #4e7add;
+                border-color: #4e7add;
+                color: #fff;
+            }
+
+            .hfbtn:hover {
+                background: #598bfc;
+                color: #fff;
+            }
+
+            .hfgray {
+                background: #f9f9f9;
+                border-color: #ccc;
+                color: #000;
+            }
+
+            .hfgray:hover:enabled {
+                background: #999;
+                color: #fff;
+            }
+
+            .hfred {
+                background: #ff324a;
+                border-color: #ff324a;
+                color: #fff;
+            }
+
+            .hfred:hover {
+                background: #d92238;
+                color: #fff;
+            }
+
+            /*去除checkbox 外边距样式*/
+            .checkbox, .radio {
+                margin: 0px;
+            }
+            /*详情页公共行高*/
+            .line-height {
+                height: 40px;
+                line-height: 40px;
+                font-size: 16px;
+            }
+            /*公用模态框*/
+            #ggmodel .modal-dialog {
+                width: 300px;
+            }
+
+            #ggmodel .modal-footer {
+                text-align: center;
+            }
+            /*所有tab字体*/
+            .table {
+                font-size: 14px;
+            }
+
+            .Item {
+                float: left;
+            }
+
+            /*文字超出不换行隐藏*/
+            .declaration_enterprise {
+                width: 70%;
+                display: inline-block;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+            }
+            /*渲染前不友好显示
+            [v-cloak] {
+                display: none;
+            }*/
+            /*没有数据 - 提示*/
+            .ensconce {
+                height: 80px;
+                line-height: 80px;
+                text-align: center;
+            }
+            /*甘忒图公共样式超出自动换行*/
+            .gTaskNotes {
+                word-wrap: break-word;
+                white-space: pre-wrap;
+            }
+
+            /*footer*/
+            #footer {
+                background-color: #2D4253;
+                font-size: 16px;
+                height: 58px;
+                line-height: 58px;
+                overflow: hidden;
+            }
+
+            #footer ul.footnav {
+                list-style: none;
+            }
+
+            #footer ul.footnav li {
+                list-style: none;
+                display: inline;
+                padding: 0 20px;
+            }
+
+            #footer ul.footnav li a {
+                color: #fff;
+                text-decoration: none;
+            }
+
+            #footer ul.footnav li:not(:last-child) {
+                border-right: 1px solid #87827E;
+            }
+
+            .info {
+                color: #fff;
+            }
+
+            .info span.tel {
+                font-size: 14px;
+                color: #87827E;
+            }
+
+            .info span.num {
+                font-weight: 600;
+            }
+
+            .show {
+                width:50%;
+                height: 40px;
+                position: relative;
+                float: left;
+                z-index: 1020;
+            }
+
+            .Change_password {
+                width: 140px;
+                text-align: center;
+                list-style-type: none;
+                background-color: #fff;
+                display: block;
+                padding: 0;
+                float: right;
+            }
+
+            .Change_password_ul {
+                display: none;
+                position: relative;
+
+            }
+
+            .show ul li {
+             /*   width: 120px;*/
+                padding: 5px 10px;
+                font-weight: 400;
+                color: #141414;
+                white-space: nowrap;
+                border-bottom: 1px solid #dfdfdf;
+                margin: 0 auto;
+            }
+
+            .Change_password li a {
+                text-decoration: none;
+                cursor: pointer;
+                text-align: left;
+            }
+            .show h4 {
+             /*   width: 200px;*/
+                height: 25px;
+                padding: 4px 22px;
+                cursor: pointer;
+                margin: 0;
+
+            }
+            .nobr{
+                overflow:hidden;
+                word-break:keep-all;
+                white-space:nowrap;
+                text-overflow:ellipsis;
+            }
+            .show h4.bgup {
+                /*  color: #008DEC;*/
+                background: url("@Url.Content("~/Content/image/pulldown1.png")") no-repeat 96% center;
+                /*  background:url("/Content/image/pulldown.png") no-repeat 93% center;*/
+                /* background-color: #fff;*/
+            }
+
+            .show h4.bgdown {
+                color: #fff;
+                background: url("@Url.Content("~/Content/image/pulldown1.png")") no-repeat 96% center;
+            }
+
+            .guidance {
+                float: left;
+                cursor: pointer;
+                display: inline-block;
+                position: relative;
+                padding: 0px 10px;
+            }
+    </style>
+    @RenderSection("headscripts", required: false)
+</head>
+<body>
+    <div class="container" style="width:100%;" id="header">
+        <div class="row line_top ">
+            <div class="container">
+                <div class="col-xs-5" style="margin-left: -30px;">
+                    <h3  class="nobr">@ViewBag.CompanyName</h3>
+                </div>
+                <div class="col-xs-6  pull-right text-right">
+                    <div class="row " style=" margin-top: 20px;  margin-bottom: 10px;">
+                        @*@ViewBag.IsManager*@
+                        <a class="guidance pull-right" href="@Url.Content("~/logout")" >
+                            <img src="@Url.Content("~/Content/image/logout.png")" class="guidance"  style="margin-top: 2px;"/>
+                            <h4 style="float:left;color:#fff; margin-top: 3px;">退出</h4>
+                        </a>
+                        <a   onclick="logteach(true,false)" class="pull-right guidance"  >
+                            <img  class="guidance" style="margin-top: 2px;" src="@Url.Content("~/Content/image/guidance.png")" alt="">
+                            <h4 style="float: right;color:#fff; margin-top: 3px; cursor: pointer; padding-right:25px ;border-right: 2px solid #ddd">引导</h4>
+                        </a>
+                        <div class="show  pull-right ">
+                            <h4 class="bgdown nobr">你好 @ViewBag.PersonName</h4>
+                            <ul class="Change_password Change_password_ul">
+                                <li>
+                                    <a href="@Url.Action("ChangePassWord","user",new { customercompanyid = ViewBag.CompanyID })">修改密码</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row line_tab ">
+            <div class="container" style="padding-left:0;">
+                <ul id="myTab" class=" nav nav-tabs">
+                    <li id="home_page" class="home_page"><a href="@Url.Action("index","home",new { customercompanyid = ViewBag.CompanyID })">首页</a></li>
+                    @if (module.Contains("deparement"))
+                    {
+                        <li id="Department" class="Department"><a href="@Url.Action("index","deparement",new { customercompanyid = ViewBag.CompanyID })">部门</a></li>
+                    }
+                    @if (module.Contains("user"))
+                    {
+                        <li id="user" class="user"><a href="@Url.Action("index","user",new { customercompanyid = ViewBag.CompanyID })">用户</a></li>
+                    }
+                    @if (module.Contains("clauses"))
+                    {
+                        <li id="distribution" class="distribution"><a href="@Url.Action("index","clauses",new { customercompanyid = ViewBag.CompanyID })">条分配</a></li>
+                    }
+                    @if (module.Contains("item"))
+                    {
+                        <li id="Macro_allocation" class="item"><a href="@Url.Action("index","item",new { customercompanyid = ViewBag.CompanyID })">项分配</a></li>
+                    }
+                    @if (module.Contains("fileuploadrequire"))
+                    {
+                        <li id="FileUploadRequire" class="fileup"><a href="@Url.Action("index","fileuploadrequire",new { customercompanyid = ViewBag.CompanyID })">待办</a></li>
+                    }
+                    @if (module.Contains("fileaudit"))
+                    {
+                        <li id="FileAudit" class="fileaudit"><a href="@Url.Action("index","fileaudit",new { customercompanyid = ViewBag.CompanyID })">待审</a></li>
+                    }
+                    @if (module.Contains("itemscore"))
+                    {
+                        <li id="ItemScore" class="itemscore"><a href="@Url.Action("index","itemscore",new { customercompanyid = ViewBag.CompanyID })">待评分</a></li>
+                    }
+                    <li id="Corrective" class="corrective"><a href="@Url.Action("index","corrective",new { customercompanyid = ViewBag.CompanyID })">整改</a></li>
+                    <li id="Center" class="center"><a href="@Url.Action("index","center",new { customercompanyid = ViewBag.CompanyID })">帮助中心</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+@*min-height:750px;*@
+    <div id="content" class="container" style="display:none; padding-right: 0;padding-left:0;padding-top:0px;overflow-y:auto;margin-bottom:15px;margin-top:15px;">
+        @RenderBody()
+    </div>
+
+    <!--hfalert 提示框弹出-->
+    <div class="modal fade" id="ggmodel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body text-center"></div>
+                <div class="modal-footer text-center"><button type="button" class="btn btn-info" data-dismiss="modal">确认</button></div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <!--脚部公用部分-->
+    <div class="container" style="width:100%; display: none;" id="footer">
+        <div class="row">
+            <div class="container">
+              @*  <div class="pull-right info">
+                    <span class="tel">联系电话:</span><span class="num">400-888-8888</span>
+                </div>*@
+                <ul class="text-center footnav">
+                    <li><a href="@Url.Action("index","center",new { customercompanyid = ViewBag.CompanyID })">帮助中心</a></li>
+                    <li><a href="@Url.Action("index","Feedback",new { customercompanyid = ViewBag.CompanyID })">意见反馈</a></li>
+                    <li><a href="@Url.Action("index","ContactUs",new { customercompanyid = ViewBag.CompanyID })">联系我们</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <script>
+         /******************************************教学模式-****************************/
+        //teachsteps 包含所有引导动作
+        var teachsteps = [
+                   { model: "homepage", url: '@Url.Action("index","home",new { customercompanyid = ViewBag.CompanyID })', domname: "home_page", imgname: "teach1.png", direc: "title", domname2: "", imgname2: ""},
+                   { model: "deparement", url: '@Url.Action("index","deparement",new { customercompanyid = ViewBag.CompanyID })', domname: "Department", imgname: "depar.png", domname2: "", imgname2: "",  direc: "title" },//部门
+                   { model: "deparement", url: '@Url.Action("index","deparement",new { customercompanyid = ViewBag.CompanyID })', domname: "deparedit", imgname: "edit.png", domname2: "", imgname2: "", direc: "right" },//部门 删除 编辑
+                   { model: "deparement", url: '@Url.Action("index","deparement",new { customercompanyid = ViewBag.CompanyID })', domname: "deparbtn", imgname: "add_depar.png", domname2: "", imgname2: "",  direc: "left" },//部门新增
+                   { model: "user", url: '@Url.Action("index","user",new { customercompanyid = ViewBag.CompanyID })', domname: "user", imgname: "user.png", domname2: "", imgname2: "",  direc: "title" },//用户
+                   { model: "user", url: '@Url.Action("index","user",new { customercompanyid = ViewBag.CompanyID })', domname: "userbtn", imgname: "add_user.png", domname2: "", imgname2: "",  direc: "left" },//用户新增
+                   { model: "user", url: '@Url.Action("index","user",new { customercompanyid = ViewBag.CompanyID })', domname: "useredit", imgname: "edit.png", domname2: "", imgname2: "",  direc: "right" },//用户编辑
+                   { model: "clauses", url: '@Url.Action("index","clauses",new { customercompanyid = ViewBag.CompanyID })', domname: "distribution", imgname: "clause.png", domname2: "", imgname2: "",  direc: "title" },//条分配
+                   { model: "clauses", byurl: 'false', url: '@Url.Action("index","clauses",new { customercompanyid = ViewBag.CompanyID })', domname: "claubtn", imgname: "clause_set.png", domname2: "", imgname2: "", direc: "right" },//条设置
+                   { model: "clauses", url: 'click', domname: "clauscore", imgname: "scoreset.png", domname2: "", imgname2: "",  direc: "right" },//条 设置 设置评分人
+                   { model: "clauses", url: 'click', domname: "clauscoreall", imgname: "scoresetall.png", domname2: "true", imgname2: "checkall.png", direc: "up" },//条 设置 批量设置评分人
+                   { model: "clauses", url: 'click', domname: "clauselc", imgname: "select.png", domname2: "", imgname2: "", direc: "up" },//条 设置 下拉框
+
+                   { model: "item", url: '@Url.Action("index","item",new { customercompanyid = ViewBag.CompanyID })', domname: "item", imgname: "item.png", domname2: "", imgname2: "",  direc: "title" },//项
+                   { model: 'item', byurl: 'false', url: '@Url.Action("index","item",new { customercompanyid = ViewBag.CompanyID })', domname: "itembtn", imgname: "add_filerequire.png", domname2: "", imgname2: "", direc: "right" },//项 布置任务
+                   { model: "item", url: 'click', domname: "itemset", imgname: "item_set.png", domname2: "", imgname2: "", direc: "right" },//项布置任务
+                   { model: "item", url: 'click', domname: "itemall", imgname: "itemsetall.png", direc: "up", domname2: "true", imgname2: "checkall.png", direc2: "left" },//项 布置任务 全选
+
+                   { model: "fileup", url: '@Url.Action("index","fileuploadrequire",new { customercompanyid = ViewBag.CompanyID })', domname: "fileup", imgname: "fileup.png", domname2: "", imgname2: "", direc: "title" },//待办
+                   { model: "fileup", url: '@Url.Action("index","fileuploadrequire",new { customercompanyid = ViewBag.CompanyID })', domname: "fileupbtn", imgname: "detial.png", domname2: "", imgname2: "",  direc: "right" },//待办查看
+
+                   { model: "fileaudit", url: '@Url.Action("index","fileaudit",new { customercompanyid = ViewBag.CompanyID })', domname: "fileaudit", imgname: "fileaudit.png", domname2: "", imgname2: "", direc: "title" },//待审
+                   { model: "fileaudit", url: '@Url.Action("index","fileaudit",new { customercompanyid = ViewBag.CompanyID })', domname: "editbtn", imgname: "filedetial.png",domname2: "", imgname2: "",   direc: "right" },//待审查看
+
+                   { model: "itemscore", url: '@Url.Action("index","itemscore",new { customercompanyid = ViewBag.CompanyID })', domname: "itemscore", imgname: "itemscore.png", domname2: "", imgname2: "", direc: "title" },//评分
+                   { model: "itemscore", url: '@Url.Action("index","itemscore",new { customercompanyid = ViewBag.CompanyID })', domname: "scorebtn", imgname: "scoredetial.png",domname2: "", imgname2: "",   direc: "right" },//评分查看
+
+                   { model: "tive", url: '@Url.Action("index","corrective",new { customercompanyid = ViewBag.CompanyID })', domname: "corrective", imgname: "tive.png", domname2: "", imgname2: "", direc: "title" },//整改
+                   //{ model: "tive", url: '@Url.Action("index","corrective",new { customercompanyid = ViewBag.CompanyID })', domname: "addcbtn", imgname: "teach_up.png", domname2: "", imgname2: "",  direc: "up" },//整改新增
+                   //{ model: "tive", url: '@Url.Action("index","corrective",new { customercompanyid = ViewBag.CompanyID })', domname: "finshcbtn", imgname: "teach_up.png", domname2: "", imgname2: "",  direc: "up" },//整改完成
+                   //{ model: "tive", url: '@Url.Action("index","corrective",new { customercompanyid = ViewBag.CompanyID })', domname: "editcbtn", imgname: "teach_up.png",domname2: "", imgname2: "",   direc: "up" },//整改审核
+                   //{ model: "tive", url: '@Url.Action("index","corrective",new { customercompanyid = ViewBag.CompanyID })', domname: "eidwcbtn", imgname: "teach_up.png",domname2: "", imgname2: "",   direc: "up" },//整改审核不通过
+                   //{ model: "tive", url: '@Url.Action("index","corrective",new { customercompanyid = ViewBag.CompanyID })', domname: "delcbtn", imgname: "teach_up.png",domname2: "", imgname2: "",   direc: "up" },//整改删除
+                   { model: "center", url: '@Url.Action("index","center",new { customercompanyid = ViewBag.CompanyID })', domname: "center", imgname: "center.png", domname2: "", imgname2: "", direc: "title" },//帮助中心
+        ];
+        var teachparam = [{ model: "homepage", url: '@Url.Action("index","home",new { customercompanyid = ViewBag.CompanyID })', domname: "", imgname: "", direc: "up" }];//当前角色引导步骤 ， 根据权限进行填充
+        function getmodel(modelname) {
+            for (var i = 0; i < teachsteps.length; i++) {
+                if (teachsteps[i].model == modelname) {
+                    teachparam.push(teachsteps[i]);
+                }
+            }
+        };
+        if ('@ViewBag.Module.Contains("deparement")' == 'True') {
+            getmodel("deparement");
+        };//部门
+        if ('@ViewBag.Module.Contains("user")' == 'True') {
+            getmodel("user");
+        };//用户
+        if ('@ViewBag.Module.Contains("clauses")' == 'True') {
+            getmodel("clauses");
+        };//条分配
+        if ('@ViewBag.Module.Contains("item")' == 'True') {
+            getmodel("item");
+        };//项分配
+        if ('@ViewBag.Module.Contains("fileuploadrequire")' == 'True') {
+            getmodel("fileup");
+        };//待办
+        if ('@ViewBag.Module.Contains("fileaudit")' == 'True') {
+            getmodel("fileaudit");
+        };//待审
+        if ('@ViewBag.Module.Contains("itemscore")' == 'True') {
+            getmodel("itemscore");
+        };//评分
+        if (true) {
+            getmodel("tive");
+        };//整改
+        if (true) {
+            getmodel("center");
+        };//整改
+        //存取cookie
+        function setCookie(c_name,value,expiredays)
+        {
+            var exdate = new Date();
+            exdate.setDate(exdate.getDate() + expiredays);
+            document.cookie=c_name+ "=" + escape(value) + ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString()) + ";path=/;";
+        };
+        function getCookie(c_name){
+            if (document.cookie.length>0)
+            {
+                c_start=document.cookie.indexOf(c_name + "=")
+                if (c_start!=-1)
+                {
+                    c_start=c_start + c_name.length+1
+                    c_end=document.cookie.indexOf(";",c_start)
+                    if (c_end == -1)
+                        c_end = document.cookie.length
+                    return unescape(document.cookie.substring(c_start,c_end))
+                }
+            }
+            return ""
+        };
+        //then函数，等待浏览器渲染domna完成后执行fnn,如果超时执行fnb
+        function hfthen(domna, fnn, fnb) {
+            var a = setInterval(function () { if ($(domna).length > 0) {fnn(); clearInterval(a); }  }, 80);
+            setTimeout(function () {
+                if ($(domna).length <= 0) {
+                    clearInterval(a); fnb();
+                }
+            }, 2000);//超时
+        };
+        /*声明引导标识,从1开始*/
+        var teachcookie = "";
+        var $dom = "";
+        var $img = "";
+        /*上一步，下一步，开始教程，结束教程。 */
+        function logteach(go, over) {
+            if (over) {
+                setCookie('teachflag', "");
+                window.location.reload();
+                return false;
+            }//结束教程
+            getCookie('teachflag') ? teachcookie = getCookie('teachflag') : teachcookie = false;
+            if (teachcookie) {
+                if (go) {
+                    if (teachcookie >= teachparam.length - 1) {
+                        hfalert('已是最后一步'); return false;
+                    } else { 
+                        //-------------------------------------------------
+                        setCookie('teachflag', parseInt(teachcookie) + 1);//下一步 
+
+                        if (teachparam[parseInt(teachcookie) + 1].url == teachparam[teachcookie].url) {
+                            autoteach();
+                        } else {
+                            if (teachparam[teachcookie].byurl == "false") {
+                                $('.' + teachparam[teachcookie].domname)[0].click();
+                            } else {
+                                window.location.href = teachparam[parseInt(teachcookie) + 1].url;
+                            }
+                        };
+                        //-------------------------------------------------
+                    }
+                }
+                else {
+                    if (teachcookie <= 1) {
+                        hfalert('已是第一步');
+                        return false;
+                    } else {
+                        //setCookie('teachflag', parseInt(teachcookie) - 1);//上一步
+                        //if (teachparam[parseInt(teachcookie) - 1].url == teachparam[teachcookie].url) {
+                        //    autoteach();
+                        //} else {
+                        //    window.location.href = teachparam[parseInt(teachcookie) - 1].url;
+                        //};
+                        //-------------------------------------------------
+                        setCookie('teachflag', parseInt(teachcookie) - 1);//上一步
+
+                        if (window.location.href == getCookie('location' + (parseInt(teachcookie) - 1))) {
+                            autoteach();
+                        } else {
+                            window.location.href = getCookie('location' + (parseInt(teachcookie) - 1));
+                        }
+                        //-------------------------------------------------
+                    };
+                };
+
+              
+
+            } else { setCookie('teachflag', 1); window.location.href = teachparam[1].url;//进入教程
+            };
+        };
+        function autoteach() {
+            getCookie('teachflag') ? teachcookie = getCookie('teachflag') : teachcookie = false;
+            if (teachcookie) {
+                hfthen('.' + teachparam[teachcookie].domname, domset, nodata);
+                //保存当前地址到cookie ;
+                setCookie('location' + teachcookie, window.location.href);
+            } else {
+                return; //hfalert('不是引导模式');
+            };
+        };
+        autoteach();//页面加载后自动执行这里
+        function domset() {
+            if ($('.teachs').length >= 1) {
+                $('.teachs').remove();
+            };
+            if ($('.hfmodel').length == 0) {
+                $hfmodel = $('<div class="modal-backdrop fad in hfmodel" style="display:none;"></div>').appendTo('body').fadeIn();
+            };
+            $('<div class="teachs" >\
+<img src="@Url.Content("~/Content/image/teach_back.png")" onclick="logteach(false,false)" style="cursor:pointer;"/>\
+<img src="@Url.Content("~/Content/image/teach_go.png")" style="margin:0 10px;cursor:pointer;" onclick="logteach(true,false)"/>\
+<img src="@Url.Content("~/Content/image/teach_over.png")"  onclick="logteach(true,true)"  style="cursor:pointer;"/></div>')
+            .appendTo('body').css({ 'position': 'absolute', 'bottom': '66px', 'zIndex': '1041', 'right': '66px' });
+            $dom = $('.' + teachparam[teachcookie].domname + ':first');
+            if ($dom.parent().outerHeight() > 0) {
+                $dom.parent().css({ 'position': 'relative', 'top': '0px', 'left': '0px', 'height': $dom.parent().outerHeight() + 'px' });
+            };
+            $dom.clone().css({
+                'position': 'absolute',
+                'top': $dom.position().top + 'px',
+                'left': $dom.position().left + 'px',
+                'opacity': 1,
+                'cursor':'default',
+                'zIndex': '1041'
+            })
+            .removeAttr('id')
+            .addClass('teachs')
+            .attr({'disabled':"disabled",'href':'#'})          
+            .click(function (event) { event.preventDefault();  })           
+            .appendTo($dom.parent())
+            .find('*').attr({ 'disabled': "disabled", 'href': '#' }).css({ 'cursor': 'default', 'zIndex': '1041', 'opacity': 1 })            
+            $img = $('<img class="teachs" src="@Url.Content("~/Content/image/")' + teachparam[teachcookie].imgname + '" />')
+                .insertAfter($dom)
+                .css({ 'position': 'absolute', 'zIndex': '1041', 'display': 'none' });
+            hfthen('img.teachs', imgset, nodata);
+
+            //特殊处理!!，提示多选项时要提示两处内容
+            if (teachparam[teachcookie].domname2) {
+                var $laberls = $('div.checkbox label').css({ 'dispay': "block", 'position': 'relative', 'top': '0px', 'left': '0px', 'cursor': 'default', 'opacity': 1 });
+                $('<div class="teachs"></div>')
+                   .appendTo($('div.checkbox label:first'))
+                   .css({ 'width': "30px", 'height': $('table').height() - 10 + 'px', "border": '3px solid #fff', 'position': 'absolute', 'zIndex': '1041', 'top': '15px', 'left': '-8px' })
+                   .append($('<img class="teachs" src="/Content/image/' + teachparam[teachcookie].imgname2 + '"  />').css({ 'position': 'absolute', 'zIndex': '1042', 'display': 'none', 'cursor': 'default', 'left': '40px', 'top': '0px' }).click(function (event) { event.preventDefault(); }).fadeIn());
+
+                for (var i = 0; i < $laberls.length; i++) {
+                    var label = $laberls[i];
+                    $(label).append($(label).children('input.singlecheck').clone().addClass('teachs').attr({ 'disabled': "disabled", 'href': '#' }).css({ 'position': 'absolute', 'zIndex': '1041', 'left': '20px', 'cursor': 'default', 'opacity': 1 }))
+                };
+            };
+
+
+
+        };
+        function imgset() {
+            var direc = teachparam[teachcookie].direc;
+            if (direc == 'up') {
+                $img.css({ 'top': $dom.position().top + $dom.innerHeight() + 10 + 'px', 'left': $dom.position().left + $dom.innerWidth() / 2 - $img.width() * 0.2 + 40 + 'px' }).fadeIn();
+            } else if (direc == 'title') {
+                $img.css({ 'top': $dom.position().top + $dom.innerHeight() + 10 + 'px', 'left': $dom.position().left + $dom.innerWidth() / 2 - $img.width() * 0.7 + 40 + 'px' }).fadeIn();
+            } else if (direc == 'down') {
+                $img.css({ 'top': $dom.offset().top + $dom.innerHeight() / 2 + 'px', 'left': $dom.offset().left + $dom.innerWidth() + 'px' }).fadeIn();
+            } else if (direc == 'left') {
+                $img.css({ 'top': $dom.position().top + $dom.innerHeight() / 2 - 22 + 'px', 'left': $dom.position().left + $dom.innerWidth() + 5 + 'px' }).fadeIn();
+            } else if (direc == 'right') {
+                $img.css({ 'top': $dom.position().top + $dom.innerHeight() / 2 - 22 + 'px', 'left': $dom.position().left - $img.width() + 'px' }).fadeIn();
+            };
+        };
+        function nodata() {
+            // hfalert('没有请求到演示数据，自动跳转下一步！');
+            setTimeout(function () { logteach(true, false); }, 1500);
+        };
+        /******************************************教学模式-****************************/
+        $(function () {
+            $(".show").click(function () {
+                $(this).find(".Change_password").toggleClass("Change_password_ul");
+                $(this).find("h4").toggleClass("bgup").toggleClass("bgdown");
+            });
+        });
+        /*下拉框设置，如果出现了验证，无论是√还是X都隐藏默认黑色三角*/
+        function hid_trgle(event) {
+            if (event != "") {
+                $(event).css('appearance', 'none');
+            }
+        }
+        /*vue加载完毕后执行的公共部分*/
+        function pubload() {
+            $('#content').height(document.body.scrollHeight - 105 - 58 - 30 + 'px');
+            $('#content').show(0);
+            $('#footer').show(0);
+        }        
+        /*公用ajax*/
+        function ggajax(url, data, callback, type) {
+        type = type || 'POST';
+        $.ajax({
+            type: type,
+            data: data,
+            url: url,
+            traditional: true,
+            success: function (data) {
+                if (typeof data == 'string') {
+                    var dataObj = eval("(" + data + ")"); callback(dataObj)
+                } else {
+                    callback(data);
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) { },
+            complete: function (XMLHttpRequest, textStatus) {
+                switch(XMLHttpRequest.readyState)
+                {
+                    case 200:
+                       // console.log('请求成功');
+                        break;
+                    case 401:
+                        hfalert('401 登录超时，请重新登录');
+                        break;
+                    case 404:
+                        hfalert('404 无法找到指定位置的资源');
+                        break;
+                    case 500:
+                        hfalert('500 服务器错误，不能完成客户的请求');
+                        break;
+                    case 301:
+                        location.href = XMLHttpRequest.getResponseHeader("Location");
+                        break;
+                    case 302:
+                        location.href = XMLHttpRequest.getResponseHeader("Location");
+                        break;
+                    default:
+                        break;
+                }
+            }
+        })
+    };
+    /*清空对象*/
+    function clearobj(obj, q) { q = q || ""; for (var p in obj) { obj[p] = q; }; };
+    /* 联系人 公用 下拉选择*/
+    function pubuserlist(dom) {
+        var url = '@Url.Content("~/user/getuserlist")';
+        var callback = function (data) {
+            $(dom).html("").append('<option value="" >请选择用户</option>');
+            for (var i = 0; i < data.Obj.length; i++) {
+                if (data.Obj[i].DeparementName == null) {
+                    data.Obj[i].DeparementName = "";
+                }
+                /* 用textContent元素的文本内容就输出什么，　此属性可用于取代 nodeValue 属性，但是请记住此属性同时会返回所有子节点的文本。*/
+                var option= document.createElement("option");
+                option.value=data.Obj[i].Id;
+                option.textContent= data.Obj[i].PersonName+'　　'+data.Obj[i].DeparementName;
+                $(dom).append(option);
+            }
+        };
+        ggajax(url, "", callback);
+    };
+    /* 部门 公用 下拉选择*/
+    function pubdeparlist(dom) {
+        var url = '@Url.Content("~/deparement/searchdeparement")';
+        var callback = function (data) {
+            $(dom).html("").append('<option>请选择部门</option>');
+            for (var i = 0; i < data.Obj.Deparements.length; i++) {
+                var option= document.createElement("option");
+                option.value=data.Obj.Deparements[i].Id;
+                option.textContent=data.Obj.Deparements[i].DeparementName;
+                $(dom).append(option);
+            }
+        };
+        ggajax(url, "", callback);
+    };
+    /*弹出框提示，改造bootstrap弹出框实现*/
+    function hfalert(msg) {
+        var content = $('#ggmodel');
+        content.find('.modal-body').html(msg);
+        content.modal('show');
+    }
+    /*如果没有数据，下方则提示*/
+    function checkdataquery(data) {
+        if (data.length == 0) {
+            $('<div class="ensconce" >没有数据</div>').appendTo($('#content'));
+        } else {
+            $('.ensconce').remove();
+        }
+    }
+    Vue.filter('setStats', function (value) {
+        if (value != undefined && value.toString() == "0") {
+            return '已上传';
+        }
+        else if (value != undefined && value.toString() == "-1") {
+            return '否决';
+        }
+        else if (value != undefined && value.toString() == "-2") {
+            return '作废';
+        }
+        else if (value != undefined && value.toString() == "1") {
+            return '申请审核';
+        }
+        else if (value != undefined && value.toString() == "2") {
+            return '审核通过';
+        } else if (value != undefined && value.toString() == "200") {
+            return '未上传';
+        }
+    });
+    Vue.filter('Stats', function (value) {
+        if (value != undefined && value.toString() == "0") {
+            return '新建';
+        }
+        else if (value != undefined && value.toString() == "-1") {
+            return '审核不通过';
+        }
+        else if (value != undefined && value.toString() == "1") {
+            return '完成';
+        }
+        else if (value != undefined && value.toString() == "2") {
+            return '审核通过';
+        }
+    });
+    //公共下载文件
+    function iframe(ID,url,input_name) {
+        var isfirst;
+        var iframe = document.createElement("iframe");
+        $(iframe).attr('style', 'display:none');
+        $(iframe).attr('name', 'postiframe');
+        if (!/*@@cc_on!@@*/0)
+        { //if not IE
+            iframe.onload = function () {
+                var message = $(iframe).context.contentWindow.document.body.innerText;
+                if (typeof message == 'string') {
+                    try {
+                     var message=JSON.parse(message);
+                        hfalert(message.Message);
+                        return true;
+                    } catch(e) {
+                        var message=message;
+                         if (message != "") {
+                         hfalert(message);
+                         }
+                       return false;
+                    }
+                }
+                if (isfirst) {
+                    document.body.removeChild(iframe);
+                }
+                isfirst = true;
+            };
+        }
+        else {
+            iframe.onreadystatechange = function(){
+                if (iframe.readyState == "complete"){
+                    var message = $(iframe).context.contentWindow.document.body.innerText;
+                    if (typeof message == 'string') {
+                        try {
+                            var message=JSON.parse(message);
+                            hfalert(message.Message);
+                            return true;
+                        } catch(e) {
+                            var message=message;
+                             if (message != "") {
+                             hfalert(message);
+                             }
+                            return false;
+                        }
+                    }
+                    if (isfirst) {
+                        document.body.removeChild(iframe);
+                    }
+                    isfirst = true;
+                }
+            };
+        }
+        document.body.appendChild(iframe);
+        var form = document.createElement("form");
+        var input = document.createElement("input");
+        input.type = "text";
+        input.name = input_name;
+        input.value = ID;
+        form.appendChild(input);
+        form.method = "POST";
+        form.action =url;
+        form.target = "postiframe";
+        document.body.appendChild(form);
+        form.submit();
+        document.body.removeChild(form);
+    };
+    </script>
+</body>
+</html>
+@RenderSection("scripts", required: false)

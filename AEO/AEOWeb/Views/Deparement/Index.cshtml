@@ -1,0 +1,145 @@
+﻿<div class="row" style=" margin: 0 auto;">
+    <div class="row" style=" margin: 0 auto;margin-bottom:20px;">
+        <button button type="button" class="btn btn-info deparbtn" data-toggle="modal" data-target="#deparementModal" v-on:click="add">新增部门</button>
+    </div>
+    <div class="row" style=" margin: 0 auto;">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>                 
+                    <th style="width:15%" class="">部门</th>
+                    <th style="width:75%" class="">部门描述</th>
+                    <th style="width:10%" class="text-center" >操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in deparementquery.Deparements">
+                    <td>{{ item.DeparementName }}</td>
+                    <td>{{ item.Description }}</td>
+                    <td class="deparedit text-center">
+                        <button type="button" class="btn btn-info btn-sm" v-on:click="edit(item)" data-toggle="modal" data-target="#deparementModal">编辑</button>
+                        <button type="button" class="btn hfgray btn-sm" v-on:click="del(item)">删除</button>
+                    </td>
+                <tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="deparementModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form role="form" id="adddepar">
+                    <div class="form-group">
+                        <label for="deparname">部门名称:</label>
+                        <input type="text" class="form-control" id="deparname" name="DeparementName" v-model="deparementeditquery.DeparementName" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="depardes">部门描述:</label>
+                        <textarea class="form-control" id="depardes" name="Description" v-model="deparementeditquery.Description" style="resize:none;"></textarea>
+                    </div>
+                    <button type="button" class="btn btn-info" v-on:click="ensure()">提交</button>
+                    <button type="button" class="btn hfgray" data-dismiss="modal">关闭</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- /.modal-content -->
+</div>
+
+@section scripts{
+    <script>
+        var vm = new Vue({
+            el: '#content',
+            data: {
+                deparementquery: [],
+                deparementeditquery: {}
+            },
+            methods: {
+                refurbish: function () {
+                    var _self = this;
+                    var url = "@Url.Content("~/deparement/searchdeparement")";
+                    var callback = function (data) {
+                        if (data.Success == 1) {
+                            _self.deparementquery = data.Obj;
+                            checkdataquery(data.Obj.Deparements);
+                        }
+                    };
+                    ggajax(url, "", callback);
+                },
+                add: function () {
+                    $('#adddepar').data('bootstrapValidator').resetForm(true);//重置表单
+                    vm.deparementeditquery = {};
+                    vm.deparementeditquery.urltype = "@Url.Content("~/deparement/insert")";
+                },
+                showData: function () { },
+                ensure: function () {
+                    $('#adddepar').bootstrapValidator('validate');
+                },
+                edit: function (row) {
+                    vm.deparementeditquery = {};
+                    vm.deparementeditquery.DeparementName = row.DeparementName;
+                    vm.deparementeditquery.Description = row.Description;
+                    vm.deparementeditquery.urltype = '@Url.Content("~/deparement/update?id=")' + row.Id;
+                    $('#adddepar').data('bootstrapValidator').resetForm(true);//重置表单
+                },
+                del: function (row) {
+                    var _self = this;
+                    var url = "@Url.Content("~/deparement/delete")";
+                    var data = { deparementid: row.Id };
+                    var callback = function (data) {
+                        if (data.Success == 1) {                           
+                            _self.refurbish();
+                        }else{
+                            hfalert(data.Message);
+                        }
+                    };
+                    ggajax(url, data, callback);
+                }
+            },
+            created: function () {
+                $("#Department").addClass("active");
+                this.refurbish();
+            },
+            mounted: function () {
+                pubload();
+                $('#adddepar').bootstrapValidator({
+                    message: 'This value is not valid',
+                    feedbackIcons: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
+                    },
+                    excluded: [':disabled'],
+                    fields: {
+                        DeparementName: {
+                            message: 'The username is not valid',
+                            validators: {
+                                notEmpty: {
+                                    message: '不能为空'
+                                }
+                            }
+                        }
+                    }
+                }).on('success.form.bv', function (e) {
+                    e.preventDefault();
+                    var _self = vm;
+                    var callback = function (data) {
+                        console.log(data)
+                        if (data.Success == 1) {
+                            $('#deparementModal').modal('hide');
+                            //hfalert(data.Message);
+                            _self.refurbish();
+                        } else {
+                            hfalert(data.Message);
+                        }
+                    };
+                    if ($('#adddepar').data('bootstrapValidator').isValid()) {
+                        ggajax(_self.deparementeditquery.urltype, _self.deparementeditquery, callback);
+                    }
+                });
+            }
+        });
+    </script>
+}

@@ -1,0 +1,311 @@
+﻿<div class="row" style=" margin: 0 auto;">
+    <h1>{{clauseelse.name}} </h1>
+</div>
+<div class="row" style=" margin: 0 auto;">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th style="width:3%;"><div class="checkbox text-center"><label><input type="checkbox" class="allcheck" v-on:click="checkAll"></label></div></th>
+                <th style="width:10%;" class=" ">项</th>
+                <th style="width:7%;" class=" text-center">评分人</th>
+                <th style="width:65%;" class=" ">细项</th>
+                <th style="width:9%;" colspan="2" class=" text-center">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="(item ,index, key) in clausesset" :key="item.key">
+                <td v-if="item.fineitemrowspan !=0" v-bind:rowspan="item.fineitemrowspan" class="text-center"><div class="checkbox"><label><input class="singlecheck" name="itemdid" type="checkbox" v-bind:value="item.ItemID" v-on:click="checkSingle"></label></div></td>
+                <td v-if="item.fineitemrowspan !=0" v-bind:rowspan="item.fineitemrowspan" style="text-align:left; vertical-align: top;" >{{item.ItemName}} </td>
+                <td v-if="item.fineitemrowspan !=0" v-bind:rowspan="item.fineitemrowspan" style="text-align:center; vertical-align: top;">{{item.ScorePersonName}}  </td>
+                <td v-if="item.filerowspan !=0" v-bind:rowspan="item.filerowspan" style="text-align:left; vertical-align: top;">{{item.FineItemName}}</td>
+                <td class="text-center" style="padding:0;" v-if="item.fineitemrowspan !=0" v-bind:rowspan="item.fineitemrowspan">
+                    <button type="button" class="btn btn-info btn-sm clauscore" data-toggle="modal" data-target="#setScore" v-on:click="singleSet(item)">设置评分人</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="row" style=" margin: 0 auto;">
+    <div class="form-group">
+        <label name="clauseuser">条负责人:</label>
+        <select class="form-control clauselc" id="clauseuser" v-model="clauseelse.personid"></select>
+    </div>
+</div>
+
+<div class="row" style=" margin: 0 auto;">
+    <button type="button" class="btn btn-info clauscoreall" v-on:click="batchSet">批量设置评分人</button>
+    <button type="button" class="btn btn-info" v-on:click="enperson">确认</button>
+    <a class="btn hfgray" href="@Url.Action("index", "clauses", new { customercompanyid = ViewBag.CompanyID })">返回</a>
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="setScore" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form role="form" id="setscoreperson">
+                    <div class="form-group">
+                        <label for="scorePerson">评分人:</label>
+                        <select class="form-control hid_trgle" id="scorePerson" name="scorePerson" v-model="personid" onchange="$(this).css('appearance', 'none')"></select>
+                    </div>
+                    <button type="submit" class="btn btn-info">确认</button>
+                    <button type="button" class="btn hfgray" data-dismiss="modal" v-on:click="function(){$('#setscoreperson').data('bootstrapValidator').resetForm(true);}">取消</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 模态框（Modal） -->
+@section headscripts{
+    <style>
+        .arrows span {
+            display: block;
+            width: 30px;
+            height: 15px;
+            cursor: pointer;
+        }
+    </style>
+}
+
+@section scripts{
+    <script>
+        function formatData(data) {
+            var result = [];
+            for (var x = 0; x < data.length; x++) {//obj[]
+                for (var y = 0; y < data[x].Item.length; y++) {//Item[]
+                    //得到项  合并信息
+                    var itempans = 0;//项
+                    for (var a = 0; a < data[x].Item[y].FineItem.length; a++) {
+                        if (data[x].Item[y].FineItem[a].FileRequire.length != 0) {
+                            itempans += data[x].Item[y].FineItem[a].FileRequire.length;
+                        } else { itempans += 1; }
+                    }
+                    for (var z = 0; z < data[x].Item[y].FineItem.length; z++) {//FineItem[]
+                        //得到细项并信息
+                        var fineitemspans = 0; var filelength = data[x].Item[y].FineItem[z].FileRequire.length;
+                        if (filelength != 0) {
+                            fineitemspans = filelength
+                        } else { fineitemspans = 1; };
+                        if (data[x].Item[y].FineItem[z].FileRequire.length != 0) {
+                            for (var i = 0; i < data[x].Item[y].FineItem[z].FileRequire.length; i++) {//FileRequire[]
+                                var record = {};
+                                record.downarrow=true;
+                                record.uparrow=true;
+                                if(i == 0){ record.downarrow=true;  record.uparrow=false;}
+                                if(i==data[x].Item[y].FineItem[z].FileRequire.length-1){ record.downarrow=false;  record.uparrow=true;};
+                                if(data[x].Item[y].FineItem[z].FileRequire.length==1){ record.downarrow=false;  record.uparrow=false;};
+                                //record.fineitemrowspan = z == 0 && i == 0 ? itempans : 0;
+                                record.fineitemrowspan = z == 0 && i == 0 ? itempans : 0;//第一个细项 且 第一个文件要求 就是第一个 项开始合并的地方
+                                record.filerowspan = i == 0 ? fineitemspans : 0;//第一个文件要求 ，就是第一个细项开始合并的地方
+                                record.clausesID = data[x].clausesID;
+                                record.ClausesName = data[x].ClausesName
+                                record.clausesPersonID = data[x].clausesPersonID;
+                                record.ItemID = data[x].Item[y].ItemID;
+                                record.ItemName = data[x].Item[y].ItemName;
+                                record.ScorePersonID = data[x].Item[y].ScorePersonID;
+                                record.ScorePersonName = data[x].Item[y].ScorePersonName;
+                                record.FineItemID = data[x].Item[y].FineItem[z].FineItemID;
+                                record.FineItemName = data[x].Item[y].FineItem[z].FineItemName;
+                                record.FileRequireID = data[x].Item[y].FineItem[z].FileRequire[i].FileRequireID;
+                                record.Description = data[x].Item[y].FineItem[z].FileRequire[i].Description;
+                                record.SuggestFileName = data[x].Item[y].FineItem[z].FileRequire[i].SuggestFileName;
+                                //record.FileResultId = data[x].Item[y].FineItem[z].FileRequire[i].FileResultId;
+                                result.push(record);
+                            };
+                        }
+                        else {
+                            var record = {};
+                            record.downarrow=false;
+                            record.uparrow=false;
+                            record.fineitemrowspan = z == 0 ? itempans : 0;//第一个细项 就是第一个 项开始合并的地方
+                            record.filerowspan =1;
+                            record.clausesID = data[x].clausesID;
+                            record.ClausesName = data[x].ClausesName;
+                            record.clausesPersonID = data[x].clausesPersonID;
+                            record.ItemID = data[x].Item[y].ItemID;
+                            record.ItemName = data[x].Item[y].ItemName;
+                            record.ScorePersonID = data[x].Item[y].ScorePersonID;
+                            record.ScorePersonName = data[x].Item[y].ScorePersonName;
+                            record.FineItemID = data[x].Item[y].FineItem[z].FineItemID;
+                            record.FineItemName = data[x].Item[y].FineItem[z].FineItemName;
+                            //record.FileResultId = data[x].Item[y].FineItem[z].FileRequire[i].FileResultId;
+                            result.push(record);
+                        }
+                    };
+                };
+            };
+            return result;
+        };
+        var vm = new Vue({
+            el: '#content',
+            data: {
+                clausesset: [],
+                clauseelse: {},
+                itemsids:[],
+                personid:"",
+                truekey: 0 ,
+            },
+            methods: {
+                refurbish: function () {
+                    var _self = this;
+                    var callback = function (data) {
+                        if (data.Success == 1) {
+                                _self.clausesset = [];
+                                _self.clausesset = data.Obj[0].Item;
+                                _self.clauseelse = {};
+                                _self.clauseelse.id = data.Obj[0].clausesID;
+                                _self.clauseelse.name = data.Obj[0].ClausesName;
+                                _self.clauseelse.personid = data.Obj[0].clausesPersonID;
+                            _self.clausesset = formatData(data.Obj);
+                            $(".singlecheck").prop('checked', false);
+                            $('.allcheck').prop('checked', false);
+                        }
+                    };
+                    var dd = { id:"@ViewBag.ClausesId" };
+                    ggajax('@Url.Content("~/clauses/gettasklist")', dd, callback);
+                },
+                enperson: function () {
+                    var _self = this;
+                    var dd = { id: _self.clauseelse.id, AccountID: this.clauseelse.personid };
+                    var callback = function (data) {
+                        if (data.Success == 1) {                            
+                            window.location.href = "@Url.Action("index", "clauses", new { customercompanyid = ViewBag.CompanyID })";
+                        }else{hfalert(data.Message);};
+                    };
+                    ggajax('@Url.Content("~/clauses/setperson")', dd, callback);
+                },
+                addfine: function (fine) {
+                    var _self = this;
+                    clearobj(_self.define);
+                    _self.define.url='@Url.Content("~/clauses/addfilerequire")';
+                    _self.define.id = fine.FineItemID;
+                },
+                delfine: function (id) {
+                    var _self = this;
+                    var callback = function (data) {
+                        if (data.Success == 1) {
+                            //hfalert(data.Message);
+                            _self.refurbish();
+                        }else{hfalert(data.Message);};
+                    };
+                    ggajax('@Url.Content("~/clauses/delfilerequire")', {id:id}, callback);
+                },
+                editfine:function (row) {
+                    var _self = this;
+                    clearobj(_self.define);
+                    _self.define.id = row.FileRequireID;
+                    _self.define.Description = row.Description;
+                    _self.define.SuggestFileName = row.SuggestFileName;
+                    _self.define.url = '@Url.Content("~/clauses/UpdateFileRequire")';
+                },               
+                checkAll: function () {
+                    $(".singlecheck").each(function () {
+                        if ($(this).prop('checked')) {
+                            $(this).prop('checked', false);
+                        } else {
+                            $(this).prop('checked', true);
+                        }
+                    });
+                },
+                checkSingle: function () {
+                    var flag = true;
+                    $(".singlecheck").each(function () {
+                        if (!$(this).prop('checked')) {
+                            flag = false;
+                        };
+                    });
+                    if (flag) {
+                        $('.allcheck').prop('checked', true);
+                    } else {
+                        $('.allcheck').prop('checked', false);
+                    };
+                },
+                singleSet:function(row){
+                    $('.hid_trgle').css('appearance', 'menulist');
+                    $('#setscoreperson').data('bootstrapValidator').resetForm(true);//表单重置
+                    var _self = this;
+                    if (row){
+                        _self.itemsids = [];
+                        _self.itemsids.push(row.ItemID);
+                        _self.personid = "";
+                        $("#scorePerson").val(row.ScorePersonID);
+                    }
+                },
+                batchSet: function () {
+                    $('.hid_trgle').css('appearance', 'menulist');
+                    $('#setscoreperson').data('bootstrapValidator').resetForm(true);//表单重置
+                    var arr = $("input[name='itemdid']:checked");
+                    if (arr.length == 0) {
+                        hfalert('未选中可操作项');
+                        return false;
+                    }
+                    else {
+                        $('#setScore').modal('show');
+                        var _self = this;
+                        _self.personid = "";
+                        _self.itemsids = [];
+                        for (var i = 0; i < arr.length; i++) {
+                            _self.itemsids.push( arr[i].value);
+                        };
+                    };
+                },
+            },
+            created: function () {
+                pubuserlist('#clauseuser');//用户下拉更新
+                pubuserlist('#scorePerson');//重置负责人列表
+                $("#distribution").attr("class", "active");
+                this.refurbish();
+            },
+            mounted: function () {
+                pubload();
+                $('#postform').bootstrapValidator({
+                    message: 'This value is not valid',
+                    feedbackIcons: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
+                    },
+                    fields: {
+                        Description: {
+                            validators: { notEmpty: { message: '不能为空' } }
+                        },
+                        SuggestFileName: {
+                            validators: { notEmpty: { message: '不能为空' } }
+                        }
+                    }
+                });
+                $('#setscoreperson').bootstrapValidator({
+                    message: 'This value is not valid',
+                    feedbackIcons: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
+                    },
+                    excluded: [':disabled'],
+                    fields: {
+                            scorePerson: {
+                                validators: { notEmpty: { message: '不能为空' } }
+                            }
+                        }
+                    }).on('success.form.bv', function (e) {
+                        e.preventDefault();
+                        var _self = vm;
+                        var callback = function (data) {
+                           // hfalert(data.Message);
+                            if (data.Success == 1) {
+                                $('#setScore').modal('hide');
+                                _self.refurbish();
+                            }else{hfalert(data.Message);};;
+                            $('#setscoreperson').data('bootstrapValidator').resetForm(true);
+                        };
+                        if($('#setscoreperson').data('bootstrapValidator').isValid()){
+                            ggajax('@Url.Content("~/item/setscoerperosn")', { itemIDs: _self.itemsids , id: _self.personid }, callback);
+
+                        }else{
+                            $('#setscoreperson').data('bootstrapValidator').validate();
+                        }
+                    });
+                }
+            });
+    </script>
+}

@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="11.0" DefaultTargets="FullPublish" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<!-- 指定根据特定环境的文件路径来进行发布 -->
+<!--<Import Project="$(TargetEnvPropsFile)"/>-->
+
+  <PropertyGroup>
+    <BuildingInTeamBuild Condition=" '$(TeamFoundationServerUrl)'!='' ">true</BuildingInTeamBuild>
+    <Configuration Condition=" '$(Configuration)'=='' ">Release</Configuration>
+    <SourceRoot Condition=" '$(SourceRoot)'=='' ">..\</SourceRoot>
+    <OutputRoot Condition=" '$(OutputRoot)'=='' ">..\Publish\Out\</OutputRoot>
+    <OutputRoot Condition=" '$(BuildingInTeamBuild)'=='true' ">$(OutDir)</OutputRoot>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <_ContactManagerDest>$(OutputRoot)_PublishedWebsites\AEOWeb_Package\</_ContactManagerDest>
+  </PropertyGroup>
+
+  <!-- 通过部署发布时，来修改对应的参数 -->
+  <!--<Target Name="PublishWebPackages" Outputs="%(PublishPackages.Identity)">
+    --><!-- Update the SetParameters.xml to have the correct parameter values --><!--
+    --><!--<XmlPoke XmlInputPath="%(PublishPackages.ParametersXml)"
+             Query="//parameters/setParameter[@name='%(PublishPackages.ConnectionName)']/@value"
+             Value='%(PublishPackages.ConnectionString)'
+             Condition =" '%(PublishPackages.ConnectionName)'!=''" />--><!--
+   
+    <XmlPoke XmlInputPath="%(PublishPackages.ParametersXml)"
+             Query="//parameters/setParameter[@name='%(PublishPackages.MembershipDBConnectionName)']/@value"
+             Value='%(PublishPackages.MembershipDBConnectionString)'
+             Condition =" '%(PublishPackages.MembershipDBConnectionName)'!=''" />
+
+    <XmlPoke XmlInputPath="%(PublishPackages.ParametersXml)"
+             Query="//parameters/setParameter[@name='IIS Web Application Name']/@value"
+             Value="%(PublishPackages.IisWebAppName)"
+             Condition =" '%(PublishPackages.IisWebAppName)'!=''" />
+
+    --><!--<XmlPoke XmlInputPath="%(PublishPackages.ParametersXml)"
+             Query="//parameters/setParameter[@name='%(PublishPackages.ServiceEndpointParamName)']/@value"
+             Value="%(PublishPackages.ServiceEndpointValue)"
+             Condition =" '%(PublishPackages.ServiceEndpointParamName)'!=''" />--><!--
+    --><!--
+    AEOWeb.deploy.cmd /T /M:endpoint_address /U:domain\username /P:%password% /A:NTLM -allowUntrusted
+    --><!--
+    --><!--<PropertyGroup>
+       --><!-- 执行包部署到目标环境 --><!--
+      <_WhatIfSwitch>/Y</_WhatIfSwitch>
+      <_WhatIfSwitch Condition=" '$(WhatIf)'=='true' ">/T</_WhatIfSwitch>
+      <_Cmd>%(PublishPackages.FullPath) $(_WhatifSwitch) /M:$(MSDeployComputerName) /U:$(MSDeployUsername) /P:$(MSDeployPassword) /A:$(MSDeployAuth) %(PublishPackages.AdditionalMSDeployParameters)</_Cmd>
+    </PropertyGroup>
+
+    <Message Text="Publishing web project [%(PublishPackages.WebPackage)]"/>
+    <Exec Command="$(_Cmd)"/>--><!--
+  </Target>-->
+  
+  
+  <!-- 清理目录 -->
+	<Target Name="Clean" Condition=" '$(BuildingInTeamBuild)'!='true' ">
+		<Message Text="Cleaning up the output directory [$(OutputRoot)]"/>
+		<ItemGroup>
+			<_FilesToDelete Include="$(OutputRoot)**\*"/>
+		</ItemGroup>
+		<Delete Files="@(_FilesToDelete)"/>
+		<RemoveDir Directories="$(OutputRoot)"/>
+	</Target>
+
+  <ItemGroup>
+    <ProjectsToBuild Include="$(SourceRoot)Project.sln"/>
+  </ItemGroup>
+  <!--建立AEO的所有项目 -->
+  <Target Name="BuildProjects" Condition=" '$(BuildingInTeamBuild)'!='true' ">
+    <MSBuild Projects="@(ProjectsToBuild)"
+             Properties="OutDir=$(OutputRoot);
+                        Configuration=$(Configuration);
+                        DeployOnBuild=true;
+                        DeployTarget=Package"
+             Targets="Build" />
+  </Target>
+
+  <!--收集包发布目标,可多项目发布 -->
+  <Target Name="GatherPackagesForPublishing">
+    <ItemGroup>
+      <PublishPackages Include="$(_ContactManagerDest)AEOWeb.deploy.cmd">
+        <WebPackage>true</WebPackage>
+        <ParametersXml>$(_ContactManagerDest)AEOWeb.SetParameters.xml</ParametersXml>
+        <AdditionalMSDeployParameters>-allowUntrusted</AdditionalMSDeployParameters>
+        <IisWebAppName>$(ContactManagerIisPath)</IisWebAppName>
+        <MembershipDBConnectionName>sqlconn</MembershipDBConnectionName>
+        <MembershipDBConnectionString>$(MembershipConnectionString.Replace(";","%3b"))</MembershipDBConnectionString>
+        <ServiceEndpointParamName>ContactService Service Endpoint Address</ServiceEndpointParamName>
+        <ServiceEndpointValue>$(ContactManagerTargetUrl)</ServiceEndpointValue>
+      </PublishPackages>
+
+    </ItemGroup>
+  </Target>
+  
+  <!-- 必须需要执行的目标 -->
+	<PropertyGroup>
+		<FullPublishDependsOn>
+      Clean;
+      BuildProjects;
+      GatherPackagesForPublishing;
+      <!--PublishWebPackages;-->
+    </FullPublishDependsOn>    
+	</PropertyGroup>
+	<Target Name="FullPublish" DependsOnTargets="$(FullPublishDependsOn)" />
+</Project>

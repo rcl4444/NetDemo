@@ -1,0 +1,134 @@
+﻿<div class="row" style=" margin: 0 auto;">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th class="col-lg-2 col-md-2 ">条</th>
+                <th class="col-lg-2 col-md-2 ">项</th>
+                <th class="col-lg-5 col-md-5 ">细项</th>
+                <th class="col-lg-1 col-md-1 text-center">评分人</th>
+                <th class="col-lg-1 col-md-1 text-center">预计完成日期</th>
+                <th class="col-lg-1 col-md-1 text-center">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="item in items">
+                <td v-if="item.clauserows !=0" v-bind:rowspan="item.clauserows">{{item.ClausesName}}</td>
+                <td v-if="item.itemrows !=0" v-bind:rowspan="item.itemrows">{{item.ItemName}}</td>
+                <td>{{item.FineItemName}}</td>
+                <td class="text-center">{{item.PersonName}}</td>
+                <td class="text-center">{{item.FinishTime}}</td>
+                <td class="text-center">
+                    <a class="btn btn-info btn-sm itembtn" v-bind:href="['@Url.Action("fineitemdetail", "item", new { customercompanyid = ViewBag.CompanyID })/'+item.fineItemID]" role="button">布置任务</a>
+                </td>
+            <tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="setScore" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form role="form" id="setscoreperson">
+                    <div class="form-group">
+                        <label for="scorePerson">评分人:</label>
+                        <select class="form-control" id="scorePerson" name="scorePerson" v-model="personid"></select>
+                    </div>
+                    <button type="submit" class="btn btn-info">确认</button>
+                    <button type="button" class="btn hfgray" data-dismiss="modal" v-on:click="function(){$('#setscoreperson').data('bootstrapValidator').resetForm(true);}">取消</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 模态框（Modal） -->
+
+@section scripts{
+    <script>
+        //合并单元格数据
+        function spanscount(data) {
+            var resault = [];
+            var rowi = 0;
+            var rowv = 0;
+
+            for (var i = 0; i < data.length; i++) {
+                var record = {};
+                record.ClausesName = data[i].ClausesName;
+                record.clausesID = data[i].clausesID;
+
+                record.itemId = data[i].itemId;
+                record.ItemName = data[i].ItemName;
+
+                record.fineItemID = data[i].fineItemID;
+                record.FineItemName = data[i].FineItemName;
+
+                record.PersonName = data[i].PersonName;
+
+                record.FinishTime = data[i].FinishTime;
+
+                record.clauserows = 0;
+                record.itemrows = 0;
+
+                if (data.length <= 1) {
+                    record.clauserows = 1;
+                    record.itemrows = 1;
+                };//只有一条数据时
+
+                resault.push(record);
+
+                if (i != 0 && data[i].clausesID != data[i - 1].clausesID) {
+                    resault[rowi].clauserows = i - rowi;
+                    rowi = i;
+                    if (i == data.length - 1) {
+                        resault[i].clauserows = data.length - rowi;
+                    }
+                }
+                if (i != 0 && i == data.length - 1 && data[i].clausesID == data[i - 1].clausesID) {
+                    resault[rowi].clauserows = data.length - rowi;
+                }
+                if (i != 0 && data[i].itemId != data[i - 1].itemId) {
+                    resault[rowv].itemrows = i - rowv;
+                    rowv = i;
+                    if (i == data.length - 1) {
+                        resault[i].itemrows = data.length - rowv;
+                    }
+                }
+                if (i != 0 && i == data.length - 1 && data[i].itemId == data[i - 1].itemId) {
+                    resault[rowv].itemrows = data.length - rowv;
+                }
+            }
+            return resault;
+        };
+
+        $(function () {
+            var vm = new Vue({
+                el: '#content',
+                data: {
+                    items: [],
+                    itemsids: [],
+                    personid: ""
+                },
+                methods: {
+                    pageLoad: function () {
+                        var _self = this;
+                        var callback = function (data) {
+                            if (data.Success) {
+                                _self.items = spanscount(data.Obj);
+                            } else { hfalert(data.Message); }
+                        };
+                        ggajax('@Url.Content("~/item/GetItemList")', "", callback);
+                        pubuserlist('#scorePerson');
+                    }
+                },
+                created: function () {
+                    $("#Macro_allocation").addClass("active item");
+                    this.pageLoad();
+                },
+                mounted: function () {
+                    pubload();
+                }
+            });
+        })
+    </script>
+}

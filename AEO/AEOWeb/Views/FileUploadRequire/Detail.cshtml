@@ -1,0 +1,221 @@
+﻿<div class="row" style=" margin: 0 auto;">
+    <div class="  line-height">
+        <div class="col-xs-6 col-md-6">
+            <span>条：</span> <span> {{list.ClausesName}}</span>
+        </div>
+        <div class="col-xs-6 col-md-6">
+            <span>主办人：</span><span> {{list.ChargePersonName}} </span>
+        </div>
+    </div>
+    <div class="    line-height">
+        <div class="col-xs-6 col-md-6">
+            <span>项：</span> <span> {{list.ItemName}}</span>
+        </div>
+        <div class="col-xs-6 col-md-6">
+            <span>审批人：</span>{{list.ReviewerName}} <span></span>
+        </div>
+    </div>
+    <div class="    line-height">
+        <div class="col-xs-6 col-md-6">
+            <span class="Item">细项：</span> <span class="declaration_enterprise"> {{list.FineItemName}}</span>
+        </div>
+        <div class="col-xs-6 col-md-6">
+            <span> 预计完成日期：</span> <span>{{list.FinishTime}}</span>
+        </div>
+    </div>
+    <div class="  line-height">
+        <div class="col-xs-6 col-md-6">
+            <span class="Item">文件：</span> <span class="declaration_enterprise">{{list.FileRequire}}</span>
+        </div>
+        <div class="col-xs-6 col-md-6">
+        </div>
+    </div>
+    <div class="  line-height" style="position:relative;left:0px;top:10px;margin-bottom:30px;">
+        <div class="col-xs-5 col-md-5">
+            <form class="form-inline" role="form">
+                <div>
+                    <a href="javascript:;" class="upload btn btn-info Item " style="position: relative; height: 34px;">
+                        文件上传
+                        <input onChange="$('#file').html($(this)[0].files[0].name)" class="change files_upload  " type="file" name="file" id="uploadFile" />
+                    </a>
+                    <span id="file"></span>
+                </div>
+            </form>
+        </div>
+        <div class="col-xs-7 col-md-7 form-inline" style="position:relative;top:-3px;">
+            <input type="hidden" name="id" id="filedid" value="" />
+            <button type="button" class="btn btn-info filedid" v-on:click="ImportShipmentStatusList" value="上传">上传</button>
+            <a class="btn hfgray" href="@Url.Action("index", "fileuploadrequire", new { customercompanyid = ViewBag.CompanyID })">返回</a>
+        </div>
+    </div>
+    <div class="row" style="margin:0 auto;">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th style="width:25%">上传人</th>
+                    <th style="width:25%">上传日期</th>
+                    <th style="width:25%">状态</th>
+                    <th style="width:25%">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="obj in  list.FileResults">
+                    <td style="width:25%">{{obj.UploadPersonName}}</td>
+                    <td style="width:25%">{{obj.UploadTime}}</td>
+                    <td style="width:25%">{{obj.Status|setStats}}</td>
+                    <td style="width:25%">
+                        <div v-if="(obj.Status.toString() == '0')">
+                            <button id="Arraigned" type="button" class="btn btn-info btn-sm" v-on:click="Arraigned(obj.ID)">提审</button>
+                            <button id="cancellation" type="button" class="btn hfgray btn-sm" v-on:click="cancellation(obj.ID)">作废</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>操作记录</h3>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th style="width:33.33%">时间</th>
+                    <th style="width:33.33%">操作内容</th>
+                    <th style="width:33.33%">操作者</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="obj in  list.OperationNotes">
+                    <td style="width:33.33%">{{obj.CreateTime}}</td>
+                    <td style="width:33.33%">{{obj.Description}}</td>
+                    <td style="width:33.33%">{{obj.OperationerPersonName}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+@section headscripts{
+    <style>
+        .files_upload {
+            opacity: 0;
+            width: 90px;
+            position: relative;
+            top: -21px;
+        }
+
+        #file {
+            padding-left: 10px;
+            width: 50%;
+            display: inline-block;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            word-wrap: break-word;
+        }
+    </style>
+}
+@section scripts{
+    <script>
+        $(function(){
+            $("#uploadFile").change("onchange","input[type='file']",function(){
+                var uploadFile=$("#uploadFile").val()
+            });
+            $("#FileUploadRequire").attr("class", "active fileup");
+            var vm = new Vue({
+                el: '#content',
+                data: {
+                    list: '',
+                    Stats:[]
+                },
+                methods: {
+                    ImportShipmentStatusList:function() {
+                        $('.filedid').attr("disabled","disabled");
+                        for(var i=0;i<vm.Stats.length;i++){
+                            if(vm.Stats[i]==2){
+                                hfalert('文件审核通过，无需上传文件');
+                                $('#file').html('');
+                                $("#uploadFile").val('');
+                                $('.filedid').attr("disabled",false);
+                                return false
+                            }
+                        }
+                        var pageload = this.pageLoad;
+                        $.ajaxFileUpload({
+                            url: '@Url.Content("~/fileuploadrequire/uploadfile/"+ViewBag.FileRequireID)',
+                            //用于文件上传的服务器端请求地址
+                            secureuri: false, //是否需要安全协议，一般设置为false
+                            fileElementId: 'uploadFile', //文件上传域的ID
+                            dataType: 'json', //返回值类型 一般设置为json
+                            success: function (data, status)  //服务器成功响应处理函数
+                            {   $('#file').html('');
+                                $("#uploadFile").val('');
+                                $('.filedid').attr("disabled",false);
+                                pageload()
+                            },
+                            error: function (data, status, e)//服务器响应失败处理函数
+                            {
+                                $('.filedid').attr("disabled",false);
+                                hfalert('请求失败');
+                            }
+                        });
+                    },
+
+                    //提审
+                    Arraigned:function(id) {
+                        var a=this;
+                        var pageload = this.pageLoad;
+                        $.ajax({
+                            type: "POST",
+                            url: '@Url.Content("~/fileuploadrequire/setapplyaudit?id=")'+id  ,
+                            contentType: 'application/json',
+                            dataType: "json",
+                            success: function (data) {
+                                pageload()
+                            }, error: function (data) {
+                                hfalert('请求失败');
+                            }
+                        });
+                    },
+                    //作废
+                    cancellation:function(id) {
+                        var pageload = this.pageLoad;
+                        $.ajax({
+                            type: "POST",
+                            url: '@Url.Content("~/fileuploadrequire/setcancel?id=")' + id,
+                            contentType: 'application/json',
+                            dataType: "json",
+                            success: function (data) {
+                                pageload()
+                            }, error: function (data) {
+                                hfalert('请求失败');
+                            }
+                        })
+                    },
+                    pageLoad: function () {
+                        var _self = this;
+                        $.ajax({
+                            type: 'post',
+                            contentType: 'application/json',
+                            url: '@Url.Content("~/fileuploadrequire/getdetaildata/"+ViewBag.FileRequireID)',
+                            success: function (data) {
+                                var jsonData = JSON.parse(data);
+                                _self.list = jsonData.Obj;
+                                for(var i=0;i<jsonData.Obj.FileResults.length;i++){
+                                    vm.Stats.push(jsonData.Obj.FileResults[i].Status);
+                                }
+                            },error:function (data) {
+                                hfalert('请求失败')
+                            }
+                        });
+                    }
+                },
+
+                created: function () {
+                    this.pageLoad()
+                },
+                mounted: function () {
+                    pubload();
+                }
+            });
+        })
+    </script>
+}

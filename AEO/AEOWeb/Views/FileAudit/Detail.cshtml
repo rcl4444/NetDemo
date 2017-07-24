@@ -1,0 +1,212 @@
+﻿<div class="row" style=" margin: 0 auto; ">
+    <div class="   line-height">
+        <div class="col-xs-6 col-md-6">
+            <span>条：</span> <span> {{list.ClausesName}}</span>
+        </div>
+        <div class="col-xs-6 col-md-6">
+            <span>主办人：</span> <span>{{list.ChargePersonName}}</span>
+        </div>
+    </div>
+    <div class="line-height">
+        <div class="col-xs-6 col-md-6">
+            <span>项：</span> <span>{{list.ItemName}}</span>
+        </div>
+        <div class="col-xs-6 col-md-6">
+            <span>审批人：</span> <span>{{list.ReviewerName}}</span>
+        </div>
+    </div>
+    <div class="line-height">
+        <div class="col-xs-6 col-md-6">
+            <span class="Item">细项：</span><span class="declaration_enterprise"> {{list.FineItemName}}</span>
+        </div>
+        <div class="col-xs-6 col-md-6">
+            <span> 状态：</span> <span>{{list.FileResultStatus | setStats }} </span>
+        </div>
+    </div>
+    <div class="line-height ">
+        <div class="col-xs-6 col-md-6">
+            <span> 预计完成日期：</span> <span> {{list.FinishTime}}</span>
+        </div>
+        <div class="col-xs-6 col-md-6">
+        </div>
+    </div>
+    <div class="file_specification ">
+        <div class="col-xs-6 col-md-6">
+            <h3 style="display: inline-block; float: left"> 文件要求：</h3> <h3 class="FileRequire">{{list.FileRequire}}</h3>
+        </div>
+        <div class="col-xs-6 col-md-6   ">
+            <bttton style="margin-top: 23px; float: left"><a class="btn btn-info btn-default" v-on:click="download(list.FileResultID,'@Url.Content("~/fileuploadrequire/downloadfile")','fileResultId')">下载</a></bttton>
+        </div>
+    </div>
+    <div class="Veto_popup_window">
+        <button id="Approve" v-on:click="Approve(list.FileResultID)" type="button" class="btn btn-info btn-default">
+            审核通过
+        </button>
+        <button id="Determine_veto" type="button" class="btn  hfgray" data-toggle="modal" data-target="#agrade">
+            否决
+        </button>
+        <a class="btn hfgray" href="@Url.Action("index", "fileaudit", new { customercompanyid = ViewBag.CompanyID })">返回</a>
+    </div>
+    <div class="row" style="margin:0 auto;">
+        <h3>操作记录</h3>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th style="width:33.33%">时间</th>
+                    <th style="width:33.33%">操作内容</th>
+                    <th style="width:33.33%">操作者</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="obj in  list.OperationNotes">
+                    <td style="width:33.33%">{{obj.CreateTime}}</td>
+                    <td style="width:33.33%">{{obj.Description}}</td>
+                    <td style="width:33.33%">{{obj.OperationerPersonName}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- 模态框否决-->
+<div class="modal fade" id="agrade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div id="veto" title="否决原因"
+                     style="height:200px;padding:10px;">
+                    <label for="name">否决原因:</label>
+                    <div class="easyui-layout" data-options="fit:true">
+                        <div style="border:0px;">
+                            <textarea class="form-control vote_down" id="message-text" value="">
+                            </textarea>
+                        </div>
+                        <div style="text-align:center;padding:20px  0;">
+                            <button type="submit" class="btn btn-info btn-sm" data-dismiss="modal" aria-hidden="true" v-on:click="Determine_veto(list.FileResultID)">确定</button>
+                            <button type="button" class="btn hfgray" data-dismiss="modal" v-on:click="">取消</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- /.modal-content -->
+@section headscripts{
+    <style type="text/css">
+        .file_specification {
+            height: 78px;
+            border: 1px solid #ddd;
+            margin: 20px 0px 20px 0px;
+        }
+
+        .Veto_popup_window {
+            margin: 20px 0px;
+            margin: auto;
+        }
+
+        textarea.form-control {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+        }
+
+        .vote_down {
+            resize: none;
+        }
+
+        .FileRequire {
+            width: 60%;
+            display: inline-block;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+    </style>
+}
+@section scripts{
+    <script>
+        $(function(){
+            $(window).resize(function () {
+                if(($(document.body).width())< 820){
+                    $(".FileRequire").attr('style','display:none');
+                }else {
+                    $(".FileRequire").attr('style','inline-block');
+                }
+            });
+            $("#FileAudit").attr("class", "active fileaudit");
+            var vm = new Vue({
+                el: '#content',
+                data: {
+                    list: '',
+                },
+                methods: {
+                    download: function(ID,url,fileResultId){
+                        iframe(ID,url,fileResultId)
+                    },
+                    //    审核通过
+                    Approve:function(id) {
+                        var pageload = this.pageLoad;
+                        $.ajax({
+                            type: "POST",
+                            url: '@Url.Content("~/fileaudit/setaudit?id=")'+id  ,
+                            contentType: 'application/json',
+                            dataType: "json",
+                            success: function (data) {
+                                 pageload();
+                            },error:function (data) {
+                                hfalert('请求失败')
+                            }
+                        })
+                    },
+                    //    否决
+                    Determine_veto:function(id) {
+                        var vote_down = $('.vote_down').val();
+                        var pageload = this.pageLoad;
+                        if(vote_down=='') {
+                            hfalert('请输入');
+                            return   false
+                           }
+                        $.ajax({
+                            type: "POST",
+                            url: '@Url.Content("~/fileaudit/setreject?id=")' +id,
+                            dataType: "json",
+                            data: { rejectReason: vote_down },
+                            success: function (data) {
+                                if(data.Success==0){
+                                    hfalert(data.Message)
+                                }
+                                    $("#agrade").modal('hide');
+                                    $('.vote_down').val('');
+                                    pageload();
+
+                            },error:function (data) {
+                                hfalert('请求失败')
+                            }
+                        });
+                    },
+                    pageLoad: function () {
+                        var _self = this;
+                        $.ajax({
+                            type: 'post',
+                            contentType: 'application/json',
+                            url: '@Url.Content("~/fileaudit/getdetaildata/"+ViewBag.FileRequireID)',
+                            success: function (data) {
+                            var jsonData = JSON.parse(data);
+                                _self.list = jsonData.Obj;
+                            },error:function (data) {
+                                hfalert('请求失败')
+                            }
+                        });
+                    }
+                },
+                created: function () {
+                    this.pageLoad()
+                },
+                mounted: function () {
+                    pubload();
+                },
+            });
+        })
+    </script>
+}

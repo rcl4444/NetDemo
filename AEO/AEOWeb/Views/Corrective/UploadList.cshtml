@@ -1,0 +1,179 @@
+﻿@{
+    ViewBag.Title = "UploadList";
+}
+<!--文件下载-->
+<div class="row" style=" margin: 0 auto;">
+    <div class="col-xs-12 col-md-12 ">
+        <div class="  line-height">
+            <div class="col-xs-6 col-md-6">
+                <span>条：</span> <span>{{list.ClausesName}} </span>
+            </div>
+            <div class="col-xs-6 col-md-6">
+                <span>主办人：</span> <span>{{list.ChargePerson}}</span>
+            </div>
+        </div>
+        <div class="  line-height">
+            <div class="col-xs-6 col-md-6">
+                <span class="Item">整改内容：</span><span class="declaration_enterprise">{{list.Content}}</span>
+            </div>
+            <div class="col-xs-6 col-md-6">
+                <span>审批人：</span> <span>{{list.Auditor}}</span>
+            </div>
+        </div>
+        <div class="  line-height">
+            <div class="col-xs-6 col-md-6">
+                <span> 预计完成日期：</span> <span>{{list.FinishTime}} </span>
+            </div>
+            <div class="col-xs-6 col-md-6">
+                <span> 状　态：</span> <span>{{list.Status | Stats }} </span>
+            </div>
+        </div>
+        <div class="line-height">
+            <form>
+                <div class="col-xs-5 col-md-5">
+                    <a href="javascript:;" class="upload btn btn-info   Item" style="position: relative; height: 34px;">
+                        文件上传
+                        <input class="change files_upload " onChange="$('#file').html($(this)[0].files[0].name)" type="file" name="file" id="uploadFile" />
+                    </a>
+                    <span id="file"></span>
+                </div>
+                <div class="col-xs-7  col-md-7">
+                    <input type="hidden" name="id" id="filedid" value="" />
+                    <button type="button" class="btn btn-info btn-default filedid" v-on:click="ImportShipmentStatusList" value="上传">上传</button>
+                    <a class="btn hfgray" href="@Url.Action("index", "corrective", new { customercompanyid = ViewBag.CompanyID })">返回</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-12">
+        <h3>历史上传记录</h3>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="col-xs-3 ">上传人</th>
+                    <th class="col-xs-3 ">上传日期</th>
+                    <th class="col-xs-3 ">上传文件</th>
+                    <th class="col-xs-3 ">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="obj in  list.Uploads">
+                    <td class="col-xs-3 ">{{obj.UploadPerson}}</td>
+                    <td class="col-xs-3 ">{{obj.UploadTime}}</td>
+                    <td class="col-xs-3 ">{{obj.FileName}}</td>
+                    <td class="col-xs-3 ">
+                        <div>
+                            <button id="download" type="button" class="btn btn-info btn-sm" v-on:click="download(obj.Id ,'@Url.Content("~/corrective/filedownload")','Id')">下载</button>
+                            <button id=" cancellation" type="button" class="btn hfgray btn-sm" v-on:click="cancellation(obj.Id)">作废</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+@section headscripts{
+    <style>
+        .files_upload {
+            opacity: 0;
+            width: 90px;
+            position: relative;
+            top: -21px;
+        }
+
+        #file {
+            padding-left: 10px;
+            width: 50%;
+            display: inline-block;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            word-wrap: break-word;
+        }
+    </style>
+}
+@section scripts{
+    <script>
+        $(function() {
+            $("#Corrective").attr("class", "active corrective");
+            var vm = new Vue({
+                el: '#content',
+                data: {
+                    list: '',
+                },
+                methods: {
+                    //文件上传
+                    ImportShipmentStatusList:function() {
+                        $('.filedid').attr("disabled","disabled");
+                        var pageload = this.pageLoad;
+                        $.ajaxFileUpload({
+                            url: '@Url.Content("~/corrective/fileupload/"+ViewBag.CorrectiveTaskID)',
+                            //用于文件上传的服务器端请求地址
+                            secureuri: false, //是否需要安全协议，一般设置为false
+                            fileElementId: 'uploadFile', //文件上传域的ID
+                            dataType: 'json', //返回值类型 一般设置为json
+                            success: function (data, status)  //服务器成功响应处理函数
+                            {
+                                $("#uploadFile").val('');
+                                $('#file').html('')
+                                $('.filedid').attr("disabled",false);
+                              pageload()
+                            },
+                            error: function (data, status, e)//服务器响应失败处理函数
+                            {
+                                $('.filedid').attr("disabled",false);
+                                hfalert('请求失败');
+                            }
+                        });
+                    },
+                    //文件下载
+                    download: function (ID,url,Id) {
+                        if (ID == "") {
+                            hfalert('还未进行文件上传');
+                        }
+                        else {
+                            iframe(ID,url,Id);
+                        }
+                    },
+                    //作废
+                    cancellation:function(id) {
+                        var pageload = this.pageLoad;
+                        $.ajax({
+                            type: "POST",
+                            url: '@Url.Content("~/corrective/cancel?id=")' + id,
+                            contentType: 'application/json',
+                            dataType: "json",
+                            success: function (data) {
+                                pageload()
+                            }, error: function (data) {
+                                hfalert('请求失败');
+                            }
+                        })
+                    },
+                    //页面初始化加载数据
+                    pageLoad: function () {
+                        var _self = this;
+                        $.ajax({
+                            type: 'post',
+                            contentType: 'application/json',
+                            url: '@Url.Content("~/corrective/getuploaddata/"+ViewBag.CorrectiveTaskID)',
+                            success: function (data) {
+                                var jsonData = JSON.parse(data);
+                                _self.list = jsonData.Obj;
+                            },error:function (data) {
+                                hfalert('请求失败')
+                            }
+                        });
+                    }
+                },
+                //页面初始化加载数据调用方法
+                created: function () {
+                    this.pageLoad()
+                },
+                mounted: function () {
+                    pubload();
+                },
+            });
+        })
+    </script>
+}
