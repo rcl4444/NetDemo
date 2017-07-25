@@ -11,6 +11,9 @@ namespace AEOWeb
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
+            routes.RouteExistingFiles = false;
+            routes.IgnoreRoute("{*allmap}", new { allmap = @".*\.map(/.*)?" });//忽略chrome里样式表和js文件的压缩源码map的请求捕获
+            routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });//忽略Chrome中对于网站图标的请求捕获
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.LowercaseUrls = true;
