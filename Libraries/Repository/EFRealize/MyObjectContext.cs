@@ -17,7 +17,7 @@ namespace Repository.EFRealize
     /// <summary>
     /// Object context
     /// </summary>
-    [DbConfigurationType(typeof(MyContextConfiguration))]
+    [DbConfigurationType(typeof(MySql.Data.Entity.MySqlEFConfiguration))]
     public class MyObjectContext : DbContext, IDbContext
     {
         #region Ctor
@@ -31,6 +31,12 @@ namespace Repository.EFRealize
 
         public MyObjectContext(string nameOrConnectionString)
             : base(nameOrConnectionString)
+        {
+            System.Data.Entity.Infrastructure.Interception.DbInterception.Add(new EFIntercepterLogging());
+        }
+
+        public MyObjectContext()
+            : base("name=conn")
         {
             System.Data.Entity.Infrastructure.Interception.DbInterception.Add(new EFIntercepterLogging());
         }

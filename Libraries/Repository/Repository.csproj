@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EFRealize\MyDbContextFactory.cs" />
     <Compile Include="EFRealize\UnitOfWork.cs" />
     <Compile Include="Interface\IDataInitializer.cs" />
     <Compile Include="EFRealize\MyContextConfiguration.cs" />
@@ -73,7 +74,6 @@
     <Compile Include="Interface\IDbContext.cs" />
     <Compile Include="EFRealize\Mapping\MyEntityTypeConfiguration.cs" />
     <Compile Include="EFRealize\Migrations\Configuration.cs" />
-    <Compile Include="EFRealize\MyDbContextFactory.cs" />
     <Compile Include="EFRealize\MyObjectContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="EFRealize\Extensions\QueryableExtension.cs" />
