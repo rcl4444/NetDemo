@@ -14,6 +14,8 @@ namespace Repository.EFRealize
         public MyContextConfiguration()
         {
             SetContextFactory(() => new MyDbContextFactory(EngineContext.Current.Resolve<MyConfig>().DataConnectionString).Create());
+            SetDefaultConnectionFactory(new MySql.Data.Entity.MySqlConnectionFactory());
+            SetProviderFactory("MySql.Data.MySqlClient", new MySql.Data.MySqlClient.MySqlClientFactory());
         }
     }
 }

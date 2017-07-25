@@ -17,6 +17,7 @@ namespace Repository.EFRealize
     /// <summary>
     /// Object context
     /// </summary>
+    [DbConfigurationType(typeof(MyContextConfiguration))]
     public class MyObjectContext : DbContext, IDbContext
     {
         #region Ctor
