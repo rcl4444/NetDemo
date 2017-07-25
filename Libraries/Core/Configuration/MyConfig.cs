@@ -33,22 +33,8 @@ namespace Core.Configuration
             var uploadPath = section.SelectSingleNode("UploadPath");
             config.UploadPath = GetString(uploadPath, "Path");
 
-            var email = section.SelectSingleNode("Email");
-            config.email_from = GetString(email, "from");
-            config.email_to = GetString(email, "to");
-            config.email_host = GetString(email, "host");
-            config.email_port = GetString(email, "port");
-            config.email_account = GetString(email, "account");
-            config.email_pwd = GetString(email, "pwd");
             var PriviewTimeOut = section.SelectSingleNode("PriviewTimeOut");
             config.PriviewTimeOut = Convert.ToInt32(GetString(PriviewTimeOut,"value"));
-
-            var oss = section.SelectSingleNode("OSSsetting");
-            config.website = GetString(oss, "website");
-            config.downwebsite = GetString(oss, "downwebsite");
-            config.bucket = GetString(oss, "bucket");
-            config.appkey = GetString(oss, "appkey");
-            config.appid = GetString(oss, "appid");
 
             return config;
         }
@@ -96,65 +82,10 @@ namespace Core.Configuration
         /// 上传文件目录
         /// </summary>
         public string UploadPath { get; private set; }
-
-        /// <summary>
-        /// 邮件发件人
-        /// </summary>
-        public string email_from { get; private set; }
-
-        /// <summary>
-        /// 邮件发送人
-        /// </summary>
-        public string email_to { get; private set; }
-
-        /// <summary>
-        /// 邮件服务发送服务器
-        /// </summary>
-        public string email_host { get; private set; }
-
-        /// <summary>
-        /// 邮件服务发送端口
-        /// </summary>
-        public string email_port { get; private set; }
-
-        /// <summary>
-        /// 邮件发件人账号
-        /// </summary>
-        public string email_account { get; private set; }
-
-        /// <summary>
-        /// 邮件发件人密码
-        /// </summary>
-        public string email_pwd { get; private set; }
         
         /// <summary>
         /// 预览超时时间
         /// </summary>
         public int PriviewTimeOut { get; private set; }
-
-        /// <summary>
-        /// 上传站点
-        /// </summary>
-        public string website { get; private set; }
-
-        /// <summary>
-        /// 下载站点
-        /// </summary>
-        public string downwebsite { get; private set; }
-
-        /// <summary>
-        /// OSS目录
-        /// </summary>
-        public string bucket { get; private set; }
-
-        /// <summary>
-        /// OSS的密钥
-        /// </summary>
-        public string appkey { get; private set; }
-
-        /// <summary>
-        /// OSS的appId
-        /// </summary>
-        public string appid { get; private set; }
     }
 }

@@ -20,7 +20,6 @@ namespace AEOWeb.Controllers
         private readonly IFileOperationNoteService _fileOperationNoteService;
         private readonly MyConfig _myConfig;
         private readonly IPreviewTokenService _previewTokenService;
-        private readonly IFileManager.IFileManager _fileManager;
 
         public FileUploadRequireController(IFileRequireService fileRequireService,
             IFileResultService fileResultService,
@@ -28,8 +27,7 @@ namespace AEOWeb.Controllers
             IFileOperationNoteService fileOperationNoteService,
             IWorkContext workContext,
             IPreviewTokenService previewTokenService,
-            MyConfig myConfig,
-            IFileManager.IFileManager fileManager)
+            MyConfig myConfig)
             : base(workContext)
         {
             this._fileScheduleService = fileScheduleService;
@@ -38,7 +36,6 @@ namespace AEOWeb.Controllers
             this._fileOperationNoteService = fileOperationNoteService;
             this._myConfig = myConfig;
             this._previewTokenService = previewTokenService;
-            this._fileManager = fileManager;
         }
 
         public ActionResult Index()
@@ -128,14 +125,7 @@ namespace AEOWeb.Controllers
             var file = Request.Files["file"];
             if ( file != null && file.ContentLength >0)
             {
-                Func<string, string, IFileManager.FileResult> fileSave = (physicalContents, physicalFileName) =>
-                {
-                    return _fileManager.Save(file.InputStream, physicalContents, Guid.NewGuid().ToString(), file.FileName, file.ContentType);
-                };
-                if (this._fileRequireService.UploadFile(id, currentAccount, file.FileName, file.ContentType, fileSave, out message))
-                {
-                    return StandardJson();
-                }
+
             }
             return StandardJson(message);
         }
@@ -145,15 +135,7 @@ namespace AEOWeb.Controllers
             var fileResult = this._fileResultService.GetByID(fileResultId);
             if (fileResult != null)
             {
-                var fileinfo = _fileManager.Down(fileResult.PhysicalFullPath);
-                if (fileinfo.Success)
-                {
-                    return File(fileinfo.FileStream, fileinfo.ContentType, fileinfo.FileName);
-                }
-                else
-                {
-                    return Content(fileinfo.Message);
-                }
+
             }
             return Content("文件不存在");
         }
@@ -173,24 +155,16 @@ namespace AEOWeb.Controllers
             var fileResult = this._fileResultService.GetByID(Id);
             if (fileResult != null)
             {
-                var fileinfo = _fileManager.Down(fileResult.PhysicalFullPath);
                 var type = fileResult.ContentType;
                 var Token = Guid.NewGuid().ToString();
-                if (fileinfo.Success)
+                _previewTokenService.Add(new PreviewToken
                 {
-                    _previewTokenService.Add(new PreviewToken
-                    {
-                        Token = Token,
-                        CreateTime = DateTime.Now,
-                        Path = fileResult.PhysicalFullPath,
-                        ContentType = fileResult.ContentType
-                    });
-                    return StandardJson(new { Type = type.Contains("vnd.openxmlformats-officedocument") ? "false" : "true", token = Token }, 1, "执行成功");
-                }
-                else
-                {
-                    return Content(fileinfo.Message);
-                }
+                    Token = Token,
+                    CreateTime = DateTime.Now,
+                    Path = fileResult.PhysicalFullPath,
+                    ContentType = fileResult.ContentType
+                });
+                return StandardJson(new { Type = type.Contains("vnd.openxmlformats-officedocument") ? "false" : "true", token = Token }, 1, "执行成功");
             }
             return StandardJson("", 0, "文件不存在");
         }

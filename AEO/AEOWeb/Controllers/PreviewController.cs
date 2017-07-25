@@ -18,18 +18,15 @@ namespace AEOWeb.Controllers
         private readonly IFileResultService _fileResultService;
         private readonly MyConfig _myConfig;
         private readonly IPreviewTokenService _previewTokenService;
-        private readonly IFileManager.IFileManager _fileManager;
 
         public PreviewController(IFileResultService fileResultService,
             MyConfig myConfig,
             IPreviewTokenService previewTokenService,
-            IWorkContext workContext,
-            IFileManager.IFileManager fileManager)
+            IWorkContext workContext)
         {
             this._fileResultService = fileResultService;
             this._myConfig = myConfig;
             this._previewTokenService = previewTokenService;
-            this._fileManager = fileManager;
         }
 
         //文件预览方法测试
@@ -47,12 +44,8 @@ namespace AEOWeb.Controllers
                 }
                 else
                 {
-                    var fileinfo = _fileManager.Down(preview.Path);
-                    if (fileinfo.Success)
-                    {
-                        Response.AppendHeader("Content-Disposition", "inline; filename=" + Server.UrlEncode(fileinfo.FileName));
-                        return File(fileinfo.FileStream, fileinfo.ContentType);
-                    }
+                    //Response.AppendHeader("Content-Disposition", "inline; filename=" + Server.UrlEncode(fileinfo.FileName));
+                    //return File(fileinfo.FileStream, fileinfo.ContentType);
                 }
             }
             return Content("文件不存在");

@@ -72,7 +72,6 @@
     <Compile Include="EFRealize\MyObjectContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="EFRealize\QueryableExtensions.cs" />
-    <Compile Include="EFRealize\SqlServerDataProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj">

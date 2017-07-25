@@ -16,15 +16,12 @@ namespace AEOService.Services
     public class FileResultService : BaseService<FileResult>, IFileResultService
     {
         private readonly IFileOperationNoteService _fileOperationNoteService;
-        private readonly IFileManager.IFileManager _fileManager;
 
         public FileResultService(IRepository<FileResult> selfRepository,
-            IFileOperationNoteService fileOperationNoteService,
-            IFileManager.IFileManager fileManager)
+            IFileOperationNoteService fileOperationNoteService)
             : base(selfRepository)
         {
             this._fileOperationNoteService = fileOperationNoteService;
-            this._fileManager = fileManager;
         }
 
         private string GetFileStatusDescription(FileStatus fs)
@@ -455,26 +452,22 @@ new SqlParameter { ParameterName = "@cancel", Value = FileStatus.Cancel }).ToLis
                 foreach (var kv in packfiles)
                 {
                     string fileName = kv.Key;
-                    var file = _fileManager.Down(kv.Value);
-                    if (file.Success)
+                    using (var streamInput = File.Open(kv.Value,FileMode.Open))
                     {
-                        using (var streamInput = file.FileStream)
+                        zipStream.PutNextEntry(new ZipEntry(fileName));
+                        while (true)
                         {
-                            zipStream.PutNextEntry(new ZipEntry(fileName));
-                            while (true)
+                            var readCount = streamInput.Read(buffer, 0, buffer.Length);
+                            if (readCount > 0)
                             {
-                                var readCount = streamInput.Read(buffer, 0, buffer.Length);
-                                if (readCount>0)
-                                {
-                                    zipStream.Write(buffer, 0, readCount);
-                                }
-                                else
-                                {
-                                    break;
-                                }
+                                zipStream.Write(buffer, 0, readCount);
                             }
-                            zipStream.Flush();
+                            else
+                            {
+                                break;
+                            }
                         }
+                        zipStream.Flush();
                     }
                 }
                 byte[] indexbuffer = System.Text.Encoding.UTF8.GetBytes(GetIndexContext(indexData));

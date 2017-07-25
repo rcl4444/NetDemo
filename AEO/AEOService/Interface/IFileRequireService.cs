@@ -21,7 +21,5 @@ namespace AEOService.Interface
         bool UpdateFileRequire(int companyID, int FileRequireID, string SuggestFileName, string Description, out string message);
 
         bool SortFileRequire(int compayID, int oldFileRequireID, int newFileRequire, out string message);
-
-        bool UploadFile(int fileRequireID, CustomerAccount currentAccount, string uploadFileName, string contentType, Func<string, string, IFileManager.FileResult> fileSave, out string message);
     }
 }

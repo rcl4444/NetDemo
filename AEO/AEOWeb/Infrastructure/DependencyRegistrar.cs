@@ -47,14 +47,6 @@ namespace AEOWeb.Infrastructure
             builder.RegisterType<DatabaseInitializer>().As<IDataInitializer>().InstancePerLifetimeScope();
             builder.RegisterType<FeedbackService>().As<IFeedbackService>().InstancePerLifetimeScope();
             builder.RegisterType<PreviewTokenService>().As<IPreviewTokenService>().InstancePerLifetimeScope();
-            builder.RegisterType<Manager.AliOSS>().WithParameters(new List<NamedParameter>{
-                new NamedParameter("website",config.website),
-                new NamedParameter("downwebsite",config.downwebsite),
-                new NamedParameter("bucket",config.bucket),
-                new NamedParameter("appkey",config.appkey),
-                new NamedParameter("appid",config.appid)
-            }).As<IFileManager.IFileManager>().InstancePerLifetimeScope();
-            //builder.RegisterType<Manager.AliOSS>().As<IFileManager.IFileManager>().InstancePerLifetimeScope();
         }
 
         /// <summary>

@@ -35,8 +35,6 @@ namespace AEOService.Services
                         CustomerAccountID = id,
                         CreateTime = DateTime.Now
                     });
-                    Core.CommonLib.SendEmail(_myConfig.email_from, _myConfig.email_to, DateTime.Now.ToString(), description,
-                        _myConfig.email_host, Convert.ToInt32(_myConfig.email_port), _myConfig.email_account, _myConfig.email_pwd);
                     tran.Commit();
                 }
                 catch (Exception)

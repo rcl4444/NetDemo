@@ -40,9 +40,6 @@
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
-    <Reference Include="IFileManager">
-      <HintPath>..\..\packages\IFileManager.dll</HintPath>
-    </Reference>
     <Reference Include="NPOI">
       <HintPath>..\..\packages\NPOI.2.3.0\lib\net40\NPOI.dll</HintPath>
     </Reference>

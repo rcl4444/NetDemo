@@ -59,7 +59,7 @@ namespace Web.Framework.Infrastructure
             //controllers
             builder.RegisterControllers(typeFinder.GetAssemblies().ToArray());
 
-            builder.Register(x => new SqlServerDataProvider()).As<IDataProvider>().InstancePerDependency();
+            //builder.Register(x => new SqlServerDataProvider()).As<IDataProvider>().InstancePerDependency();
             builder.Register<IDbContext>(c => new MyObjectContext(config.DataConnectionString, new MigrateDatabaseToLatestVersion<MyObjectContext, Configuration>())).InstancePerRequest();
             //builder.Register<IDbContext>(c => new MyObjectContext(config.DataConnectionString)).InstancePerRequest();
             builder.RegisterGeneric(typeof(EfRepository<>)).As(typeof(IRepository<>)).InstancePerLifetimeScope();

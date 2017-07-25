@@ -3,6 +3,7 @@ bin/
 obj/
 .svn
 AEO/AEOWeb/upload/
+AEO/AEOWeb/Log/
 
 # Nuget packages directory
 packages/
