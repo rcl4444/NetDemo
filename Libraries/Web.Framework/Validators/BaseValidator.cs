@@ -1,6 +1,6 @@
 using System.Linq;
 using FluentValidation;
-using Repository.EFRealize;
+using Repository.EFRealize.Extensions;
 using Repository.Interface;
 
 namespace Web.Framework.Validators

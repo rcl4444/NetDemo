@@ -8,9 +8,9 @@ using Core;
 using System.Data.Entity.Core.EntityClient;
 using Repository.Interface;
 
-namespace Repository.EFRealize
+namespace Repository.EFRealize.Extensions
 {
-    public static class DbContextExtensions
+    public static class DbContextExtension
     {
         #region Utilities
 

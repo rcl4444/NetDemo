@@ -3,12 +3,12 @@ using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Repository.EFRealize
+namespace Repository.EFRealize.Extensions
 {
     /// <summary>
     /// Queryable extensions
     /// </summary>
-    public static class QueryableExtensions
+    public static class QueryableExtension
     {
         /// <summary>
         /// Include

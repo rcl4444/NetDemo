@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
 
-namespace Repository.EFRealize
+namespace Repository.EFRealize.Extensions
 {
-    public static class DataReaderExtensions
+    public static class DataReaderExtension
     {
         /// <summary>
         /// Creates a list of a given type from all the rows in a DataReader.

@@ -2,9 +2,9 @@
 using System;
 using System.Data.Entity.Core.Objects;
 
-namespace Repository.EFRealize
+namespace Repository.EFRealize.Extensions
 {
-    public static class Extensions
+    public static class Extension
     {
         /// <summary>
         /// Get unproxied entity type
