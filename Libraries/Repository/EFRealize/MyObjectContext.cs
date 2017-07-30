@@ -17,7 +17,6 @@ namespace Repository.EFRealize
     /// <summary>
     /// Object context
     /// </summary>
-    [DbConfigurationType(typeof(MySql.Data.Entity.MySqlEFConfiguration))]
     public class MyObjectContext : DbContext, IDbContext
     {
         #region Ctor

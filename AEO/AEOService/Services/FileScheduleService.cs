@@ -203,6 +203,13 @@ namespace AEOService.Services
 
         public IEnumerable<TaskSchedule> GetFileTaskStatus(int companyID, CustomerAccount account, bool isManager)
         {
+            var abc = (from fs in this.NoTrackingQuery
+                join frr in this._fileRequireRepository.TableNoTracking on fs.FileRequire.Id equals frr.Id into temp
+                from frr1 in temp.DefaultIfEmpty()
+                select new {
+                    frr1.SuggestFileName,
+                    frr1.CreateTime
+                });
             List<TaskSchedule> result = new List<TaskSchedule>();
             var query = (from fs in this.NoTrackingQuery
                          join cpl in this._clausesPersonLiableRepository.TableNoTracking on fs.FileRequire.FineItem.Item.ClausesID equals cpl.ClausesID into temp

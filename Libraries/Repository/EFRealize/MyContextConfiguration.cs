@@ -1,5 +1,7 @@
 ﻿using Core.Configuration;
 using Core.Infrastructure;
+using MySql.Data.Entity;
+using Repository.EFRealize.Migrations;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -9,13 +11,11 @@ using System.Threading.Tasks;
 
 namespace Repository.EFRealize
 {
-    public class MyContextConfiguration : DbConfiguration
+    public class MyContextConfiguration : MySqlEFConfiguration
     {
-        public MyContextConfiguration()
+        public MyContextConfiguration():base()
         {
-            SetContextFactory(() => new MyDbContextFactory(EngineContext.Current.Resolve<MyConfig>().DataConnectionString).Create());
-            SetDefaultConnectionFactory(new MySql.Data.Entity.MySqlConnectionFactory());
-            SetProviderFactory("MySql.Data.MySqlClient", new MySql.Data.MySqlClient.MySqlClientFactory());
+            SetDatabaseInitializer(new MigrateDatabaseToLatestVersion<MyObjectContext, Configuration>());
         }
     }
 }
