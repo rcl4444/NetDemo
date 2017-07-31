@@ -4,6 +4,7 @@ obj/
 .svn
 AEO/AEOWeb/upload/
 AEO/AEOWeb/Log/
+.vs/
 
 # Nuget packages directory
 packages/
