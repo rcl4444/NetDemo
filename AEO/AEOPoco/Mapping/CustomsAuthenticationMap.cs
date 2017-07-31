@@ -14,8 +14,8 @@ namespace AEOPoco.Domain
         {
             this.ToTable("CustomsAuthentication");
             this.HasKey(a => a.Id);
-            this.Property(bp => bp.TitleName);
-            this.Property(bp => bp.CustomsVersion);
+            this.Property(bp => bp.TitleName).HasColumnType("varchar").HasMaxLength(50);
+            this.Property(bp => bp.CustomsVersion).HasColumnType("varchar").HasMaxLength(20);
             this.Property(bp => bp.CreateTime);
             this.Property(bp => bp.CustomsID);
             this.HasMany(bp => bp.OutlineClasses).WithRequired().HasForeignKey(bp=>bp.CustomsAuthenticationID);

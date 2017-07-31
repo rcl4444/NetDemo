@@ -15,8 +15,8 @@ namespace AEOPoco.Mapping
             this.ToTable("FileResult");
             this.HasKey(a => a.Id);
             this.Property(bp => bp.CreateTime);
-            this.Property(bp => bp.FileName);
-            this.Property(bp => bp.PhysicalFullPath);
+            this.Property(bp => bp.FileName).HasColumnType("varchar").HasMaxLength(50);
+            this.Property(bp => bp.PhysicalFullPath).HasColumnType("varchar").HasMaxLength(200);
             this.Property(bp => bp.UploadTime);
             this.Property(bp => bp.Status);
             this.Property(bp => bp.AuditTime);

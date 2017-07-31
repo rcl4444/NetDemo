@@ -15,7 +15,7 @@ namespace AEOPoco.Mapping
             this.ToTable("Feedback");
             this.HasKey(a => a.Id);
             this.Property(bp => bp.CreateTime);
-            this.Property(bp => bp.Description);
+            this.Property(bp => bp.Description).HasColumnType("varchar").HasMaxLength(500);
             this.HasRequired(bp => bp.CustomerAccount).WithMany().HasForeignKey(bp => bp.CustomerAccountID);
         }
     }

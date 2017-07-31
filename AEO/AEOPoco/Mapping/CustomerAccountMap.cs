@@ -14,8 +14,8 @@ namespace AEOPoco.Mapping
         {
             this.ToTable("CustomerAccount");
             this.HasKey(a => a.Id);
-            this.Property(bp => bp.AccountName);
-            this.Property(bp => bp.PassWord);
+            this.Property(bp => bp.AccountName).HasColumnType("varchar").HasMaxLength(50);
+            this.Property(bp => bp.PassWord).HasColumnType("varchar").HasMaxLength(50);
             this.Property(bp => bp.CreateTime);
             this.Property(bp => bp.HasChange);
             this.HasMany(bp=>bp.UserRoles).WithRequired().HasForeignKey(o=>o.CustomerAccountID);

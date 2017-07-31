@@ -17,7 +17,7 @@ namespace AEOPoco.Mapping
             this.Property(bp => bp.CreateTime);
             this.Property(bp=>bp.FinishTime);
             this.Property(bp=>bp.Status);
-            this.Property(bp=>bp.CorrectiveContent);
+            this.Property(bp=>bp.CorrectiveContent).HasColumnType("varchar").HasMaxLength(600);
             this.Property(bp => bp.IsDelete);
             this.Property(bp => bp.CompleteTime);
             this.HasRequired(bp => bp.CustomerCompany).WithMany().HasForeignKey(bp => bp.CompanyID);

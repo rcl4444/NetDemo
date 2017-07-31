@@ -15,7 +15,7 @@ namespace AEOPoco.Mapping
             this.ToTable("FineItem");
             this.HasKey(a => a.Id);
             this.Property(bp => bp.CreateTime);
-            this.Property(bp=>bp.FineItemName);
+            this.Property(bp=>bp.FineItemName).HasColumnType("varchar").HasMaxLength(200);
             this.Property(bp => bp.CustomsID);
             this.HasRequired(bp=>bp.Item).WithMany().HasForeignKey(bp=>bp.ItemID);
             this.HasMany(bp => bp.FileRequires).WithOptional().HasForeignKey(bp => bp.FineItemID);

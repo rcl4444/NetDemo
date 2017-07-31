@@ -17,34 +17,39 @@ namespace AEOWeb.Infrastructure
         private readonly IRepository<CustomerAccount> _customerAccountRepository;
         private readonly IRepository<FileSchedule> _fileScheduleRepository;
         private readonly IRepository<ScoreTask> _scoreTaskRepository;
+        private readonly ILogger _logger;
 
         public DatabaseInitializer(IEncryptionService encryptionService,
             IRepository<CustomsAuthentication> customsAuthenticationRepository,
             IRepository<CustomerAccount> customerAccountRepository,
             IRepository<FileSchedule> fileScheduleRepository,
-            IRepository<ScoreTask> scoreTaskRepository)
+            IRepository<ScoreTask> scoreTaskRepository,
+            ILogger logger)
         {
             this._encryptionService = encryptionService;
             this._customsAuthenticationRepository = customsAuthenticationRepository;
             this._customerAccountRepository = customerAccountRepository;
             this._fileScheduleRepository = fileScheduleRepository;
             this._scoreTaskRepository = scoreTaskRepository;
+            this._logger = logger;
         }
 
         public void Seed(IDbContext context)
         {
-            if (this._customsAuthenticationRepository.TableNoTracking.Any())
+            try
             {
-                return;
-            }
-            DateTime createTime = DateTime.Now;
-            using (var tran = this._customsAuthenticationRepository.GetUnitOfWork())
-            {
-                CustomsAuthentication document = new CustomsAuthentication()
+                if (this._customsAuthenticationRepository.TableNoTracking.Any())
                 {
-                    TitleName = "海关认证企业标准(高级认证)",
-                    CreateTime = createTime,
-                    OutlineClasses = new List<OutlineClass>()
+                    return;
+                }
+                DateTime createTime = DateTime.Now;
+                using (var tran = this._customsAuthenticationRepository.GetUnitOfWork())
+                {
+                    CustomsAuthentication document = new CustomsAuthentication()
+                    {
+                        TitleName = "海关认证企业标准(高级认证)",
+                        CreateTime = createTime,
+                        OutlineClasses = new List<OutlineClass>()
                 {
                     new OutlineClass()
                     {
@@ -1813,35 +1818,35 @@ namespace AEOWeb.Infrastructure
                         }
                     }
                 }
-                };
-                foreach (var outlineClasse in document.OutlineClasses)
-                {
-                    outlineClasse.CustomsAuthentication = document;
-                    foreach (var clausese in outlineClasse.Clauseses)
+                    };
+                    foreach (var outlineClasse in document.OutlineClasses)
                     {
-                        clausese.OutlineClass = outlineClasse;
-                        foreach (var item in clausese.Items)
+                        outlineClasse.CustomsAuthentication = document;
+                        foreach (var clausese in outlineClasse.Clauseses)
                         {
-                            item.Clauses = clausese;
-                            foreach (var fineItem in item.FineItems)
+                            clausese.OutlineClass = outlineClasse;
+                            foreach (var item in clausese.Items)
                             {
-                                fineItem.Item = item;
-                                foreach (var filerequire in fineItem.FileRequires)
+                                item.Clauses = clausese;
+                                foreach (var fineItem in item.FineItems)
                                 {
-                                    filerequire.FineItem = fineItem;
+                                    fineItem.Item = item;
+                                    foreach (var filerequire in fineItem.FileRequires)
+                                    {
+                                        filerequire.FineItem = fineItem;
+                                    }
                                 }
                             }
                         }
                     }
-                }
-                //this._customsAuthenticationRepository.Insert(document);
-                CustomerCompany company = new CustomerCompany()
-                {
-                    CompanyName = "测试公司",
-                    UniqueFlag = "testcompany",
-                    //CustomsAuthentication = document,
-                    CreateTime = createTime,
-                    CustomerDeparements = new List<CustomerDeparement>()
+                    //this._customsAuthenticationRepository.Insert(document);
+                    CustomerCompany company = new CustomerCompany()
+                    {
+                        CompanyName = "测试公司",
+                        UniqueFlag = "testcompany",
+                        //CustomsAuthentication = document,
+                        CreateTime = createTime,
+                        CustomerDeparements = new List<CustomerDeparement>()
                 {
                     new CustomerDeparement()
                     {
@@ -1849,81 +1854,87 @@ namespace AEOWeb.Infrastructure
                         CreateTime = createTime
                     }
                 }
-                };
-                foreach (var deparement in company.CustomerDeparements)
-                {
-                    deparement.CustomerCompany = company;
+                    };
+                    foreach (var deparement in company.CustomerDeparements)
+                    {
+                        deparement.CustomerCompany = company;
+                    }
+                    CustomerAccount admin = new CustomerAccount()
+                    {
+                        AccountName = "admin",
+                        PassWord = _encryptionService.CreatePasswordDefault("123456"),
+                        PersonName = "王大棒",
+                        IsManager = true,
+                        CreateTime = createTime,
+                        CustomerCompany = company
+                    };
+                    this._customerAccountRepository.Insert(admin);
+                    CustomerAccount user1 = new CustomerAccount()
+                    {
+                        AccountName = "person1",
+                        PassWord = _encryptionService.CreatePasswordDefault("123456"),
+                        PersonName = "人一",
+                        IsManager = false,
+                        CreateTime = createTime,
+                        CustomerCompany = company,
+                        CustomerDeparement = company.CustomerDeparements.First()
+                    };
+                    this._customerAccountRepository.Insert(user1);
+                    CustomerAccount user2 = new CustomerAccount()
+                    {
+                        AccountName = "person2",
+                        PassWord = _encryptionService.CreatePasswordDefault("123456"),
+                        PersonName = "人二",
+                        IsManager = false,
+                        CreateTime = createTime,
+                        CustomerCompany = company,
+                        CustomerDeparement = company.CustomerDeparements.First()
+                    };
+                    this._customerAccountRepository.Insert(user2);
+                    CustomerAccount user3 = new CustomerAccount()
+                    {
+                        AccountName = "person3",
+                        PassWord = _encryptionService.CreatePasswordDefault("123456"),
+                        PersonName = "人三",
+                        IsManager = false,
+                        CreateTime = createTime,
+                        CustomerCompany = company,
+                        CustomerDeparement = company.CustomerDeparements.First()
+                    };
+                    this._customerAccountRepository.Insert(user2);
+                    FileSchedule fs1 = new FileSchedule()
+                    {
+                        FinishTime = DateTime.Now.AddDays(-1),
+                        ChargePerson = user1,
+                        Auditor = user2,
+                        CreateTime = createTime,
+                        FileRequire = document.OutlineClasses.FirstOrDefault().Clauseses.FirstOrDefault().Items.FirstOrDefault().FineItems.FirstOrDefault().FileRequires.FirstOrDefault()
+                    };
+                    //this._fileScheduleRepository.Insert(fs1);
+                    FileSchedule fs2 = new FileSchedule()
+                    {
+                        FinishTime = DateTime.Now.AddDays(-1),
+                        ChargePerson = user1,
+                        Auditor = user2,
+                        CreateTime = createTime,
+                        FileRequire = document.OutlineClasses.FirstOrDefault().Clauseses.FirstOrDefault().Items.FirstOrDefault().FineItems.FirstOrDefault().FileRequires.Skip(1).First()
+                    };
+                    //this._fileScheduleRepository.Insert(fs2);
+                    ScoreTask st = new ScoreTask()
+                    {
+                        Item = document.OutlineClasses.FirstOrDefault().Clauseses.FirstOrDefault().Items.FirstOrDefault(),
+                        ScorePerson = user1,
+                        CreateTime = createTime,
+                        CustomerCompany = company
+                    };
+                    //this._scoreTaskRepository.Insert(st);
+                    tran.Commit();
                 }
-                CustomerAccount admin = new CustomerAccount()
-                {
-                    AccountName = "admin",
-                    PassWord = _encryptionService.CreatePasswordDefault("123456"),
-                    PersonName = "王大棒",
-                    IsManager = true,
-                    CreateTime = createTime,
-                    CustomerCompany = company
-                };
-                this._customerAccountRepository.Insert(admin);
-                CustomerAccount user1 = new CustomerAccount()
-                {
-                    AccountName = "person1",
-                    PassWord = _encryptionService.CreatePasswordDefault("123456"),
-                    PersonName = "人一",
-                    IsManager = false,
-                    CreateTime = createTime,
-                    CustomerCompany = company,
-                    CustomerDeparement = company.CustomerDeparements.First()
-                };
-                this._customerAccountRepository.Insert(user1);
-                CustomerAccount user2 = new CustomerAccount()
-                {
-                    AccountName = "person2",
-                    PassWord = _encryptionService.CreatePasswordDefault("123456"),
-                    PersonName = "人二",
-                    IsManager = false,
-                    CreateTime = createTime,
-                    CustomerCompany = company,
-                    CustomerDeparement = company.CustomerDeparements.First()
-                };
-                this._customerAccountRepository.Insert(user2);
-                CustomerAccount user3 = new CustomerAccount()
-                {
-                    AccountName = "person3",
-                    PassWord = _encryptionService.CreatePasswordDefault("123456"),
-                    PersonName = "人三",
-                    IsManager = false,
-                    CreateTime = createTime,
-                    CustomerCompany = company,
-                    CustomerDeparement = company.CustomerDeparements.First()
-                };
-                this._customerAccountRepository.Insert(user2);
-                FileSchedule fs1 = new FileSchedule()
-                {
-                    FinishTime = DateTime.Now.AddDays(-1),
-                    ChargePerson = user1,
-                    Auditor = user2,
-                    CreateTime = createTime,
-                    FileRequire = document.OutlineClasses.FirstOrDefault().Clauseses.FirstOrDefault().Items.FirstOrDefault().FineItems.FirstOrDefault().FileRequires.FirstOrDefault()
-                };
-                //this._fileScheduleRepository.Insert(fs1);
-                FileSchedule fs2 = new FileSchedule()
-                {
-                    FinishTime = DateTime.Now.AddDays(-1),
-                    ChargePerson = user1,
-                    Auditor = user2,
-                    CreateTime = createTime,
-                    FileRequire = document.OutlineClasses.FirstOrDefault().Clauseses.FirstOrDefault().Items.FirstOrDefault().FineItems.FirstOrDefault().FileRequires.Skip(1).First()
-                };
-                //this._fileScheduleRepository.Insert(fs2);
-                ScoreTask st = new ScoreTask()
-                {
-                    Item = document.OutlineClasses.FirstOrDefault().Clauseses.FirstOrDefault().Items.FirstOrDefault(),
-                    ScorePerson = user1,
-                    CreateTime = createTime,
-                    CustomerCompany = company
-                };
-                //this._scoreTaskRepository.Insert(st);
-                tran.Commit();
+            }
+            catch (Exception ex)
+            {
+                this._logger.ErrorLog(ex.Message,ex);
+                throw;
             }
         }
     }

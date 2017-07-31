@@ -15,7 +15,7 @@ namespace AEOPoco.Mapping
             this.ToTable("CustomerCompany");
             this.HasKey(a => a.Id);
             this.Property(bp => bp.CreateTime);
-            this.Property(bp=>bp.CompanyName);
+            this.Property(bp=>bp.CompanyName).HasColumnType("varchar").HasMaxLength(50);
             this.Property(bp=>bp.UniqueFlag);
             this.Property(bp => bp.ExportSetting);
             this.HasOptional(bp=>bp.CustomsAuthentication).WithMany().HasForeignKey(bp=>bp.CustomsAuthenticationID);

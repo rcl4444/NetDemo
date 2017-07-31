@@ -15,8 +15,8 @@ namespace AEOPoco.Mapping
             this.ToTable("CustomerDeparement");
             this.HasKey(a => a.Id);
             this.Property(bp => bp.CreateTime);
-            this.Property(bp => bp.DeparementName);
-            this.Property(bp => bp.Description);
+            this.Property(bp => bp.DeparementName).HasColumnType("varchar").HasMaxLength(50);
+            this.Property(bp => bp.Description).HasColumnType("varchar").HasMaxLength(500);
             this.HasRequired(bp=>bp.CustomerCompany).WithMany().HasForeignKey(bp=>bp.CustomerCompanyID);
             this.HasMany(bp => bp.CustomerAccounts).WithOptional().HasForeignKey(bp => bp.CustomerDeparementID);
         }

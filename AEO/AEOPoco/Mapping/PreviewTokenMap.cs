@@ -15,7 +15,7 @@ namespace AEOPoco.Mapping
             this.ToTable("PreviewToken");
             this.HasKey(a => a.Id);
             this.Property(bp => bp.CreateTime);
-            this.Property(bp => bp.Path);
+            this.Property(bp => bp.Path).HasColumnType("varchar").HasMaxLength(50);
             this.Property(bp => bp.Token);
             this.Property(bp => bp.ContentType);
         }
