@@ -19,7 +19,7 @@ namespace AEOPoco.Mapping
             this.Property(bp => bp.PhysicalFullPath).HasColumnType("varchar").HasMaxLength(200);
             this.Property(bp => bp.UploadTime);
             this.Property(bp => bp.ContentType);
-            this.Property(bp => bp.FileName).HasColumnType("varchar").HasMaxLength(50);
+            this.Property(bp => bp.FileName).HasColumnType("varchar").HasMaxLength(500);
             this.HasRequired(bp => bp.UploadPerson).WithMany().HasForeignKey(bp => bp.UploadPersonID).WillCascadeOnDelete(false);
             this.HasRequired(bp => bp.CorrectiveTask).WithMany().HasForeignKey(bp => bp.CorrectiveTaskID);
         }

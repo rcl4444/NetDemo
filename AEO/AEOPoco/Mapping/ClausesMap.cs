@@ -14,7 +14,7 @@ namespace AEOPoco.Mapping
         {
             this.ToTable("Clauses");
             this.HasKey(a => a.Id);
-            this.Property(bp=>bp.ClausesName).HasColumnType("varchar").HasMaxLength(50);
+            this.Property(bp=>bp.ClausesName).HasColumnType("varchar").HasMaxLength(500);
             this.Property(bp => bp.CustomsID);
             this.HasMany(bp => bp.Items).WithRequired().HasForeignKey(bp => bp.ClausesID);
             this.HasRequired(bp=>bp.OutlineClass).WithMany().HasForeignKey(bp=>bp.OutlineClassID);
