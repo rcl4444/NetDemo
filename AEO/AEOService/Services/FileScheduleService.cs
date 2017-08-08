@@ -22,11 +22,15 @@ namespace AEOService.Services
         protected readonly IRepository<FileResult> _fileResultRepository;
         protected readonly IRepository<ScoreTask> _scoreTaskRepository;
         protected readonly IRepository<ClausesPersonLiable> _clausesPersonLiableRepository;
+        protected readonly IRepository<Item> _itemRequireRepository;
+        protected readonly IRepository<FineItem> _fineItemRepository;
 
         public FileScheduleService(
             IRepository<FileSchedule> selfRepository,
             IUserRoleService userRoleService,
             IRepository<FileRequire> fileRequireRepository,
+            IRepository<FineItem> fineItemRepository,
+            IRepository<Item> itemRequireRepository,
             IRepository<FileResult> fileResultRepository,
             IAccountService accountService,
             IRepository<ScoreTask> scoreTaskRepository,
@@ -36,6 +40,8 @@ namespace AEOService.Services
         {
             this._userRoleService = userRoleService;
             this._fileRequireRepository = fileRequireRepository;
+            this._fineItemRepository = fineItemRepository;
+            this._itemRequireRepository = itemRequireRepository;
             this._fileResultRepository = fileResultRepository;
             this._accountService = accountService;
             this._scoreTaskRepository = scoreTaskRepository;
@@ -203,34 +209,30 @@ namespace AEOService.Services
 
         public IEnumerable<TaskSchedule> GetFileTaskStatus(int companyID, CustomerAccount account, bool isManager)
         {
-            var abc = (from fs in this.NoTrackingQuery
-                join frr in this._fileRequireRepository.TableNoTracking on fs.FileRequire.Id equals frr.Id into temp
-                from frr1 in temp.DefaultIfEmpty()
-                select new {
-                    frr1.SuggestFileName,
-                    frr1.CreateTime
-                });
             List<TaskSchedule> result = new List<TaskSchedule>();
             var query = (from fs in this.NoTrackingQuery
-                         join cpl in this._clausesPersonLiableRepository.TableNoTracking on fs.FileRequire.FineItem.Item.ClausesID equals cpl.ClausesID into temp
-                        from clausesPerson in temp.DefaultIfEmpty()
-                        where fs.FileRequire.CustomerCompanyID  == companyID && fs.FinishTime.HasValue
-                        select new
-                        {
-                            ClausesId = fs.FileRequire.FineItem.Item.ClausesID,
-                            ClausesName = fs.FileRequire.FineItem.Item.Clauses.ClausesName,
-                            ItemId = fs.FileRequire.FineItem.ItemID,
-                            ItemName = fs.FileRequire.FineItem.Item.ItemName,
-                            FineItemId = fs.FileRequire.FineItemID,
-                            FineItemName = fs.FileRequire.FineItem.FineItemName,
-                            FileRequireID = fs.FileRequire.Id,
-                            SuggestFileName = fs.FileRequire.SuggestFileName,
-                            FinishTime = fs.FinishTime,
-                            ReviewerID = fs.AuditorID,
-                            fs.ChargePersonID,
-                            ChargePerson = fs.ChargePerson.PersonName,
-                            ClausesPerson = clausesPerson.CustomerAccount.PersonName
-                        });
+                         join fr in this._fileRequireRepository.TableNoTracking on fs.FileRequire equals fr
+                         join fi in this._fineItemRepository.TableNoTracking on fr.FineItem equals fi
+                         join i in this._itemRequireRepository.TableNoTracking on fi.Item equals i
+                         join cpl in this._clausesPersonLiableRepository.TableNoTracking on i.ClausesID equals cpl.ClausesID into temp
+                         from clausesPerson in temp.DefaultIfEmpty()
+                         where fs.FileRequire.CustomerCompanyID == companyID && fs.FinishTime.HasValue
+                         select new
+                         {
+                             ClausesId = i.ClausesID,
+                             ClausesName = i.Clauses.ClausesName,
+                             ItemId = fi.ItemID,
+                             ItemName = i.ItemName,
+                             FineItemId = fr.FineItemID,
+                             FineItemName = fi.FineItemName,
+                             FileRequireID = fr.Id,
+                             SuggestFileName = fr.SuggestFileName,
+                             FinishTime = fs.FinishTime,
+                             ReviewerID = fs.AuditorID,
+                             fs.ChargePersonID,
+                             ChargePerson = fs.ChargePerson.PersonName,
+                             ClausesPerson = clausesPerson.CustomerAccount.PersonName
+                         });
             if (!isManager)
             {
                 var clausesPersonLiableFilter = this._accountService.GetChargeClausesID(account);
