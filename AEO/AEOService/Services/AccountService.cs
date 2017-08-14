@@ -91,6 +91,11 @@ namespace AEOService.Services
             return this.Query.Where(o => o.CustomerCompanyID == companyID && o.AccountName == username).FirstOrDefault();
         }
 
+        public CustomerAccount GetByName(string username)
+        {
+            return this.Query.Where(o => o.AccountName == username).FirstOrDefault();
+        }
+
         public string GetEncryptStr(string passWord)
         {
             return _encryptionService.CreatePasswordDefault(passWord);

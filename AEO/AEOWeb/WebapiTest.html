@@ -3,20 +3,20 @@
 <head>
     <meta charset="utf-8" />
     <title></title>
-    <script src="Scripts/jquery-1.11.3.min.js"></script>
+    <script src="Scripts/jquery-3.1.1.min.js"></script>
     <script>
         $(function () {
             $.ajax({
-                url: "http://localhost:3111/api/Account/Get2",
-                method: "post",
+                url: "http://localhost:3111/api/Account/Get",
+                method: "get",
                 contentType: "application/json",
                 xhrFields: {
                     withCredentials: true
                 },
-                data: {
-                    name: "大力出奇迹",
-                    remark: "你他妈的傻逼"
-                },
+                //data: {
+                //    name: "大力出奇迹",
+                //    remark: "你他妈的傻逼"
+                //},
                 success: function (data) {
                     console.log(data);
                 },

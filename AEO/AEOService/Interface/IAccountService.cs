@@ -33,6 +33,8 @@ namespace AEOService.Interface
         /// <returns></returns>
         bool CustomerCompanyGeneralAccountLogin(int companyID, string userName, string passWord, out CustomerAccount currentUser, out string message);
 
+        CustomerAccount GetByName(string username);
+
         CustomerAccount GetByName(int companyID, string username);
 
         bool DelAccount(int companyID, int userid, out string message);

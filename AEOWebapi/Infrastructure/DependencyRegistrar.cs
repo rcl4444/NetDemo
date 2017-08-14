@@ -9,7 +9,7 @@ using Core.Infrastructure;
 using Autofac.Integration.WebApi;
 using System.Reflection;
 
-namespace AEOWebapi
+namespace AEOWebapi.Infrastructure
 {
     public class DependencyRegistrar : IDependencyRegistrar
     {

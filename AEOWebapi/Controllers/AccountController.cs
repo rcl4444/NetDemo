@@ -7,6 +7,7 @@ using System.Web.Http;
 
 namespace AEOWebapi.Controllers
 {
+    [Authorize]
     public class AccountController: ApiController
     {
         public DateTime Get()
