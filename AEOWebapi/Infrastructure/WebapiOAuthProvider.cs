@@ -25,18 +25,14 @@ namespace AEOWebapi.Controllers.Infrastructure
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
             var userManager = context.OwinContext.GetUserManager<WebapiUserManager>();
-
             WebapiUser user = await userManager.FindAsync(context.UserName, context.Password);
-
             if (user == null)
             {
                 context.SetError("invalid_grant", "用户名或密码不正确。");
                 return;
             }
-
             ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager, OAuthDefaults.AuthenticationType);
             ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(userManager, CookieAuthenticationDefaults.AuthenticationType);
-
             AuthenticationProperties properties = CreateProperties(user.UserName);
             AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
             context.Validated(ticket);
@@ -49,18 +45,40 @@ namespace AEOWebapi.Controllers.Infrastructure
             {
                 context.AdditionalResponseParameters.Add(property.Key, property.Value);
             }
-
             return Task.FromResult<object>(null);
         }
 
+        /// <summary>
+        /// 创建授权的token信息
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public override Task GrantClientCredentials(OAuthGrantClientCredentialsContext context)
+        {
+            var identity = new ClaimsIdentity(context.Options.AuthenticationType);
+            identity.AddClaim(new Claim(ClaimTypes.Name, context.ClientId));
+            var properties = CreateProperties(context.ClientId, "clientid");
+            var ticket = new AuthenticationTicket(identity, properties);
+            context.Validated(ticket);
+            return Task.FromResult(0);
+        }
+
+        /// <summary>
+        /// 验证客户端client是否验证通过
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
-            // 资源所有者密码凭据未提供客户端 ID。
+            string clientId;
+            string clientSecret;
+            context.TryGetBasicCredentials(out clientId, out clientSecret);
             if (context.ClientId == null)
             {
-                context.Validated();
+                context.SetError("invalid_client", "client is not valid.");
+                return Task.FromResult<object>(null);
             }
-
+            context.Validated(clientId);
             return Task.FromResult<object>(null);
         }
 
@@ -69,21 +87,19 @@ namespace AEOWebapi.Controllers.Infrastructure
             if (context.ClientId == _publicClientId)
             {
                 Uri expectedRootUri = new Uri(context.Request.Uri, "/");
-
                 if (expectedRootUri.AbsoluteUri == context.RedirectUri)
                 {
                     context.Validated();
                 }
             }
-
             return Task.FromResult<object>(null);
         }
 
-        public static AuthenticationProperties CreateProperties(string userName)
+        public static AuthenticationProperties CreateProperties(string userName, string key = "userName")
         {
             IDictionary<string, string> data = new Dictionary<string, string>
             {
-                { "userName", userName }
+                { key, userName }
             };
             return new AuthenticationProperties(data);
         }
