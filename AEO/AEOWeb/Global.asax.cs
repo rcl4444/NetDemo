@@ -22,6 +22,12 @@ namespace AEOWeb
 
         }
 
+        protected void Application_PreSendRequestHeaders(Object sender, EventArgs e)
+        {
+            var response = HttpContext.Current.Response;
+            response.Headers.Remove("Server");
+        }
+
         protected void Application_Error(Object sender, EventArgs e)
         {
             var exception = Server.GetLastError();

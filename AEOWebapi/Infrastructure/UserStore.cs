@@ -11,7 +11,8 @@ using System.Threading.Tasks;
 
 namespace AEOWebapi.Controllers.Infrastructure
 {
-    public class UserStore : IUserStore<WebapiUser, int>, IUserPasswordStore<WebapiUser, int>
+    public class UserStore : IUserStore<WebapiUser, int>, 
+        IUserPasswordStore<WebapiUser, int>
     {
         protected IAccountService _AccountService { get; set; }
 
