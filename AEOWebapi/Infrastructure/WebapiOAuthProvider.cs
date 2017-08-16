@@ -55,6 +55,10 @@ namespace AEOWebapi.Controllers.Infrastructure
         /// <returns></returns>
         public override Task GrantClientCredentials(OAuthGrantClientCredentialsContext context)
         {
+            if (string.IsNullOrEmpty(context.ClientId))
+            {
+                return Task.FromResult(0);
+            }
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
             identity.AddClaim(new Claim(ClaimTypes.Name, context.ClientId));
             var properties = CreateProperties(context.ClientId, "clientid");
@@ -64,7 +68,7 @@ namespace AEOWebapi.Controllers.Infrastructure
         }
 
         /// <summary>
-        /// 验证客户端client是否验证通过
+        /// 设置客户端clientId
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
@@ -75,10 +79,12 @@ namespace AEOWebapi.Controllers.Infrastructure
             context.TryGetBasicCredentials(out clientId, out clientSecret);
             if (context.ClientId == null)
             {
-                context.SetError("invalid_client", "client is not valid.");
-                return Task.FromResult<object>(null);
+                context.Validated();
             }
-            context.Validated(clientId);
+            else
+            {
+                context.Validated(clientId);
+            }
             return Task.FromResult<object>(null);
         }
 
@@ -95,7 +101,28 @@ namespace AEOWebapi.Controllers.Infrastructure
             return Task.FromResult<object>(null);
         }
 
-        public static AuthenticationProperties CreateProperties(string userName, string key = "userName")
+        /// <summary>
+        /// 刷新客户端令牌
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public override Task GrantRefreshToken(OAuthGrantRefreshTokenContext context)
+        {
+            string originalClient = context.Ticket.Properties.Dictionary["clientid"];
+            string currentClient = context.ClientId;
+            if (originalClient != currentClient)
+            {
+                context.Rejected();
+                return Task.FromResult(0);
+            }
+            var identity = new ClaimsIdentity(context.Ticket.Identity);
+            identity.AddClaim(new Claim("newClaim", "refreshToken"));
+            var ticket = new AuthenticationTicket(identity, context.Ticket.Properties);
+            context.Validated(ticket);
+            return Task.FromResult(0);
+        }
+
+        public static AuthenticationProperties CreateProperties(string userName, string key = "username")
         {
             IDictionary<string, string> data = new Dictionary<string, string>
             {

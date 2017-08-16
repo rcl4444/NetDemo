@@ -1,17 +1,17 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.Owin;
-using Owin;
-using System.Web.Mvc;
-using System.Web.Http;
-using System.Web.Routing;
-using System.Web.Optimization;
+﻿using AEOWebapi.Controllers.Infrastructure;
 using Core.Infrastructure;
+using Microsoft.Owin;
+using Microsoft.Owin.Security.Infrastructure;
 using Microsoft.Owin.Security.OAuth;
-using AEOWebapi.Controllers.Infrastructure;
+using Microsoft.Owin.Logging;
+using Owin;
+using System;
+using System.Web.Http;
+using System.Web.Mvc;
+using System.Web.Optimization;
+using System.Web.Routing;
 
 [assembly: OwinStartup(typeof(AEOWeb.Startup))]
-
 namespace AEOWeb
 {
     public class Startup
@@ -36,11 +36,21 @@ namespace AEOWeb
         {
             //将用户管理器配置为对每个请求使用单个实例
             app.CreatePerOwinContext<WebapiUserManager>(WebapiUserManager.Create);
+            app.SetLoggerFactory();
             var PublicClientId = "self";
             var OAuthOptions = new OAuthAuthorizationServerOptions
             {
                 TokenEndpointPath = new PathString("/Token"),
                 Provider = new WebapiOAuthProvider(PublicClientId),
+                RefreshTokenProvider = new AuthenticationTokenProvider()
+                {
+                    OnCreate = context=> {
+                        context.SetToken(context.SerializeTicket());
+                    },
+                    OnReceive = context => {
+                        context.DeserializeTicket(context.Token);
+                    },
+                },
                 AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(20),
                 // Note: Remove the following line before you deploy to production:
                 AllowInsecureHttp = true
