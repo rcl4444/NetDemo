@@ -31,6 +31,7 @@ namespace AEOWebapi.Controllers.Infrastructure
                 context.SetError("invalid_grant", "用户名或密码不正确。");
                 return;
             }
+
             ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager, OAuthDefaults.AuthenticationType);
             ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(userManager, CookieAuthenticationDefaults.AuthenticationType);
             AuthenticationProperties properties = CreateProperties(user.UserName);
@@ -99,27 +100,6 @@ namespace AEOWebapi.Controllers.Infrastructure
                 }
             }
             return Task.FromResult<object>(null);
-        }
-
-        /// <summary>
-        /// 刷新客户端令牌
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        public override Task GrantRefreshToken(OAuthGrantRefreshTokenContext context)
-        {
-            string originalClient = context.Ticket.Properties.Dictionary["clientid"];
-            string currentClient = context.ClientId;
-            if (originalClient != currentClient)
-            {
-                context.Rejected();
-                return Task.FromResult(0);
-            }
-            var identity = new ClaimsIdentity(context.Ticket.Identity);
-            identity.AddClaim(new Claim("newClaim", "refreshToken"));
-            var ticket = new AuthenticationTicket(identity, context.Ticket.Properties);
-            context.Validated(ticket);
-            return Task.FromResult(0);
         }
 
         public static AuthenticationProperties CreateProperties(string userName, string key = "username")

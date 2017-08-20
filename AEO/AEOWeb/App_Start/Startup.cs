@@ -36,7 +36,6 @@ namespace AEOWeb
         {
             //将用户管理器配置为对每个请求使用单个实例
             app.CreatePerOwinContext<WebapiUserManager>(WebapiUserManager.Create);
-            app.SetLoggerFactory();
             var PublicClientId = "self";
             var OAuthOptions = new OAuthAuthorizationServerOptions
             {
