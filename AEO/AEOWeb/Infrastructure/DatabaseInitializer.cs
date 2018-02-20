@@ -1,10 +1,7 @@
-﻿using Repository;
-using Service.Interface;
+﻿using Service.Interface;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using AEOPoco.Domain;
 using Repository.Interface;
 

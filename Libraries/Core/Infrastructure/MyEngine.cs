@@ -31,8 +31,6 @@ namespace Core.Infrastructure
         public void RegisterDependencies(MyConfig config)
         {
             var builder = new ContainerBuilder();
-            var container = builder.Build();
-            this._containerManager = new ContainerManager(container);
 
             //we create new instance of ContainerBuilder
             //because Build() or Update() method can only be called once on a ContainerBuilder.
@@ -43,7 +41,6 @@ namespace Core.Infrastructure
             builder.RegisterInstance(config).As<MyConfig>().SingleInstance();
             builder.RegisterInstance(this).As<IEngine>().SingleInstance();
             builder.RegisterInstance(typeFinder).As<ITypeFinder>().SingleInstance();
-            builder.Update(container);
 
             //register dependencies provided by other assemblies
             builder = new ContainerBuilder();
@@ -55,8 +52,9 @@ namespace Core.Infrastructure
             drInstances = drInstances.AsQueryable().OrderBy(t => t.Order).ToList();
             foreach (var dependencyRegistrar in drInstances)
                 dependencyRegistrar.Register(builder, typeFinder, config);
-            builder.Update(container);
 
+            var container = builder.Build();
+            this._containerManager = new ContainerManager(container);
             //set controller dependency resolver
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
             //set apicontroller dependency resolver

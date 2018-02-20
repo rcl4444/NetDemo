@@ -24,10 +24,9 @@ namespace AEOWeb
 
         protected void Application_PreSendRequestHeaders(Object sender, EventArgs e)
         {
-            var response = HttpContext.Current.Response;
-            if (response != null)
+            if (HttpContext.Current!= null && HttpContext.Current.Response != null && HttpContext.Current.Response.Headers.AllKeys.Contains("Server"))
             {
-                response.Headers.Remove("Server");
+                HttpContext.Current.Response.Headers.Remove("Server");
             }
         }
 

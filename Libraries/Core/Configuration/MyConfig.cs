@@ -36,6 +36,16 @@ namespace Core.Configuration
             var PriviewTimeOut = section.SelectSingleNode("PriviewTimeOut");
             config.PriviewTimeOut = Convert.ToInt32(GetString(PriviewTimeOut,"value"));
 
+            var remoteStorageNode = section.SelectSingleNode("RemoteStorage");
+            RemoteStorageConfigure = new RemoteStorageConfigure()
+            {
+                Website = GetString(remoteStorageNode, "Website"),
+                Downwebsite = GetString(remoteStorageNode, "Downwebsite"),
+                Bucket = GetString(remoteStorageNode, "Bucket"),
+                Appkey = GetString(remoteStorageNode, "Appkey"),
+                Appid = GetString(remoteStorageNode, "Appid")
+            };
+
             return config;
         }
 
@@ -87,5 +97,21 @@ namespace Core.Configuration
         /// ‘§¿¿≥¨ ± ±º‰
         /// </summary>
         public int PriviewTimeOut { get; private set; }
+
+        public RemoteStorageConfigure RemoteStorageConfigure { get; private set; }
+    }
+
+    public class RemoteStorageConfigure
+    {
+        [ConfigurationProperty("Website", IsRequired = true)]
+        public string Website { get; set; }
+        [ConfigurationProperty("Downwebsite", IsRequired = true)]
+        public string Downwebsite { get; set; }
+        [ConfigurationProperty("Bucket", IsRequired = true)]
+        public string Bucket { get; set; }
+        [ConfigurationProperty("Appkey", IsRequired = true)]
+        public string Appkey { get; set; }
+        [ConfigurationProperty("Appid", IsRequired = true)]
+        public string Appid { get; set; }
     }
 }

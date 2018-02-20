@@ -5,11 +5,7 @@ using Core;
 using Core.Configuration;
 using Core.Infrastructure;
 using Core.Infrastructure.DependencyManagement;
-using Repository;
 using Repository.Interface;
-using Service.Interface;
-using System.Collections.Generic;
-using System.Data.Entity;
 
 namespace AEOWeb.Infrastructure
 {
